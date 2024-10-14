@@ -5,7 +5,7 @@
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Home Version Four || limupa - Digital Products Store ECommerce Bootstrap 4 Template</title>
+        <title>Gamer Oasis</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Favicon -->
@@ -38,7 +38,8 @@
         <link rel="stylesheet" href="{{ asset('asset/css/helper.css') }}">
         <!-- Main Style CSS -->
         <link rel="stylesheet" href="{{ asset('style.css') }}">
-
+        {{-- Vendor CSS --}}
+        
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="{{ asset('asset/css/responsive.css') }}">
         <!-- Modernizr js -->
@@ -101,7 +102,7 @@
                                             <div class="language ht-language">
                                                 <ul class="ht-setting-list">
                                                     <li class="active"><a href="#"><img src="images/menu/flag-icon/1.jpg" alt="">English</a></li>
-                                                    <li><a href="#"><img src="images/menu/flag-icon/2.jpg" alt="">Français</a></li>
+                                                    <li><a href="#"><img src="images/menu/flag-icon/3.jpg" alt="">Français</a></li>
                                                 </ul>
                                             </div>
                                         </li>
@@ -122,7 +123,7 @@
                             <div class="col-lg-3">
                                 <div class="logo pb-sm-30 pb-xs-30">
                                     <a href="index.html">
-                                        <img src="images/menu/logo/2.jpg" alt="">
+                                        <img class="logonav" src="{{ asset('asset/images/menu/logo/logo.png') }}" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -133,10 +134,11 @@
                                 <form action="#" class="hm-searchbox">
                                     <select class="nice-select select-search-category">
                                         <option value="0">All</option>                         
-                                        <option value="10">Laptop Gaming</option>                     
-                                        <option value="17">Console</option>                    
-                                        <option value="20">Nintendo Switch</option>                     
-                                        <option value="21">Assesories</option>                                     
+                                        <option value="1">Laptop Gaming</option>                     
+                                        <option value="2">Console</option>                    
+                                        <option value="3">Nintendo Switch</option>                     
+                                        <option value="4">Assesories</option>
+                                        <option value="5">Blog</option>                                      
                                     </select>
                                     <input type="text" placeholder="Enter your search ...">
                                     <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
@@ -195,36 +197,31 @@
                                    <nav>
                                        <ul>
                                         <li><a href="">Home</a></li>
-                                           <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
+                                           <li class="megamenu-holder"><a href="shop-left-sidebar.html">Product</a>
                                                <ul class="megamenu hb-megamenu">
-                                                   <li><a href="shop-left-sidebar.html">Shop Page Layout</a>
+                                                   <li><a href="shop-left-sidebar.html">PLAYSTATION</a>
                                                        <ul>
-                                                           <li><a href="shop-3-column.html">Shop 3 Column</a></li>
-                                                           <li><a href="shop-4-column.html">Shop 4 Column</a></li>
-                                                           <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                                                           <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                                           <li><a href="shop-list.html">Shop List</a></li>
-                                                           <li><a href="shop-list-left-sidebar.html">Shop List Left Sidebar</a></li>
-                                                           <li><a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a></li>
+                                                           <li><a href="shop-3-column.html">Máy PS5</a></li>
+                                                           <li><a href="shop-4-column.html">Game PS5</a></li>
+                                                           <li><a href="shop-left-sidebar.html">Phụ Kiện PS5</a></li>
+                                                           <li><a href="shop-right-sidebar.html">Kính PS5 VR2</a></li>                                                         
                                                        </ul>
                                                    </li>
-                                                   <li><a href="single-product-gallery-left.html">Single Product Style</a>
+                                                   <li><a href="single-product-gallery-left.html">NINTENDO SWITCH</a>
                                                        <ul>
-                                                           <li><a href="single-product-carousel.html">Single Product Carousel</a></li>
-                                                           <li><a href="single-product-gallery-left.html">Single Product Gallery Left</a></li>
-                                                           <li><a href="single-product-gallery-right.html">Single Product Gallery Right</a></li>
-                                                           <li><a href="single-product-tab-style-top.html">Single Product Tab Style Top</a></li>
-                                                           <li><a href="single-product-tab-style-left.html">Single Product Tab Style Left</a></li>
-                                                           <li><a href="single-product-tab-style-right.html">Single Product Tab Style Right</a></li>
+                                                           <li><a href="single-product-carousel.html">Máy Nintendo Switch</a></li>
+                                                           <li><a href="single-product-gallery-left.html">Game Nintendo Switch</a></li>
+                                                           <li><a href="single-product-gallery-right.html">Phụ kiện Nintendo Switch</a></li>
+                                                           <li><a href="single-product-tab-style-top.html">Eshop Card</a></li>
                                                        </ul>
                                                    </li>
-                                                   <li><a href="single-product.html">Single Products</a>
+                                                   <li class="dropdown-holder"><a href="single-product.html">LAPTOP GAMING</a>
                                                        <ul>
-                                                           <li><a href="single-product.html">Single Product</a></li>
-                                                           <li><a href="single-product-sale.html">Single Product Sale</a></li>
-                                                           <li><a href="single-product-group.html">Single Product Group</a></li>
-                                                           <li><a href="single-product-normal.html">Single Product Normal</a></li>
-                                                           <li><a href="single-product-affiliate.html">Single Product Affiliate</a></li>
+                                                           <li><a href="single-product.html">DELL</a></li>
+                                                           <li><a href="single-product-sale.html">ACER</a></li>
+                                                           <li><a href="single-product-group.html">LENOVO</a></li>
+                                                           <li><a href="single-product-normal.html">MSI</a></li>
+                                                           <li><a href="">Phụ Kiện Laptop</a></li>
                                                        </ul>
                                                    </li>
                                                </ul>
@@ -261,49 +258,16 @@
                                                    </li>
                                                </ul>
                                            </li>
-                                           <li class="megamenu-static-holder"><a href="index.html">Pages</a>
-                                               <ul class="megamenu hb-megamenu">
-                                                   <li><a href="blog-left-sidebar.html">Blog Layouts</a>
-                                                       <ul>
-                                                           <li><a href="blog-2-column.html">Blog 2 Column</a></li>
-                                                           <li><a href="blog-3-column.html">Blog 3 Column</a></li>
-                                                           <li><a href="blog-left-sidebar.html">Grid Left Sidebar</a></li>
-                                                           <li><a href="blog-right-sidebar.html">Grid Right Sidebar</a></li>
-                                                           <li><a href="blog-list.html">Blog List</a></li>
-                                                           <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a></li>
-                                                           <li><a href="blog-list-right-sidebar.html">List Right Sidebar</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="blog-details-left-sidebar.html">Blog Details Pages</a>
-                                                       <ul>
-                                                           <li><a href="blog-details-left-sidebar.html">Left Sidebar</a></li>
-                                                           <li><a href="blog-details-right-sidebar.html">Right Sidebar</a></li>
-                                                           <li><a href="blog-audio-format.html">Blog Audio Format</a></li>
-                                                           <li><a href="blog-video-format.html">Blog Video Format</a></li>
-                                                           <li><a href="blog-gallery-format.html">Blog Gallery Format</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="index.html">Other Pages</a>
-                                                       <ul>
-                                                           <li><a href="login-register.html">My Account</a></li>
-                                                           <li><a href="checkout.html">Checkout</a></li>
-                                                           <li><a href="compare.html">Compare</a></li>
-                                                           <li><a href="wishlist.html">Wishlist</a></li>
-                                                           <li><a href="shopping-cart.html">Shopping Cart</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="index.html">Other Pages 2</a>
-                                                       <ul>
-                                                           <li><a href="contact.html">Contact</a></li>
-                                                           <li><a href="about-us.html">About Us</a></li>
-                                                           <li><a href="faq.html">FAQ</a></li>
-                                                           <li><a href="404.html">404 Error</a></li>
-                                                       </ul>
-                                                   </li>
-                                               </ul>
-                                           </li>
+                                           
                                            <li><a href="about-us.html">About Us</a></li>
                                            <li><a href="contact.html">Contact</a></li>
+                                           <li class="megamenu-static-holder"><a href="index.html">Guide</a>
+                                            <ul class="hb-dropdown">
+                                                <li><a href="blog-left-sidebar.html">Hướng dẫn mua hàng</a>
+                                                </li>
+                                                <li><a href="">Hướng dẫn thanh toán </a></li>
+                                            </ul>
+                                        </li>
                                        </ul>
                                    </nav>
                                </div>
