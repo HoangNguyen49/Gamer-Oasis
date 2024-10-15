@@ -123,8 +123,8 @@
                             <!-- Begin Header Logo Area -->
                             <div class="col-lg-3">
                                 <div class="logo pb-sm-30 pb-xs-30">
-                                    <a href="index.html">
-                                        <img class="logonav" src="{{ asset('asset/images/menu/logo/logo.png') }}" alt="">
+                                    <a href="{{ url('/') }}">
+                                        <img class="logonav" src="{{ asset('asset/images/menu/logo/logo.png') }}" alt="" >
                                     </a>
                                 </div>
                             </div>

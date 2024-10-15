@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route cho trang chính
+// Route cho trang Home
 Route::get('/', function () {
     return view('web.pages.index');  
 });
