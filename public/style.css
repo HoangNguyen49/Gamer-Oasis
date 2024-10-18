@@ -1463,7 +1463,7 @@ textarea:focus {
 	position: relative;
 }
 .select-search-category ul.list {
-	height: 440px;
+	/* height: 440px; */
 	overflow-y: auto;
 	overscroll-behavior-x: none;
 }
@@ -1765,8 +1765,8 @@ textarea:focus {
 	padding: 8px 0;
 }
 .hb-menu nav > ul > li:hover > a, 
-.hb-menu nav > ul > li:hover > a::after {
-		color: #ffffff;
+/* .hb-menu nav > ul > li:hover > a::after {
+		color: #ffffff; */
 }
 .hb-menu nav > ul > li > a::after {
 	content: "\f107";
@@ -5434,3 +5434,6 @@ span.required {
 /*----------------------------------------------------------------------------------------------------*/
 /*------------------------------------------> The End <-----------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------*/
+.logonav {
+	width: 100%;
+}
