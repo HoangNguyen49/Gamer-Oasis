@@ -1,5 +1,5 @@
 <!-- Favicon -->
-<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
 <!-- Material Design Iconic Font-V2.2.0 -->
 <link rel="stylesheet" href="{{ asset('asset/css/material-design-iconic-font.min.css') }}">
 <!-- Font Awesome -->
