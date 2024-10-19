@@ -3,17 +3,8 @@
 use Illuminate\Support\Facades\Route;
 // Route cho trang Home
 Route::get('/', function () {
-    return view('web.pages.index');  
+    return view('web.pages.index');
 });
-
-
-Route::get('/admin', action: function () {
-    return view('admin.layout.master');
-});
-
-
-
-
 
 // Route cho trang About Us
 Route::get('/about-us', function () {
@@ -35,17 +26,17 @@ Route::get('/buying-guide', function () {
     return view('web.pages.buying-guide');
 });
 
-//Route cho trang Blog
+// Route cho trang Blog
 Route::get('/blog', function(){
     return view('web.pages.blog');
 });
 
-//Route cho trang Blog-Detail
+// Route cho trang Blog-Detail
 Route::get('/blog-detail', function(){
     return view('web.pages.blog-detail');
 });
 
-//Route cho trang Checkout
+// Route cho trang Checkout
 Route::get('/checkout', function(){
     return view('web.pages.checkout');
 });
@@ -64,3 +55,46 @@ Route::get('/wishlist', function(){
 Route::get('/login-register', function(){
     return view('web.pages.login-register');
 });
+
+
+
+// Route cho trang Admin
+Route::get('/admin', function () {
+    return view('admin.pages.index-admin'); // Đảm bảo 'admin' là đúng
+});
+//Route cho trang quanlidonhang
+Route::get('/admin/quanlidonhang', function () {
+    return view('admin.pages.quanlidonhang'); // Thay đổi thành view tương ứng
+});
+
+//Route cho  form-add-don-hang
+Route::get('/quanlidonhang/taomoidonhang', function () {
+    return view('admin.pages.form-add-don-hang');
+})->name('form-add-don-hang');
+//Route cho trang quanlisanpham
+Route::get('/admin/quanlisanpham', function () {
+    return view('admin.pages.quanlisanpham'); // Thay đổi thành view tương ứng
+});
+//Route cho trang form-add-san-pham
+Route::get('/quanlisanpham/taomoisanpham', function () {
+    return view('admin.pages.form-add-san-pham');
+})->name('form-add-san-pham');
+//Route cho trang quanlikhachhang
+Route::get('/admin/quanlikhachhang',function () {
+        return view('admin.pages.quanlikhachhang'); // Thay đổi thành view tương ứng
+});
+
+//Route cho trang form-add-khach-hang
+Route::get('/quanlikhachhang/khachhangmoi', function () {
+    return view('admin.pages.form-add-khach-hang');
+})->name('khachhangmoi');
+
+//Route cho trang blog
+Route::get('/admin/quanliblog', function () {
+    return view('admin.pages.quanliblog'); // Thay đổi thành view tương ứng
+});
+
+//Route cho trang form-add-blog
+Route::get('/quanliblog/taobai', function () {
+    return view('admin.pages.form-add-blog');
+})->name('taobai');
