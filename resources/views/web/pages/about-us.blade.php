@@ -46,7 +46,7 @@
                             <div class="limupa-counter white-smoke-bg">
                                 <div class="container">
                                     <div class="counter-img">
-                                        <img src="images/about-us/icon/1.png" alt="">
+                                        <img src="{{ asset('asset/images/about-us/icon/1.png') }}" alt="">
                                     </div>
                                     <div class="counter-info">
                                         <div class="counter-number">
@@ -64,7 +64,7 @@
                             <!-- Begin limupa Counter Area -->
                             <div class="limupa-counter gray-bg">
                                 <div class="counter-img">
-                                    <img src="images/about-us/icon/2.png" alt="">
+                                    <img src="{{ asset('asset/images/about-us/icon/2.png') }}" alt="">
                                 </div>
                                 <div class="counter-info">
                                     <div class="counter-number">
@@ -81,7 +81,7 @@
                             <!-- Begin limupa Counter Area -->
                             <div class="limupa-counter white-smoke-bg">
                                 <div class="counter-img">
-                                    <img src="images/about-us/icon/3.png" alt="">
+                                    <img src="{{ asset('asset/images/about-us/icon/3.png') }}" alt="">
                                 </div>
                                 <div class="counter-info">
                                     <div class="counter-number">
@@ -98,7 +98,7 @@
                             <!-- Begin limupa Counter Area -->
                             <div class="limupa-counter gray-bg">
                                 <div class="counter-img">
-                                    <img src="images/about-us/icon/4.png" alt="">
+                                    <img src="{{ asset('asset/images/about-us/icon/4.png') }}" alt="">
                                 </div>
                                 <div class="counter-info">
                                     <div class="counter-number">
