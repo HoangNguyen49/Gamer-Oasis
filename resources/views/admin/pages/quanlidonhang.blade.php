@@ -72,8 +72,8 @@
                                     <td>2</td>
                                     <td>9.400.000 đ</td>
                                     <td><span class="badge bg-success">Hoàn thành</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i class="fa fa-edit"></i></button></td>
+                                    <td><button class="btn btn-primary btn-sm trash" onclick="deleteOrder(this)" title="Xóa"><i class="fas fa-trash-alt"></i> </button>
+                                        <button class="btn btn-primary btn-sm edit" onclick="editOrder(this)" title="Sửa"><i class="fa fa-edit"></i></button></td>
                                 </tr>
                                 <tr>
                                     <td width="10"><input type="checkbox" name="check1" value="1"></td>
@@ -137,7 +137,10 @@
             </div>
         </div>
     </main>
+   
     <!-- Include Footer -->
     @include('admin.layout.footer')
+    
+
 </body>
 </html>
