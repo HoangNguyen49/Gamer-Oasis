@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+
 // Route cho trang Home
 Route::get('/', function () {
     return view('web.pages.index');
@@ -56,8 +58,6 @@ Route::get('/login-register', function(){
     return view('web.pages.login-register');
 });
 
-
-
 // Route cho trang Admin
 Route::get('/admin', function () {
     return view('admin.pages.index-admin'); 
@@ -81,7 +81,7 @@ Route::get('/quanlisanpham/taomoisanpham', function () {
 })->name('form-add-san-pham');
 //Route cho trang quanlikhachhang
 Route::get('/admin/quanlikhachhang',function () {
-        return view('admin.pages.quanlikhachhang');
+        return view('admin.pages.quanlikhachhang'); // Thay đổi thành view tương ứng
 });
 
 //Route cho trang form-add-khach-hang
@@ -91,10 +91,13 @@ Route::get('/quanlikhachhang/khachhangmoi', function () {
 
 //Route cho trang blog
 Route::get('/admin/quanliblog', function () {
-    return view('admin.pages.quanliblog');
+    return view('admin.pages.quanliblog'); // Thay đổi thành view tương ứng
 });
 
 //Route cho trang form-add-blog
 Route::get('/quanliblog/taobai', function () {
     return view('admin.pages.form-add-blog');
 })->name('taobai');
+
+
+Route::get('/admin/quanlisanpham', [ProductController::class, 'index'])->name('products.index');
