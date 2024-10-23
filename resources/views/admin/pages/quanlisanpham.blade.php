@@ -65,7 +65,7 @@
                                     <th>Image</th>
                                     <th>Quantity</th>
                                     <th>Status</th>
-                                    <th>Price</th>
+                                    <th>Price $</th>
                                     <th>Function</th>
                                 </tr>
                             </thead>
@@ -85,7 +85,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $product->Stock_Quantity }}</td>
-                                    <td>{{ $product->Stock_Quantity > 0 ? 'Available' : 'Out of stock' }}</td>
+                                    <td class="badge bg-success">{{ $product->Stock_Quantity > 0 ? 'Available' : 'Unavailable' }}</td>
                                     <td>{{ number_format($product->Price, 2) }}</td>
                                     
                                     <td>

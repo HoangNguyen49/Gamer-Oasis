@@ -3,60 +3,28 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
-// Route cho trang Home
-Route::get('/', function () {
-    return view('web.pages.index');
-});
+// Trang chính
+Route::view('/', 'web.pages.index');
 
-// Route cho trang About Us
-Route::get('/about-us', function () {
-    return view('web.pages.about-us');  
-});
-
-// Route cho trang Contact
-Route::get('/contact', function () {
-    return view('web.pages.contact');  
-});
-
-// Route cho trang Hướng dẫn thanh toán
-Route::get('/payment-guide', function () {
-    return view('web.pages.payment-guide');
-});
-
-// Route cho trang Hướng dẫn mua hàng
-Route::get('/buying-guide', function () {
-    return view('web.pages.buying-guide');
-});
+// Route cho các trang thông tin
+Route::view('/about-us', 'web.pages.about-us');
+Route::view('/contact', 'web.pages.contact');
+Route::view('/payment-guide', 'web.pages.payment-guide');
+Route::view('/buying-guide', 'web.pages.buying-guide');
 
 // Route cho trang Blog
-Route::get('/blog', function(){
-    return view('web.pages.blog');
-});
-
-// Route cho trang Blog-Detail
-Route::get('/blog-detail', function(){
-    return view('web.pages.blog-detail');
-});
+Route::view('/blog', 'web.pages.blog');
+Route::view('/blog-detail', 'web.pages.blog-detail');
 
 // Route cho trang Checkout
-Route::get('/checkout', function(){
-    return view('web.pages.checkout');
-});
+Route::view('/checkout', 'web.pages.checkout');
 
-//Route cho trang Cart
-Route::get('/cart', function(){
-    return view('web.pages.cart');
-});
+// Route cho giỏ hàng và danh sách yêu thích
+Route::view('/cart', 'web.pages.cart');
+Route::view('/wishlist', 'web.pages.wishlist');
 
-//Route cho trang Wishlist
-Route::get('/wishlist', function(){
-    return view('web.pages.wishlist');
-});
-
-//Route cho trang Login-Register
-Route::get('/login-register', function(){
-    return view('web.pages.login-register');
-});
+// Route cho trang Đăng nhập và Đăng ký
+Route::view('/login-register', 'web.pages.login-register');
 
 // Route cho trang Admin
 Route::get('/admin', function () {
@@ -99,5 +67,5 @@ Route::get('/quanliblog/taobai', function () {
     return view('admin.pages.form-add-blog');
 })->name('taobai');
 
-
-Route::get('/admin/quanlisanpham', [ProductController::class, 'index'])->name('products.index');
+// Route Product
+Route::get('/admin/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.index');
