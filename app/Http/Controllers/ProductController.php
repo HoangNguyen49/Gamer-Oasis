@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Category;
@@ -113,51 +114,57 @@ class ProductController extends Controller
 
     //Function updateProduct after Edit
     public function updateProduct(Request $request, string $id)
-{
-    // Xác thực dữ liệu
-    $request->validate([
-        'category_id' => 'required|exists:Category,Category_id',
-        'brand_id' => 'required|exists:Brand,Brand_id',
-        'product_name' => 'required|string|max:255',
-        'product_description' => 'required|string',
-        'price' => 'required|numeric',
-        'stock_quantity' => 'required|integer',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        // Xác thực dữ liệu
+        $request->validate([
+            'category_id' => 'required|exists:Category,Category_id',
+            'brand_id' => 'required|exists:Brand,Brand_id',
+            'product_name' => 'required|string|max:255',
+            'product_description' => 'required|string',
+            'price' => 'required|numeric',
+            'stock_quantity' => 'required|integer',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // Lấy sản phẩm cần cập nhật
-    $product = Product::findOrFail($id);
+        // Lấy sản phẩm cần cập nhật
+        $product = Product::findOrFail($id);
 
-    // Cập nhật thông tin sản phẩm
-    $product->update([
-        'Category_id' => $request->category_id,
-        'Brand_id' => $request->brand_id,
-        'Product_name' => $request->product_name,
-        'Product_description' => $request->product_description,
-        'Price' => $request->price,
-        'Stock_Quantity' => $request->stock_quantity,
-        'Slug' => Str::slug($request->product_name), 
-    ]);
+        // Cập nhật thông tin sản phẩm
+        $product->update([
+            'Category_id' => $request->category_id,
+            'Brand_id' => $request->brand_id,
+            'Product_name' => $request->product_name,
+            'Product_description' => $request->product_description,
+            'Price' => $request->price,
+            'Stock_Quantity' => $request->stock_quantity,
+            'Slug' => Str::slug($request->product_name),
+        ]);
 
-    // Xóa hình ảnh cũ
-    foreach ($product->images as $image) {
-        // Xóa tệp hình ảnh khỏi thư mục
-        Storage::disk('public')->delete($image->Image_path);
-    }
-    
-    // Xóa các bản ghi hình ảnh cũ trong cơ sở dữ liệu
-    $product->images()->delete();
-
-    // Thêm hình ảnh mới nếu có
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            $path = $image->store('asset/images/product', 'public');
-            $product->images()->create(['Image_path' => $path]);
+        // Xóa hình ảnh cũ
+        foreach ($product->images as $image) {
+            // Xóa tệp hình ảnh khỏi thư mục
+            Storage::disk('public')->delete($image->Image_path);
         }
+
+        // Xóa các bản ghi hình ảnh cũ trong cơ sở dữ liệu
+        $product->images()->delete();
+
+        // Thêm hình ảnh mới nếu có
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('asset/images/product', 'public');
+                $product->images()->create(['Image_path' => $path]);
+            }
+        }
+
+        // Chuyển hướng với thông báo thành công
+        return redirect()->route('products.indexAdmin')->with('success', 'Product updated successfully.');
     }
 
-    // Chuyển hướng với thông báo thành công
-    return redirect()->route('products.indexAdmin')->with('success', 'Product updated successfully.');
+    public function showProduct($id)
+{
+    $product = Product::with('category', 'brand', 'images')->findOrFail($id);
+    
+    return view('admin.pages.admin-product-detail', compact('product'));
 }
-
 }
