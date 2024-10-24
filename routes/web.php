@@ -69,3 +69,17 @@ Route::get('/quanliblog/taobai', function () {
 
 // Route Product
 Route::get('/admin/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.index');
+
+//Route add sản phẩm
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+ // Route cho trang danh sách sản phẩm
+Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin');
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('form-add-san-pham');
+Route::get('/admin/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
+Route::put('/admin/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update'); 
+
+
+
+
+
