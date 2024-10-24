@@ -1704,6 +1704,10 @@ pre code {
 .table-bordered th,
 .table-bordered td {
   border: 1px solid #dee2e6;
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .table-bordered thead th,
