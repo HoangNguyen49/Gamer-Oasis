@@ -162,9 +162,25 @@ class ProductController extends Controller
     }
 
     public function showProduct($id)
-{
-    $product = Product::with('category', 'brand', 'images')->findOrFail($id);
-    
-    return view('admin.pages.admin-product-detail', compact('product'));
-}
+    {
+        $product = Product::with('category', 'brand', 'images')->findOrFail($id);
+
+        return view('admin.pages.admin-product-detail', compact('product'));
+    }
+
+    public function deleteProduct($id)
+    {
+        $product = Product::find($id);
+
+        if ($product) {
+            // Xóa tất cả các hình ảnh liên quan trước
+            $product->images()->delete(); // Xóa các hình ảnh liên quan
+
+            // Sau đó xóa sản phẩm
+            $product->delete();
+            return redirect()->route('products.indexAdmin')->with('success', 'Product deleted successfully.');
+        }
+
+        return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
+    }
 }

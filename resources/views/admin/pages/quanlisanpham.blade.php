@@ -12,7 +12,6 @@
     <div class="app-wrapper">
         <!-- Include Sidebar -->
         @include('admin.layout.sidebar')
-
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
@@ -51,10 +50,6 @@
                                 <div class="col-sm-2">
                                     <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
                                         onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> Delete Product </a>
                                 </div>
                             </div>
                             <table class="table table-hover table-bordered" id="sampleTable">
@@ -105,11 +100,11 @@
                                                     <i class="fas fa-edit"></i>
                                                 </button>
 
-                                                <form action="" method="POST" style="display:inline;">
+                                                <form action="{{ route('products.deleteProduct', $product->Product_id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-primary btn-sm trash" type="button"
-                                                        title="Xóa" onclick="myFunction(this)">
+                                                    <button class="btn btn-primary btn-sm trash" type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this product?');">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
@@ -125,6 +120,7 @@
             </div>
 
         </main>
+
         <!-- Modal -->
         <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog"
             aria-labelledby="productDetailModalLabel" aria-hidden="true">
@@ -138,7 +134,7 @@
                     </div>
                     <div class="modal-body">
                         <div id="productDetailsContent">
-                            <!-- Product details will be loaded here -->
+                            
                         </div>
                     </div>
                     <div class="modal-footer">

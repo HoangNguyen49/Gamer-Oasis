@@ -79,7 +79,12 @@ Route::get('/admin/products/create', [ProductController::class, 'create'])->name
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
 Route::put('/admin/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update'); 
 
+//edit sản phẩm
 Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
+
+// delete sản phẩm
+Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+
 
 
 
