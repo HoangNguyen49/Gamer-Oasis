@@ -11,6 +11,8 @@ class Brand extends Model
     protected $primaryKey = 'Brand_id';
     protected $fillable = ['Brand_name', 'CreatedAt'];
 
+    public $timestamps = false; // Bỏ qua timestamps mặc định của Laravel
+
     public function products() {
         return $this->hasMany(Product::class, 'Brand_id', 'Brand_id');
     }

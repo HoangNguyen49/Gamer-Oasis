@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-
 use App\Models\Category;
 use App\Models\Brand;
 use Illuminate\Http\Request;
@@ -12,15 +11,21 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function indexAdmin()
-    {
-        // Lấy sản phẩm với 1 hình ảnh, tự động lấy hình ảnh theo Image_id thứ tự tăng dần
-        $products = Product::with(['category', 'brand', 'images' => function ($query) {
-            $query->orderBy('Image_id', 'asc')->limit(1);
-        }])->get();
+    public function indexAdmin(Request $request)
+{
+    $search = $request->input('search');
 
-        return view('admin.pages.quanlisanpham', compact('products'));
-    }
+    // Lấy sản phẩm theo tên tìm kiếm hoặc lấy tất cả nếu không có từ khóa
+    $products = Product::with(['category', 'brand', 'images' => function ($query) {
+        $query->orderBy('Image_id', 'asc')->limit(1);
+    }])
+    ->when($search, function ($query, $search) {
+        return $query->where('Product_name', 'like', '%' . $search . '%');
+    })
+    ->get();
+
+    return view('admin.pages.quanlisanpham', compact('products', 'search'));
+}
 
     public function index()
     {
@@ -151,6 +156,15 @@ class ProductController extends Controller
 
         // Thêm hình ảnh mới nếu có
         if ($request->hasFile('images')) {
+            // Xóa hình ảnh cũ
+            foreach ($product->images as $image) {
+                // Xóa tệp hình ảnh khỏi thư mục
+                Storage::disk('public')->delete($image->Image_path);
+            }
+            // Xóa các bản ghi hình ảnh cũ trong cơ sở dữ liệu
+            $product->images()->delete();
+    
+            // Thêm hình ảnh mới
             foreach ($request->file('images') as $image) {
                 $path = $image->store('asset/images/product', 'public');
                 $product->images()->create(['Image_path' => $path]);
@@ -163,7 +177,7 @@ class ProductController extends Controller
 
     public function showProduct($id)
     {
-        $product = Product::with('category', 'brand', 'images')->findOrFail($id);
+        $product = Product::with('category', 'brand', 'images', 'colors')->findOrFail($id);
 
         return view('admin.pages.admin-product-detail', compact('product'));
     }

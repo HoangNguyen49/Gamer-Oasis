@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CategoryController;
 
 // Trang chính
 Route::view('/', 'web.pages.index');
@@ -66,6 +68,12 @@ Route::get('/admin/quanliblog', function () {
 Route::get('/quanliblog/taobai', function () {
     return view('admin.pages.form-add-blog');
 })->name('taobai');
+
+// Route cho Category
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+// Route cho Brand
+Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
 
 // Route Product
 Route::get('/admin/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.index');

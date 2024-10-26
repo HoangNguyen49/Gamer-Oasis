@@ -79,7 +79,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Update Product</button>
-            <button type="submit" class="btn btn-primary" onclick="confirmCancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="confirmCancel()">Cancel</button>
         </form>
     </div>
 
