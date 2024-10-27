@@ -12,28 +12,32 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     public function indexAdmin(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $search = $request->input('search');
 
-    // Lấy sản phẩm theo tên tìm kiếm hoặc lấy tất cả nếu không có từ khóa
-    $products = Product::with(['category', 'brand', 'images' => function ($query) {
-        $query->orderBy('Image_id', 'asc')->limit(1);
-    }])
-    ->when($search, function ($query, $search) {
-        return $query->where('Product_name', 'like', '%' . $search . '%');
-    })
-    ->get();
+        // Lấy sản phẩm theo tên tìm kiếm hoặc lấy tất cả nếu không có từ khóa
+        $products = Product::with(['category', 'brand', 'images' => function ($query) {
+            $query->orderBy('Image_id', 'asc')->limit(1);
+        }])
+            ->when($search, function ($query, $search) {
+                return $query->where('Product_name', 'like', '%' . $search . '%');
+            })
+            ->get();
 
-    return view('admin.pages.quanlisanpham', compact('products', 'search'));
-}
+        return view('admin.pages.quanlisanpham', compact('products', 'search'));
+    }
 
     public function index()
     {
-        // Lấy sản phẩm với tất cả các hình ảnh
-        $products = Product::with(['category', 'brand', 'images'])->get();
+        $products = Product::with(['brand', 'images']) // Không cần lấy 'category' nếu không sử dụng
+            ->where('Brand_id', 3) // Lọc theo Brand ID 3 (Dell)
+            ->get();
 
-        return view('web.pages.product', compact('products'));
+        return view('web.pages.index', compact('products'));
     }
+
+
+
 
     public function create()
     {
@@ -163,7 +167,7 @@ class ProductController extends Controller
             }
             // Xóa các bản ghi hình ảnh cũ trong cơ sở dữ liệu
             $product->images()->delete();
-    
+
             // Thêm hình ảnh mới
             foreach ($request->file('images') as $image) {
                 $path = $image->store('asset/images/product', 'public');
