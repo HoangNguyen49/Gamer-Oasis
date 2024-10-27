@@ -8,6 +8,7 @@
         <title>Checkout</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
         
     </head>
     <body>
@@ -24,7 +25,8 @@
                 <div class="container">
                     <div class="breadcrumb-content">
                         <ul>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{ url('/') }}">Home</a></li>
+                            <li><a href="{{ url('/cart') }}">Shopping Cart</a></li>
                             <li class="active">Checkout</li>
                         </ul>
                     </div>
@@ -272,23 +274,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="cart_item">
-                                              <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                              <td class="cart-product-total"><span class="amount">£165.00</span></td>  
-                                            </tr>
-                                            <tr class="cart_item">
-                                              <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                              <td class="cart-product-total"><span class="amount">£165.00</span></td>  
-                                            </tr>
+                                            @php
+                                                $subtotal = 0; // Khởi tạo biến subtotal
+                                            @endphp
+                                            @if (session('cart') && count(session('cart')) > 0)
+                                                @foreach (session('cart') as $item)
+                                                    @php
+                                                        $subtotal += $item['price'] * $item['quantity']; // Cộng dồn subtotal
+                                                    @endphp
+                                                    <tr class="cart_item">
+                                                        <td class="cart-product-name">
+                                                            {{ $item['product_name'] }} <strong class="product-quantity"> × {{ $item['quantity'] }}</strong>
+                                                        </td>
+                                                        <td class="cart-product-total"><span class="amount">£{{ number_format($item['price'] * $item['quantity'], 2) }}</span></td>  
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="2" class="text-center" style="color: red; font-weight: bold; font-size: 18px;">CART IS EMPTY, PLEASE ADD NEW PRODUCTS !!!</td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                         <tfoot>
                                             <tr class="cart-subtotal">
                                                 <th>Cart Subtotal</th>
-                                                <td><span class="amount">£215.00</span></td>
+                                                <td><span class="amount">£{{ number_format($subtotal, 2) }}</span></td>
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td><strong><span class="amount">£215.00</span></strong></td>
+                                                <td><strong><span class="amount">£{{ number_format($subtotal, 2) }}</span></strong></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -296,48 +310,48 @@
                                 <div class="payment-method">
                                     <div class="payment-accordion">
                                         <div id="accordion">
-                                          <div class="card">
-                                            <div class="card-header" id="#payment-1">
-                                              <h5 class="panel-title">
-                                                <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                  Direct Bank Transfer.
-                                                </a>
-                                              </h5>
+                                            <div class="card">
+                                                <div class="card-header" id="#payment-1">
+                                                    <h5 class="panel-title">
+                                                        <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            Direct Bank Transfer.
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                                    <div class="card-body">
+                                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                              <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                              </div>
+                                            <div class="card">
+                                                <div class="card-header" id="#payment-2">
+                                                    <h5 class="panel-title">
+                                                        <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                            Cheque Payment
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                                <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                                    <div class="card-body">
+                                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                          </div>
-                                          <div class="card">
-                                            <div class="card-header" id="#payment-2">
-                                              <h5 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                  Cheque Payment
-                                                </a>
-                                              </h5>
+                                            <div class="card">
+                                                <div class="card-header" id="#payment-3">
+                                                    <h5 class="panel-title">
+                                                        <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                            PayPal
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                                <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                                    <div class="card-body">
+                                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                              <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="card">
-                                            <div class="card-header" id="#payment-3">
-                                              <h5 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                  PayPal
-                                                </a>
-                                              </h5>
-                                            </div>
-                                            <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                              <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                              </div>
-                                            </div>
-                                          </div>
                                         </div>
                                         <div class="order-button-payment">
                                             <input value="Place order" type="submit">
@@ -345,6 +359,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        
+                        
                         </div>
                     </div>
                 </div>

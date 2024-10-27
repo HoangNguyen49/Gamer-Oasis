@@ -7,6 +7,7 @@
     <title>Gamer Oasis</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
 </head>
 <body>
     @include('web.layouts.header')
@@ -1029,11 +1030,13 @@
                                             </div>
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                    <li class="add-cart active">
+                                                        <a href="#" class="add-to-cart-btn" data-brand-id="{{ $product->Brand_id }}">ADD TO CART</a>
+                                                    </li>
                                                     <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
                                                     <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
                                                 </ul>
-                                            </div>
+                                            </div>                                                
                                         </div>
                                     </div>
                                 </div>
@@ -1834,6 +1837,38 @@
     <!-- Quick View | Modal Area End Here -->
     </div>
     @include('web.layouts.css-script')
+
+    <!-- Add To Cart START -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const brandId = this.getAttribute('data-brand-id');
+    
+                    fetch('{{ route('cart.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ brand_id: brandId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.success);
+                        } else {
+                            alert(data.error || 'Can not Add To Cart');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
+    <!-- Add To Cart END -->
+    
 </body>
 
 </html>

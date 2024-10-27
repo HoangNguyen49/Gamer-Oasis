@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
         <!-- Material Design Iconic Font-V2.2.0 -->
         <link rel="stylesheet" href="{{ asset('asset/css/material-design-iconic-font.min.css') }}">
         <!-- Font Awesome -->
@@ -259,7 +259,7 @@
                     <!-- Begin Footer Payment Area -->
                     <div class="copyright text-center">
                         <a href="#">
-                            <img src="images/payment/1.png" alt="">
+                            <img src="{{ asset('asset/images/payment/1.png') }}" alt="">
                         </a>
                     </div>
                     <!-- Footer Payment Area End Here -->
