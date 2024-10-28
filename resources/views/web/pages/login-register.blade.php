@@ -8,6 +8,7 @@
         <title>Login Register</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
     </head>
     <body>
     <!--[if lt IE 8]>
@@ -23,7 +24,7 @@
                 <div class="container">
                     <div class="breadcrumb-content">
                         <ul>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{ url('/') }}">Home</a></li>
                             <li class="active">Login Register</li>
                         </ul>
                     </div>

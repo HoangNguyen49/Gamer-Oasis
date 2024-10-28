@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
     <!-- Material Design Iconic Font-V2.2.0 -->
     <link rel="stylesheet" href="{{ asset('asset/css/material-design-iconic-font.min.css') }}">
     <!-- Font Awesome -->
@@ -139,25 +139,33 @@
                                         <div class="hm-minicart-trigger">
                                             <span class="item-icon"></span>
                                             <span class="item-text">
-                                                <span class="cart-item-count">0</span>
+                                                <span class="cart-item-count">{{ count(session('cart', [])) }}</span> <!-- Hiển thị số lượng sản phẩm -->
                                             </span>
                                         </div>
                                         <span></span>
                                         <div class="minicart">
-
-                                            <p class="minicart-total">SUBTOTAL: <span>0</span></p>
+                                            @php
+                                                $subtotal = 0; // Khởi tạo biến subtotal
+                                                if (session('cart')) {
+                                                    foreach (session('cart') as $item) {
+                                                        $subtotal += $item['price'] * $item['quantity']; // Tính tổng giá trị giỏ hàng
+                                                    }
+                                                }
+                                            @endphp
+                                            <p class="minicart-total">SUBTOTAL: <span>£{{ number_format($subtotal, 2) }}</span></p> <!-- Hiển thị tổng giá trị -->
                                             <div class="minicart-button">
-                                                <a href="{{url('/cart')}}"
+                                                <a href="{{ url('/cart') }}"
                                                     class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                                     <span>View Full Cart</span>
                                                 </a>
-                                                <a href="{{ url('/checkout')}}"
-                                                    class="li-button li-button-fullwidth li-button-sm">
+                                                <a href="{{ url('/checkout') }}"
+                                                    class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                                     <span>Checkout</span>
                                                 </a>
                                             </div>
                                         </div>
                                     </li>
+                                    
                                     <!-- Header Mini Cart Area End Here -->
                                 </ul>
                             </div>

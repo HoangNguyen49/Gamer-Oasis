@@ -29,11 +29,22 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['brand', 'images']) 
-            ->where('Brand_id', 3) // Lọc theo Brand ID 3 (Dell)
+        // Lấy sản phẩm theo danh mục có ID là 1, 2 và 3
+        $productsCategory123 = Product::with(['brand', 'images', 'category'])
+            ->whereIn('Category_id', [1, 2, 3]) // Lọc theo Category ID 1, 2, 3
             ->get();
 
-        return view('web.pages.index', compact('products'));
+        // Lấy sản phẩm theo danh mục có ID là 4, 5 và 6
+        $productsCategory456 = Product::with(['brand', 'images', 'category'])
+            ->whereIn('Category_id', [4, 5, 6]) // Lọc theo Category ID 4, 5, 6
+            ->get();
+
+        // Lấy sản phẩm theo danh mục có ID là 7 và 8
+        $productsCategory78 = Product::with(['brand', 'images', 'category'])
+            ->whereIn('Category_id', [7, 8]) // Lọc theo Category ID 4, 5, 6
+            ->get();
+
+        return view('web.pages.index', compact('productsCategory123', 'productsCategory456', 'productsCategory78'));
     }
 
     public function create()
@@ -176,12 +187,14 @@ class ProductController extends Controller
         return redirect()->route('products.indexAdmin')->with('success', 'Product updated successfully.');
     }
 
+    //show chi tiết sản phẩm trong admin
     public function showProduct($id)
     {
         $product = Product::with('category', 'brand', 'images', 'colors')->findOrFail($id);
 
         return view('admin.pages.admin-product-detail', compact('product'));
     }
+
 
     public function deleteProduct($id)
     {
@@ -198,5 +211,4 @@ class ProductController extends Controller
 
         return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
     }
-
 }
