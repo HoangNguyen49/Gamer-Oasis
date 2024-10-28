@@ -29,15 +29,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['brand', 'images']) // Không cần lấy 'category' nếu không sử dụng
+        $products = Product::with(['brand', 'images']) 
             ->where('Brand_id', 3) // Lọc theo Brand ID 3 (Dell)
             ->get();
 
         return view('web.pages.index', compact('products'));
     }
-
-
-
 
     public function create()
     {
@@ -201,4 +198,5 @@ class ProductController extends Controller
 
         return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
     }
+
 }
