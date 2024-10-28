@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
 </head>
+
 <body>
     @include('web.layouts.header')
     <!-- Header Area End Here -->
@@ -61,12 +62,12 @@
                 <div class="col-lg-4 col-md-4 text-center pt-sm-30 pt-xs-30">
                     <div class="li-banner">
                         <a href="#">
-                            <img src="{{asset('asset/images/static-top/Acer_nitro.jpg')}}" alt="">
+                            <img src="{{ asset('asset/images/static-top/Acer_nitro.jpg') }}" alt="">
                         </a>
                     </div>
                     <div class="li-banner mt-15 mt-md-30 mt-xs-25 mb-xs-5">
                         <a href="#">
-                            <img src="{{asset('asset/images/static-top/PS5_VR2.jpg')}}" alt="">
+                            <img src="{{ asset('asset/images/static-top/PS5_VR2.jpg') }}" alt="">
                         </a>
                     </div>
                 </div>
@@ -1000,17 +1001,18 @@
                     </div>
                     <div class="row">
                         <div class="product-active owl-carousel">
-                            @foreach($products as $product)
+                            @foreach ($products as $product)
                                 <div class="col-lg-12">
                                     <div class="single-product-wrap">
                                         <div class="product-image">
                                             <a href="single-product.html">
-                                                @if($product->images->isNotEmpty())
-                                                    <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}" alt="{{ $product->Product_name }}">
+                                                @if ($product->images->isNotEmpty())
+                                                    <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}"
+                                                        alt="{{ $product->Product_name }}">
                                                 @else
                                                     <img src="path/to/default-image.jpg" alt="No Image">
                                                 @endif
-                                            </a>                                            
+                                            </a>
                                         </div>
                                         <div class="product_desc">
                                             <div class="product_desc_info">
@@ -1022,30 +1024,27 @@
                                                     </h5>
                                                 </div>
                                                 <h4>
-                                                    <a class="product_name" href="single-product.html">{{ $product->Product_name }}</a>
+                                                    <a class="product_name"
+                                                        href="single-product.html">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
-                                                    <span class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    <span
+                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
                                                 </div>
                                             </div>
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
-                                                    <li class="add-cart active">
-                                                        <a href="#" class="add-to-cart-btn" data-brand-id="{{ $product->Brand_id }}">ADD TO CART</a>
-                                                    </li>
-                                                    <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                    <li class="add-cart active"><a href="#" class="add-to-cart-btn" data-product-id="{{ $product->Product_id }}">ADD TO CART</a></li>
+                                                    <li><a href="#" class="add-to-wishlist-btn" data-product-id="{{ $product->Product_id }}"><i class="fa fa-heart-o"></i></a></li>
                                                     <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
                                                 </ul>
-                                            </div>                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-                    
-                    
-                        
                 </div>
                 <!-- Li's Section Area End Here -->
             </div>
@@ -1838,13 +1837,22 @@
     </div>
     @include('web.layouts.css-script')
 
+    <!-- Notification When Click Button Add START -->
+    <div id="notification" style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+        <span id="notification-icon" style="margin-right: 10px;">
+            <i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i>
+        </span>
+        <span id="notification-message"></span>
+    </div>
+    <!-- Notification When Click Button Add END -->
+
     <!-- Add To Cart START -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const brandId = this.getAttribute('data-brand-id');
+                    const productId = this.getAttribute('data-product-id');
     
                     fetch('{{ route('cart.add') }}', {
                         method: 'POST',
@@ -1852,23 +1860,86 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ brand_id: brandId })
+                        body: JSON.stringify({ product_id: productId })
                     })
                     .then(response => response.json())
                     .then(data => {
+                        // Hiển thị thông báo thành công hoặc lỗi
+                        const notification = document.getElementById('notification');
+                        const message = document.getElementById('notification-message');
+                        const icon = document.getElementById('notification-icon').querySelector('i');
+    
                         if (data.success) {
-                            alert(data.success);
+                            message.textContent = data.success; // Thiết lập thông điệp thành công
+                            notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
+                            icon.className = 'fa fa-check-circle'; // Icon thành công
                         } else {
-                            alert(data.error || 'Can not Add To Cart');
+                            message.textContent = data.error || 'Cannot add to cart'; // Thiết lập thông điệp lỗi
+                            notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
+                            icon.className = 'fa fa-times'; // Icon lỗi
                         }
+    
+                        notification.style.display = 'block'; // Hiện thông báo
+    
+                        // Tự động ẩn thông báo sau 2 giây
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 2000);
                     })
                     .catch(error => console.error('Error:', error));
                 });
             });
         });
-    </script>
+    </script>        
     <!-- Add To Cart END -->
+
+    <!-- Add To Wishlist START -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-wishlist-btn').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
     
+                    fetch('{{ route('wishlist.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ product_id: productId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hiển thị thông báo thành công hoặc lỗi
+                        const notification = document.getElementById('notification');
+                        const message = document.getElementById('notification-message');
+                        const icon = document.getElementById('notification-icon').querySelector('i');
+    
+                        if (data.success) {
+                            message.textContent = data.success; // Thiết lập thông điệp thành công
+                            notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
+                            icon.className = 'fa fa-check-circle'; // Icon thành công
+                        } else {
+                            message.textContent = data.error || 'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
+                            notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
+                            icon.className = 'fa fa-times'; // Icon lỗi
+                        }
+    
+                        notification.style.display = 'block'; // Hiện thông báo
+    
+                        // Tự động ẩn thông báo sau 2 giây
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 2000);
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>    
+    <!-- Add To Wishlist END -->    
+
 </body>
 
 </html>

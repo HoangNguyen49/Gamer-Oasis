@@ -27,6 +27,7 @@ class CheckoutController extends Controller
         // Hiển thị trang thành công
         return view('web.pages.success'); // Đảm bảo view tồn tại
     }
+
     public function applyCoupon(Request $request)
     {
         $couponCode = $request->input('coupon_code');
@@ -41,6 +42,12 @@ class CheckoutController extends Controller
             // Tính tổng giá trị giảm giá
             $cartItems = session('cart');
             $subtotal = $cartItems ? array_sum(array_column($cartItems, 'price')) : 0;
+
+            // Kiểm tra xem giỏ hàng có sản phẩm không
+            if ($subtotal <= 0) {
+                return back()->withErrors(['error' => 'Cannot apply coupon, cart is empty!']);
+            }
+
             $discount = $subtotal * $coupons[$couponCode];
 
             // Lưu thông tin mã giảm giá vào session
@@ -53,6 +60,6 @@ class CheckoutController extends Controller
             return back()->with('success', 'Coupon applied successfully!');
         }
 
-        return back()->withErrors(['coupon_code' => 'Invalid coupon code.']);
+        return back()->withErrors(['error' => 'Invalid coupon code.']);
     }
 }

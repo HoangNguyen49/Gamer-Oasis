@@ -128,11 +128,11 @@
                                 <ul class="hm-menu">
                                     <!-- Begin Header Middle Wishlist Area -->
                                     <li class="hm-wishlist">
-                                        <a href="{{url('/wishlist')}}">
-                                            <span class="cart-item-count wishlist-item-count">0</span>
+                                        <a href="{{ url('/wishlist') }}">
+                                            <span class="cart-item-count wishlist-item-count">{{ count(Session::get('wishlist', [])) }}</span>
                                             <i class="fa fa-heart-o"></i>
-                                        </a>
-                                    </li>
+                                        </a>                                        
+                                    </li>   
                                     <!-- Header Middle Wishlist Area End Here -->
                                     <!-- Begin Header Mini Cart Area -->
                                     <li class="hm-minicart">

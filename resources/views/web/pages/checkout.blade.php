@@ -294,7 +294,7 @@
                                                     <td class="cart-product-name">
                                                         {{ $item['product_name'] }} <strong class="product-quantity"> × {{ $item['quantity'] }}</strong>
                                                     </td>
-                                                    <td class="cart-product-total"><span class="amount">£{{ number_format($item['price'] * $item['quantity'], 2) }}</span></td>
+                                                    <td class="cart-product-total"><span class="amount">${{ number_format($item['price'] * $item['quantity'], 2) }}</span></td>
                                                 </tr>
                                             @endforeach
                                         @else
@@ -306,7 +306,7 @@
                                     <tfoot>
                                         <tr class="cart-subtotal">
                                             <th>Cart Subtotal</th>
-                                            <td><span class="amount">£{{ number_format($subtotal, 2) }}</span></td>
+                                            <td><span class="amount">${{ number_format($subtotal, 2) }}</span></td>
                                         </tr>
                                         @if(Session::has('coupon'))
                                             @php
@@ -315,16 +315,16 @@
                                             @endphp
                                             <tr class="discount">
                                                 <th>Discount ({{ Session::get('coupon')['code'] }})</th>
-                                                <td><span class="amount">-£{{ number_format($discount, 2) }}</span></td>
+                                                <td><span class="amount">-${{ number_format($discount, 2) }}</span></td>
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td><strong><span class="amount">£{{ number_format($totalAfterDiscount, 2) }}</span></strong></td>
+                                                <td><strong><span class="amount">${{ number_format($totalAfterDiscount, 2) }}</span></strong></td>
                                             </tr>
                                         @else
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td><strong><span class="amount">£{{ number_format($subtotal, 2) }}</span></strong></td>
+                                                <td><strong><span class="amount">${{ number_format($subtotal, 2) }}</span></strong></td>
                                             </tr>
                                         @endif
                                     </tfoot>
@@ -369,6 +369,51 @@
     </div>
     <!-- Body Wrapper End Here -->
     @include('web.layouts.css-script')
+
+    <div id="notification" style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+        <span id="notification-icon" style="margin-right: 10px;">
+            <i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i>
+        </span>
+        <span id="notification-message"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hiển thị thông báo khi nhập coupon thành công
+            @if (session('success'))
+                const notification = document.getElementById('notification');
+                const message = document.getElementById('notification-message');
+                const icon = document.getElementById('notification-icon').querySelector('i');
+    
+                message.textContent = "{{ session('success') }}"; 
+                notification.style.backgroundColor = '#4CAF50'; 
+                icon.className = 'fa fa-check-circle'; 
+                notification.style.display = 'block'; 
+    
+                // Tự động ẩn thông báo sau 2 giây
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            @endif
+            
+            // Hiển thị thông báo khi nhập coupon không đúng
+            @if ($errors->has('error'))
+                const notification = document.getElementById('notification');
+                const message = document.getElementById('notification-message');
+                const icon = document.getElementById('notification-icon').querySelector('i');
+    
+                message.textContent = "{{ $errors->first('error') }}"; 
+                notification.style.backgroundColor = '#f44336'; 
+                icon.className = 'fa fa-times'; 
+                notification.style.display = 'block'; 
+    
+                // Tự động ẩn thông báo sau 2 giây
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            @endif
+        });
+    </script>    
 
 </body>
 

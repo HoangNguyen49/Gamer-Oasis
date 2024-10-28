@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\WishlistController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -98,5 +99,15 @@ Route::prefix('admin')->group(function () {
     // Route để thêm mã giảm giá vào đơn hàng
     Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
     Route::post('/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
+
+    // Route để thêm sản phẩm vào wishlist
+    Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+
+    Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.show');
+
+    Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
 
 });
