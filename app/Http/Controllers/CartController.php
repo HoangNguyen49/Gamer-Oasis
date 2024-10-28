@@ -37,4 +37,46 @@ class CartController extends Controller
 
         return response()->json(['success' => 'Product added to cart', 'cart' => $cart]);
     }
+
+    public function applyCoupon(Request $request)
+{
+    // Lấy mã giảm giá từ yêu cầu
+    $couponCode = $request->input('coupon_code');
+    // Lấy giỏ hàng từ session
+    $cart = Session::get('cart', []);
+    
+    // Kiểm tra xem giỏ hàng có sản phẩm không
+    if (empty($cart)) {
+        return redirect()->back()->with('error', "Cannot apply coupon, cart is empty!");
+    }
+
+    // Tính tổng giá trị giỏ hàng
+    $subtotal = array_sum(array_column($cart, 'price'));
+
+    // Danh sách mã giảm giá hợp lệ
+    $coupons = [
+        'SAVE10' => 0.1,  // Giảm 10%
+        'SAVE20' => 0.2,  // Giảm 20%
+        'SAVE30' => 0.3,  // Giảm 30%
+    ];
+
+    // Kiểm tra mã giảm giá hợp lệ
+    if (isset($coupons[$couponCode])) {
+        // Tính toán giảm giá
+        $discount = $coupons[$couponCode] * $subtotal;
+        $totalAfterDiscount = $subtotal - $discount;
+
+        // Lưu thông tin mã giảm giá vào session
+        Session::put('coupon', [
+            'code' => $couponCode,
+            'discount' => $discount,
+            'totalAfterDiscount' => $totalAfterDiscount
+        ]);
+
+        return redirect()->back()->with('success', "Coupon applied successfully!");
+    } else {
+        return redirect()->back()->with('error', "Invalid coupon code!");
+    }
+}
+
 }

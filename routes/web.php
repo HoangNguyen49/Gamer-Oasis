@@ -94,4 +94,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/payment', [CheckoutController::class, 'processPayment'])->name('checkout.payment');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    // Route để thêm mã giảm giá vào đơn hàng
+    Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
+    Route::post('/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
+
 });
