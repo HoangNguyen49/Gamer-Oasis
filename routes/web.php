@@ -103,11 +103,13 @@ Route::prefix('admin')->group(function () {
     // Route để thêm sản phẩm vào wishlist
     Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
 
+    // Route để hiển thị sản phẩm trong wishlist
     Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.show');
 
+    // Route để xóa sản phẩm trong wishlist
     Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
+    // Route để xóa sản phẩm từ cart
     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
-
-
+    
 });
