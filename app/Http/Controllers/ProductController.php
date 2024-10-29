@@ -168,15 +168,6 @@ class ProductController extends Controller
 
         // Thêm hình ảnh mới nếu có
         if ($request->hasFile('images')) {
-            // Xóa hình ảnh cũ
-            foreach ($product->images as $image) {
-                // Xóa tệp hình ảnh khỏi thư mục
-                Storage::disk('public')->delete($image->Image_path);
-            }
-            // Xóa các bản ghi hình ảnh cũ trong cơ sở dữ liệu
-            $product->images()->delete();
-
-            // Thêm hình ảnh mới
             foreach ($request->file('images') as $image) {
                 $path = $image->store('asset/images/product', 'public');
                 $product->images()->create(['Image_path' => $path]);
@@ -187,6 +178,7 @@ class ProductController extends Controller
         return redirect()->route('products.indexAdmin')->with('success', 'Product updated successfully.');
     }
 
+
     //show chi tiết sản phẩm trong admin
     public function showProduct($id)
     {
@@ -194,6 +186,16 @@ class ProductController extends Controller
 
         return view('admin.pages.admin-product-detail', compact('product'));
     }
+
+    public function indexshowProduct($slug)
+    {
+        // Tìm sản phẩm theo ID, bao gồm các mối quan hệ cần thiết
+        $product = Product::where('Slug', $slug)->firstOrFail();
+
+        // Trả về view với dữ liệu sản phẩm
+        return view('web.pages.single-product', compact('product'));
+    }
+
 
 
     public function deleteProduct($id)
@@ -210,5 +212,19 @@ class ProductController extends Controller
         }
 
         return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
+    }
+
+    // Show Product by Category in Navbar
+    public function showByCategory($categoryId)
+    {
+        $products = Product::where('Category_id', $categoryId)->get();
+        return view('web.pages.shop-4-column', compact('products', 'categoryId'));
+    }
+
+    // Show Product by Brand in Navbar
+    public function showByBrand($brandId)
+    {
+        $products = Product::where('Brand_id', $brandId)->get();
+        return view('web.pages.shop-4-column', compact('products', 'brandId'));
     }
 }

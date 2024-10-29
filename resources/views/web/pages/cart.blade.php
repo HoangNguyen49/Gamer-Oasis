@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -29,13 +30,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <!-- Thông báo áp dụng mã giảm giá -->
-                        @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @elseif(session('error'))
-                            <div class="alert alert-danger">{{ session('error') }}</div>
-                        @endif
-
                         <form action="{{ route('cart.applyCoupon') }}" method="POST">
                             @csrf
                             <div class="table-content table-responsive">
@@ -47,8 +41,8 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th class="li-product-remove">remove</th>
-                                            <th class="li-product-thumbnail">images</th>
+                                            <th class="li-product-remove">Remove</th>
+                                            <th class="li-product-thumbnail">Images</th>
                                             <th class="cart-product-name">Product</th>
                                             <th class="li-product-price">Unit Price</th>
                                             <th class="li-product-quantity">Quantity</th>
@@ -58,28 +52,27 @@
                                     <tbody>
                                         @if (empty($cart))
                                             <tr>
-                                                <td colspan="6" class="text-center"
-                                                    style="color: red; font-weight: bold; font-size: 16px;">CART IS
-                                                    EMPTY, PLEASE ADD NEW PRODUCTS !!!</td>
+                                                <td colspan="6" class="text-center" style="color: red; font-weight: bold; font-size: 16px;">
+                                                    CART IS EMPTY, PLEASE ADD NEW PRODUCTS !!!
+                                                </td>
                                             </tr>
                                         @else
                                             @foreach ($cart as $item)
                                                 <tr>
-                                                    <td class="li-product-remove"><a href="#"><i
-                                                                class="fa fa-times"></i></a></td>
-                                                    <td class="li-product-thumbnail"><img
-                                                            src="{{ asset('storage/' . $item['image']) }}"
-                                                            alt="Product Image" style="width: 100px"></td>
-                                                    <td class="li-product-name"><a
-                                                            href="#">{{ $item['product_name'] }}</a></td>
-                                                    <td class="li-product-price"><span
-                                                            class="amount">${{ number_format($item['price'], 2) }}</span>
+                                                    <td class="li-product-remove">
+                                                        <a href="#" class="remove-from-cart" data-product-id="{{ $item['product_id'] }}">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
                                                     </td>
+                                                    <td class="li-product-thumbnail">
+                                                        <img src="{{ asset('storage/' . $item['image']) }}" alt="Product Image" style="width: 100px">
+                                                    </td>
+                                                    <td class="li-product-name"><a href="#">{{ $item['product_name'] }}</a></td>
+                                                    <td class="li-product-price"><span class="amount">${{ number_format($item['price'], 2) }}</span></td>
                                                     <td class="quantity">
                                                         <label>Quantity</label>
                                                         <div class="cart-plus-minus">
-                                                            <input class="cart-plus-minus-box"
-                                                                value="{{ $item['quantity'] }}" type="text" readonly>
+                                                            <input class="cart-plus-minus-box" value="{{ $item['quantity'] }}" type="text" readonly>
                                                         </div>
                                                     </td>
                                                     <td class="product-subtotal">
@@ -99,27 +92,23 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="coupon-all">
-                                        <!-- Form nhập mã giảm giá -->
                                         <div class="coupon">
-                                            <input id="coupon_code" class="input-text" name="coupon_code" value=""
-                                                placeholder="Coupon code" type="text">
-                                            <input class="button" name="apply_coupon" value="APPLY COUPON"
-                                                type="submit">
+                                            <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text" required>
+                                            <input class="button" name="apply_coupon" value="APPLY COUPON" type="submit">
                                         </div>
                                         <div class="coupon2">
-                                            <input class="button" name="update_cart" value="CONTINUE SHOPPING"
-                                                type="button" onclick="window.location.href='{{ url('/') }}'">
+                                            <input class="button" name="update_cart" value="CONTINUE SHOPPING" type="button" onclick="window.location.href='{{ url('/') }}'">
                                         </div>
                                     </div>
-
-                                    <!-- Hiển thị thông báo lỗi nếu giỏ hàng trống -->
                                     @if (session('error') && session('error') == 'Cart is empty!')
-                                        <div class="alert alert-danger" style="margin-top: 10px;">Cannot apply coupon,
-                                            cart is empty!</div>
+                                        <div class="alert alert-danger" style="margin-top: 10px;">Cannot apply coupon, cart is empty!</div>
+                                    @endif
+                                    @if (session('coupon_error'))
+                                        <div class="alert alert-danger" style="margin-top: 10px;">{{ session('coupon_error') }}</div>
                                     @endif
                                 </div>
-
                             </div>
+
                     </div>
 
                     @if (!empty($cart))
@@ -129,14 +118,9 @@
                                     <h2>Cart totals</h2>
                                     <ul>
                                         <li>Subtotal <span>${{ number_format($subtotal, 2) }}</span></li>
-
                                         @if (Session::has('coupon'))
-                                            <li>Discount ({{ Session::get('coupon')['code'] }})
-                                                <span>-${{ number_format(Session::get('coupon')['discount'], 2) }}</span>
-                                            </li>
-                                            <li>Total
-                                                <span>${{ number_format(Session::get('coupon')['totalAfterDiscount'], 2) }}</span>
-                                            </li>
+                                            <li>Discount ({{ Session::get('coupon')['code'] }}) <span>-${{ number_format(Session::get('coupon')['discount'], 2) }}</span></li>
+                                            <li>Total <span>${{ number_format(Session::get('coupon')['totalAfterDiscount'], 2) }}</span></li>
                                         @else
                                             <li>Total <span>${{ number_format($subtotal, 2) }}</span></li>
                                         @endif
@@ -154,6 +138,96 @@
     @include('web.layouts.footer')
     </div>
     @include('web.layouts.css-script')
+
+    <!-- Notification HTML -->
+    <div id="notification" style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+        <span id="notification-icon" style="margin-right: 10px;">
+            <i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i>
+        </span>
+        <span id="notification-message"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý sự kiện xóa sản phẩm khỏi giỏ hàng
+            document.querySelectorAll('.remove-from-cart').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+
+                    fetch('{{ route('cart.remove') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ product_id: productId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const notification = document.getElementById('notification');
+                        const message = document.getElementById('notification-message');
+                        const icon = document.getElementById('notification-icon').querySelector('i');
+
+                        if (data.success) {
+                            message.textContent = data.success; 
+                            notification.style.backgroundColor = '#4CAF50'; 
+                            icon.className = 'fa fa-check-circle'; 
+                        } else {
+                            message.textContent = data.error; 
+                            notification.style.backgroundColor = '#f44336'; 
+                            icon.className = 'fa fa-times'; 
+                        }
+
+                        notification.style.display = 'block'; 
+
+                        // Tự động ẩn thông báo sau 2 giây
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                            if (data.success) {
+                                location.reload(); 
+                            }
+                        }, 2000);
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+
+            // Hiển thị thông báo khi nhập coupon thành công
+            @if (session('success'))
+                const notification = document.getElementById('notification');
+                const message = document.getElementById('notification-message');
+                const icon = document.getElementById('notification-icon').querySelector('i');
+
+                message.textContent = "{{ session('success') }}"; 
+                notification.style.backgroundColor = '#4CAF50'; 
+                icon.className = 'fa fa-check-circle'; 
+                notification.style.display = 'block'; 
+
+                // Tự động ẩn thông báo sau 2 giây
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            @endif
+            
+            // Hiển thị thông báo khi nhập coupon không đúng
+            @if (session('error'))
+                const notification = document.getElementById('notification');
+                const message = document.getElementById('notification-message');
+                const icon = document.getElementById('notification-icon').querySelector('i');
+
+                message.textContent = "{{ session('error') }}"; 
+                notification.style.backgroundColor = '#f44336'; 
+                icon.className = 'fa fa-times'; 
+                notification.style.display = 'block'; 
+
+                // Tự động ẩn thông báo sau 2 giây
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            @endif
+        });
+    </script>
 </body>
 
 </html>

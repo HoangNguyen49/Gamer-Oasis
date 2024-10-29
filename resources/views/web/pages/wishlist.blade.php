@@ -1,200 +1,203 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
-    
-<!-- wishlist31:27-->
-<head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Wishlist</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
-    </head>
-    <body>
-    <!--[if lt IE 8]>
-		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
-        <!-- Begin Body Wrapper -->
-        <div class="body-wrapper">
-            <!-- Begin Header Area -->
-            @include('web.layouts.header')
-            <!-- Header Area End Here -->
-            <!-- Begin Li's Breadcrumb Area -->
-            <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="{{ url('/') }}">Home</a></li>
-                            <li class="active">Wishlist</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
-            <!--Wishlist Area Strat-->
-            <div class="wishlist-area pt-60 pb-60">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="#">
-                                <div class="table-content table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="li-product-remove">remove</th>
-                                                <th class="li-product-thumbnail">images</th>
-                                                <th class="cart-product-name">Product</th>
-                                                <th class="li-product-price">Unit Price</th>
-                                                <th class="li-product-stock-status">Stock Status</th>
-                                                <th class="li-product-add-cart">add to cart</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                                <td class="li-product-thumbnail"><a href="#"><img src="images/wishlist-thumb/1.jpg" alt=""></a></td>
-                                                <td class="li-product-name"><a href="#">Giro Civilia</a></td>
-                                                <td class="li-product-price"><span class="amount">$23.39</span></td>
-                                                <td class="li-product-stock-status"><span class="in-stock">in stock</span></td>
-                                                <td class="li-product-add-cart"><a href="#">add to cart</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                                <td class="li-product-thumbnail"><a href="#"><img src="images/wishlist-thumb/2.jpg" alt=""></a></td>
-                                                <td class="li-product-name"><a href="#">Pro Bike Shoes</a></td>
-                                                <td class="li-product-price"><span class="amount">$30.50</span></td>
-                                                <td class="li-product-stock-status"><span class="in-stock">in stock</span></td>
-                                                <td class="li-product-add-cart"><a href="#">add to cart</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                                <td class="li-product-thumbnail"><a href="#"><img src="images/wishlist-thumb/3.jpg" alt=""></a></td>
-                                                <td class="li-product-name"><a href="#">Nero Urban Shoes</a></td>
-                                                <td class="li-product-price"><span class="amount">$40.19</span></td>
-                                                <td class="li-product-stock-status"><span class="out-stock">out stock</span></td>
-                                                <td class="li-product-add-cart"><a href="#">add to cart</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Wishlist Area End-->
-            <!-- Begin Footer Area -->
-            @include('web.layouts.footer')
-            <!-- Footer Area End Here -->
-            <!-- Begin Modal Area -->
-            <div class="modal fade open-modal" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                        <!-- Begin Modal Image Area -->
-                        <div class="col-md-5">
-                            <!-- Begin Modal Tab Content Area -->
-                            <div class="tab-content product-details-large myTabContent">
-                              <div class="tab-pane fade show active" id="single-slide1" role="tabpanel" aria-labelledby="single-slide-tab-1">
-                                  <!--Single Product Image Start-->
-                                  <div class="single-product-img img-full">
-                                    <img src="images/product/large-size/1.jpg" alt="">
-                                  </div>
-                                  <!--Single Product Image End-->
-                              </div>
-                              <div class="tab-pane fade" id="single-slide2" role="tabpanel" aria-labelledby="single-slide-tab-2">
-                                  <!--Single Product Image Start-->
-                                  <div class="single-product-img img-full">
-                                    <img src="images/product/large-size/2.jpg" alt="">
-                                  </div>
-                                  <!--Single Product Image End-->
-                              </div>
-                              <div class="tab-pane fade" id="single-slide3" role="tabpanel" aria-labelledby="single-slide-tab-3">
-                                  <!--Single Product Image Start-->
-                                  <div class="single-product-img img-full">
-                                    <img src="images/product/large-size/3.jpg" alt="">
-                                  </div>
-                                  <!--Single Product Image End-->
-                              </div>
-                              <div class="tab-pane fade" id="single-slide4" role="tabpanel" aria-labelledby="single-slide-tab-4">
-                                  <!--Single Product Image Start-->
-                                  <div class="single-product-img img-full">
-                                    <img src="images/product/large-size/4.jpg" alt="">
-                                  </div>
-                                  <!--Single Product Image End-->
-                              </div>
-                              <div class="tab-pane fade" id="single-slide5" role="tabpanel" aria-labelledby="single-slide-tab-4">
-                                  <!--Single Product Image Start-->
-                                  <div class="single-product-img img-full">
-                                    <img src="images/product/large-size/5.jpg" alt="">
-                                  </div>
-                                  <!--Single Product Image End-->
-                              </div>
-                              <div class="tab-pane fade" id="single-slide6" role="tabpanel" aria-labelledby="single-slide-tab-4">
-                                  <!--Single Product Image Start-->
-                                  <div class="single-product-img img-full">
-                                    <img src="images/product/large-size/6.jpg" alt="">
-                                  </div>
-                                  <!--Single Product Image End-->
-                              </div>
-                            </div>
-                            <!-- Modal Tab Content Area End Here -->
-                            <!-- Begin Modal Tab Menu Area -->
-                            <div class="single-product-menu">
-                                <div class="nav single-slide-menu owl-carousel" role="tablist">
-                                    <div class="single-tab-menu img-full">
-                                        <a class="active" data-toggle="tab" id="single-slide-tab-1" href="#single-slide1"><img src="images/product/small-size/1.jpg" alt=""></a>
-                                    </div>
-                                    <div class="single-tab-menu img-full">
-                                        <a data-toggle="tab" id="single-slide-tab-2" href="#single-slide2"><img src="images/product/small-size/2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="single-tab-menu img-full">
-                                        <a data-toggle="tab" id="single-slide-tab-3" href="#single-slide3"><img src="images/product/small-size/3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="single-tab-menu img-full">
-                                        <a data-toggle="tab" id="single-slide-tab-4" href="#single-slide4"><img src="images/product/small-size/4.jpg" alt=""></a>
-                                    </div>
-                                    <div class="single-tab-menu img-full">
-                                        <a data-toggle="tab" id="single-slide-tab-5" href="#single-slide5"><img src="images/product/small-size/5.jpg" alt=""></a>
-                                    </div>
-                                    <div class="single-tab-menu img-full">
-                                        <a data-toggle="tab" id="single-slide-tab-6" href="#single-slide6"><img src="images/product/small-size/6.jpg" alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Modal Tab Menu End Here -->
-                        </div>
-                        <!-- Modal Image Area End Here -->
-                        <!-- Begin Modal Content Area -->
-                        <div class="col-md-7">
-                            <div class="modal-product-info">
-                                <h2>Accusantium dolorem1</h2>
-                                <div class="modal-product-price">
-                                   <span class="new-price">$46.80</span>
-                               </div>
-                               <div class="cart-description">
-                                   <p>Vector graphic, format: svg. Download for personal, private and non-commercial use.</p>
-                               </div>
-                               <div class="quantity">
-                                   <input class="input-text qty text" step="1" min="1" max="200" name="quantity" value="1" title="Qty" size="4" type="number">
-                               </div>
-                            </div>
-                        </div>
-                        <!-- Modal Content Area End Here -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Modal Area End Here -->
-        </div>
-        <!-- Body Wrapper End Here -->
-        @include('web.layouts.css-script')
-    </body>
 
-<!-- wishlist31:30-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Wishlist</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
+</head>
+
+<body>
+    <!-- Begin Body Wrapper -->
+    <div class="body-wrapper">
+        @include('web.layouts.header')
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="breadcrumb-content">
+                    <ul>
+                        <li><a href="{{ url('/') }}">Home</a></li>
+                        <li class="active">Wishlist</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--Wishlist Area Start-->
+        <div class="wishlist-area pt-60 pb-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="#">
+                            <div class="table-content table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="li-product-remove">Remove</th>
+                                            <th class="li-product-thumbnail">Images</th>
+                                            <th class="cart-product-name">Product</th>
+                                            <th class="li-product-price">Unit Price</th>
+                                            <th class="li-product-stock-status">Stock Status</th>
+                                            <th class="li-product-add-cart">Add To Cart</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $wishlist = session('wishlist', []);
+                                        @endphp
+                                        @if (isset($wishlist) && is_array($wishlist) && count($wishlist) > 0)
+                                            @foreach ($wishlist as $item)
+                                                <tr>
+                                                    <td class="li-product-remove">
+                                                        <a href="#" class="remove-from-wishlist"
+                                                            data-product-id="{{ $item['product_id'] }}">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td class="li-product-thumbnail">
+                                                        <img src="{{ asset('storage/' . $item['image']) }}"
+                                                            style="width: 100px" class="card-img-top"
+                                                            alt="{{ $item['product_name'] }}">
+                                                    </td>
+                                                    <td class="li-product-name"><a
+                                                            href="#">{{ $item['product_name'] }}</a></td>
+                                                    <td class="li-product-price"><span
+                                                            class="amount">${{ number_format($item['price'], 2, '.', ',') }}</span>
+                                                    </td>
+                                                    <td class="li-product-stock-status">
+                                                        <span
+                                                            class="{{ isset($item['Stock_Quantity']) && $item['Stock_Quantity'] > 0 ? 'in-stock' : 'out-of-stock' }}">
+                                                            {{ isset($item['Stock_Quantity']) && $item['Stock_Quantity'] > 0 ? 'In Stock' : 'Out Of Stock' }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="li-product-add-cart">
+                                                        <a href="#" class="add-to-cart-btn"
+                                                            data-product-id="{{ $item['product_id'] }}">ADD TO CART</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="6" style="text-align:center;">No items in wishlist.</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Wishlist Area End-->
+        @include('web.layouts.footer')
+    </div>
+    @include('web.layouts.css-script')
+
+    <!-- Notification HTML START -->
+    <div id="notification"
+        style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+        <span id="notification-icon" style="margin-right: 10px;">
+            <i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i>
+        </span>
+        <span id="notification-message"></span>
+    </div>
+    <!-- Notification HTML END -->
+    
+    <!-- Add To Cart Form Wishlist START -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+
+                    fetch('{{ route('cart.add') }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                product_id: productId
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Hiện thông báo khi thêm vào giỏ hàng thành công
+                                const notification = document.getElementById('notification');
+                                const message = document.getElementById('notification-message');
+                                message.textContent = data.success; // Thiết lập thông điệp
+                                notification.style.display = 'block'; // Hiện thông báo
+
+                                // Tự động ẩn thông báo sau 2 giây
+                                setTimeout(() => {
+                                    notification.style.display = 'none';
+                                }, 2000);
+                            } else {
+                                alert(data.error || 'Cannot add to cart');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
+    <!-- Add To Cart Form Wishlist END -->
+
+    <!-- Remove Product Form Wishlist START -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý sự kiện xóa sản phẩm khỏi giỏ hàng
+            document.querySelectorAll('.remove-from-wishlist').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+
+                    fetch('{{ route('wishlist.remove') }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                product_id: productId
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const notification = document.getElementById('notification');
+                            const message = document.getElementById('notification-message');
+                            if (data.success) {
+                                // Hiện thông báo thành công
+                                message.textContent = data
+                                .success; // Thiết lập thông điệp thành công
+                                notification.style.backgroundColor =
+                                '#4CAF50'; // Màu xanh cho thông báo thành công
+                            } else {
+                                // Hiện thông báo lỗi
+                                message.textContent = data.error; // Thiết lập thông điệp lỗi
+                                notification.style.backgroundColor =
+                                '#f44336'; // Màu đỏ cho thông báo lỗi
+                            }
+
+                            notification.style.display = 'block'; // Hiện thông báo
+
+                            // Tự động ẩn thông báo sau 2 giây
+                            setTimeout(() => {
+                                notification.style.display = 'none';
+                                location.reload(); // Tải lại trang sau khi xóa
+                            }, 2000);
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
+    <!-- Remove Product Form Wishlist END -->
+
+</body>
+
 </html>

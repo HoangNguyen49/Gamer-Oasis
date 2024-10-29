@@ -3510,7 +3510,7 @@ li.right-menu .cat-mega-menu-2 > li {
 	text-transform: uppercase;
 	background: #242424;
 	color: #fff;
-	padding: 10px 20px;
+	padding: 5px 3px;
 	font-weight: 700;
 	display: inline-block;
 }
@@ -4006,7 +4006,7 @@ thead {
 	font-size: 13px;
 	border-radius: 0;
 	height: 42px;
-	width: 120px;
+	width: 170px;
 }
 .coupon-all input.button {
 	background-color: #333;
