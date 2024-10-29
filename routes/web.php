@@ -40,6 +40,30 @@ Route::get('/products/category/{categoryId}', [ProductController::class, 'showBy
 //Route show sản phẩm theo Brand trên navbar
 Route::get('/products/brand/{brandId}', [ProductController::class, 'showByBrand'])->name('products.brand');
 
+// Route để thêm sản phẩm vào giỏ hàng
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+
+// Route để hiển thị sản phẩm từ giỏ hàng khi checkout
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/payment', [CheckoutController::class, 'processPayment'])->name('checkout.payment');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Route để thêm mã giảm giá vào đơn hàng
+Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
+Route::post('/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
+
+// Route để thêm sản phẩm vào wishlist
+Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+
+// Route để hiển thị sản phẩm trong wishlist
+Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.show');
+
+// Route để xóa sản phẩm trong wishlist
+Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+
+// Route để xóa sản phẩm từ cart
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
 // Route cho trang Admin
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -101,28 +125,6 @@ Route::prefix('admin')->group(function () {
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
 
-     // Route để thêm sản phẩm vào giỏ hàng
-     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-
-     // Route để hiển thị sản phẩm từ giỏ hàng khi checkout
-     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-     Route::post('/checkout/payment', [CheckoutController::class, 'processPayment'])->name('checkout.payment');
-     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
- 
-     // Route để thêm mã giảm giá vào đơn hàng
-     Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
-     Route::post('/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
- 
-     // Route để thêm sản phẩm vào wishlist
-     Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
- 
-     // Route để hiển thị sản phẩm trong wishlist
-     Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.show');
- 
-     // Route để xóa sản phẩm trong wishlist
-     Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
- 
-     // Route để xóa sản phẩm từ cart
-     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+     
     
 });
