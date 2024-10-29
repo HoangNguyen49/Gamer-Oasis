@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Shop Four Column || limupa - Digital Products Store eCommerce Bootstrap 4 Template</title>
+    <title>Product Category</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
@@ -132,19 +132,9 @@
                                                             </div>
                                                             <div class="add-actions">
                                                                 <ul class="add-actions-link">
-                                                                    <li class="add-cart active">
-                                                                        <a href="{{ route('cart.add', $product->Product_id) }}">Add to cart</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="links-details" href="{{ route('wishlist.add', $product->Product_id) }}">
-                                                                            <i class="fa fa-heart-o"></i>
-                                                                        </a>
-                                                                    </li>
+                                                                    <li class="add-cart active"><a href="#" class="add-to-cart-btn" data-product-id="{{ $product->Product_id }}">ADD TO CART</a></li>
+                                                    <li><a href="#" class="add-to-wishlist-btn" data-product-id="{{ $product->Product_id }}"><i class="fa fa-heart-o"></i></a></li>
+                                                    
                                                                 </ul>
                                                             </div>
                                                         </div>
