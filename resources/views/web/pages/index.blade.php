@@ -993,7 +993,6 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // Hiển thị thông báo thành công hoặc lỗi
                         const notification = document.getElementById('notification');
                         const message = document.getElementById('notification-message');
                         const icon = document.getElementById('notification-icon').querySelector('i');
@@ -1010,10 +1009,11 @@
 
                         notification.style.display = 'block'; // Hiện thông báo
 
-                        // Tự động ẩn thông báo sau 2 giây
+                        // Tải lại trang sau 1.2 giây rồi hiển thị thông báo
                         setTimeout(() => {
-                            notification.style.display = 'none';
-                        }, 2000);
+                            notification.style.display = 'none'; // Ẩn thông báo
+                            location.reload(); // Tải lại trang
+                        }, 1200);
                     })
                     .catch(error => console.error('Error:', error));
                 });
@@ -1040,7 +1040,6 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // Hiển thị thông báo thành công hoặc lỗi
                         const notification = document.getElementById('notification');
                         const message = document.getElementById('notification-message');
                         const icon = document.getElementById('notification-icon').querySelector('i');
@@ -1049,25 +1048,31 @@
                             message.textContent = data.success; // Thiết lập thông điệp thành công
                             notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
                             icon.className = 'fa fa-check-circle'; // Icon thành công
+
+                            // Tải lại trang sau 1.2 giây khi thành công
+                            setTimeout(() => {
+                                notification.style.display = 'none'; // Ẩn thông báo
+                                location.reload(); // Tải lại trang
+                            }, 1200);
                         } else {
                             message.textContent = data.error || 'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
                             notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
                             icon.className = 'fa fa-times'; // Icon lỗi
+
+                            // Chỉ ẩn thông báo sau 1.2 giây nếu có lỗi
+                            setTimeout(() => {
+                                notification.style.display = 'none'; // Ẩn thông báo
+                            }, 1200);
                         }
 
                         notification.style.display = 'block'; // Hiện thông báo
-
-                        // Tự động ẩn thông báo sau 2 giây
-                        setTimeout(() => {
-                            notification.style.display = 'none';
-                        }, 2000);
                     })
                     .catch(error => console.error('Error:', error));
                 });
             });
         });
     </script>    
-    <!-- Add To Wishlist END -->    
+    <!-- Add To Wishlist END -->
 
 </body>
 
