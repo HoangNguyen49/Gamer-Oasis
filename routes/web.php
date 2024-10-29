@@ -64,6 +64,8 @@ Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'
 // Route để xóa sản phẩm từ cart
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
+
+//Route Prefix Admin
 // Route cho trang Admin
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -124,7 +126,6 @@ Route::prefix('admin')->group(function () {
 
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
-
-     
-    
 });
+
+// End Prefix Admin
