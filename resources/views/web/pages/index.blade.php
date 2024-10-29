@@ -966,98 +966,109 @@
     <!-- Footer Area End Here -->
     </div>
     @include('web.layouts.css-script')
+
+    <!-- Notification HTML -->
+    <div id="notification" style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+        <span id="notification-icon" style="margin-right: 10px;">
+            <i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i>
+        </span>
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- Add To Cart START -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+
+                    fetch('{{ route('cart.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ product_id: productId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hiển thị thông báo thành công hoặc lỗi
+                        const notification = document.getElementById('notification');
+                        const message = document.getElementById('notification-message');
+                        const icon = document.getElementById('notification-icon').querySelector('i');
+
+                        if (data.success) {
+                            message.textContent = data.success; // Thiết lập thông điệp thành công
+                            notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
+                            icon.className = 'fa fa-check-circle'; // Icon thành công
+                        } else {
+                            message.textContent = data.error || 'Cannot add to cart'; // Thiết lập thông điệp lỗi
+                            notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
+                            icon.className = 'fa fa-times'; // Icon lỗi
+                        }
+
+                        notification.style.display = 'block'; // Hiện thông báo
+
+                        // Tự động ẩn thông báo sau 2 giây
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 2000);
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>        
+    <!-- Add To Cart END -->
+
+    <!-- Add To Wishlist START -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-wishlist-btn').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+
+                    fetch('{{ route('wishlist.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ product_id: productId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hiển thị thông báo thành công hoặc lỗi
+                        const notification = document.getElementById('notification');
+                        const message = document.getElementById('notification-message');
+                        const icon = document.getElementById('notification-icon').querySelector('i');
+
+                        if (data.success) {
+                            message.textContent = data.success; // Thiết lập thông điệp thành công
+                            notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
+                            icon.className = 'fa fa-check-circle'; // Icon thành công
+                        } else {
+                            message.textContent = data.error || 'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
+                            notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
+                            icon.className = 'fa fa-times'; // Icon lỗi
+                        }
+
+                        notification.style.display = 'block'; // Hiện thông báo
+
+                        // Tự động ẩn thông báo sau 2 giây
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 2000);
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>    
+    <!-- Add To Wishlist END -->    
+
 </body>
-<!-- Add To Cart START -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const productId = this.getAttribute('data-product-id');
 
-                fetch('{{ route('cart.add') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ product_id: productId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Hiển thị thông báo thành công hoặc lỗi
-                    const notification = document.getElementById('notification');
-                    const message = document.getElementById('notification-message');
-                    const icon = document.getElementById('notification-icon').querySelector('i');
-
-                    if (data.success) {
-                        message.textContent = data.success; // Thiết lập thông điệp thành công
-                        notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
-                        icon.className = 'fa fa-check-circle'; // Icon thành công
-                    } else {
-                        message.textContent = data.error || 'Cannot add to cart'; // Thiết lập thông điệp lỗi
-                        notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
-                        icon.className = 'fa fa-times'; // Icon lỗi
-                    }
-
-                    notification.style.display = 'block'; // Hiện thông báo
-
-                    // Tự động ẩn thông báo sau 2 giây
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 2000);
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
-    });
-</script>        
-<!-- Add To Cart END -->
-
-<!-- Add To Wishlist START -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.add-to-wishlist-btn').forEach(function(button) {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const productId = this.getAttribute('data-product-id');
-
-                fetch('{{ route('wishlist.add') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ product_id: productId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Hiển thị thông báo thành công hoặc lỗi
-                    const notification = document.getElementById('notification');
-                    const message = document.getElementById('notification-message');
-                    const icon = document.getElementById('notification-icon').querySelector('i');
-
-                    if (data.success) {
-                        message.textContent = data.success; // Thiết lập thông điệp thành công
-                        notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
-                        icon.className = 'fa fa-check-circle'; // Icon thành công
-                    } else {
-                        message.textContent = data.error || 'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
-                        notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
-                        icon.className = 'fa fa-times'; // Icon lỗi
-                    }
-
-                    notification.style.display = 'block'; // Hiện thông báo
-
-                    // Tự động ẩn thông báo sau 2 giây
-                    setTimeout(() => {
-                        notification.style.display = 'none';
-                    }, 2000);
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
-    });
-</script>    
-<!-- Add To Wishlist END -->    
 </html>

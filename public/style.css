@@ -3496,14 +3496,17 @@ li.right-menu .cat-mega-menu-2 > li {
 	font-size: 16px;
 	font-weight: 700;
 }
-.table-content table td.li-product-stock-status span.in-stock,
-.table-content table td.li-product-stock-status span.out-stock {
-	color: #fed700;
-	font-size: 12px;
+.table-content table td.li-product-stock-status span.in-stock {
+	color: blue;
+	font-size: 14px;
+	font-weight: 500;
 	text-transform: capitalize;
 }
-.table-content table td.li-product-stock-status span.out-stock {
-	color: #EB3E32;
+.table-content table td.li-product-stock-status span.out-of-stock {
+	color: orange;
+	font-size: 14px;
+	font-weight: 500;
+	/* text-transform: capitalize; */
 }
 .table-content table td.li-product-add-cart a {
 	font-size: 14px;

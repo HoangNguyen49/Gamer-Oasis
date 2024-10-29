@@ -13,31 +13,57 @@ class CartController extends Controller
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity', 1);
 
-        // Lấy thông tin sản phẩm từ model Product dựa trên product_id
+        // Lấy sản phẩm kèm theo số lượng tồn kho
         $product = Product::with('images')->find($productId);
         if (!$product) {
-            return response()->json(['error' => 'Product does not exist'], 404);
+            return response()->json(['error' => 'Product does not exist !!!'], 404);
         }
 
-        // Lưu giỏ hàng trong session
+        // Lấy giỏ hàng từ session
         $cart = Session::get('cart', []);
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] += $quantity;
-        } else {
-            $cart[$productId] = [
-                'product_id' => $productId,
-                'product_name' => $product->Product_name,
-                'price' => $product->Price,
-                'quantity' => $quantity,
-                'image' => $product->images->isNotEmpty() ? $product->images->first()->Image_path : 'path/to/default-image.jpg',
-            ];
+        $currentQuantity = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
+
+        if ($currentQuantity + $quantity > $product->Stock_Quantity) {
+            return response()->json(['error' => 'Insufficient inventory !!!'], 400);
         }
+
+        $cart[$productId] = [
+            'product_id' => $productId,
+            'product_name' => $product->Product_name,
+            'price' => $product->Price,
+            'quantity' => $currentQuantity + $quantity,
+            'stock_quantity' => $product->Stock_Quantity, // Thêm số lượng tồn kho vào giỏ hàng
+            'image' => $product->images->isNotEmpty() ? $product->images->first()->Image_path : 'path/to/default-image.jpg',
+        ];
 
         Session::put('cart', $cart);
 
         return response()->json(['success' => 'Product added to cart successfully !!!', 'cart' => $cart]);
     }
 
+    public function updateQuantity(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $newQuantity = $request->input('quantity');
+
+        // Lấy giỏ hàng từ session
+        $cart = Session::get('cart', []);
+        if (!isset($cart[$productId])) {
+            return response()->json(['error' => 'Product not in cart !!!'], 404);
+        }
+
+        // Tìm sản phẩm trong cơ sở dữ liệu
+        $product = Product::find($productId);
+        if (!$product || $newQuantity > $product->Stock_Quantity) {
+            return response()->json(['error' => 'Insufficient inventory !!!', 'currentQuantity' => $cart[$productId]['quantity']], 400);
+        }
+
+        // Cập nhật số lượng sản phẩm
+        $cart[$productId]['quantity'] = $newQuantity;
+        Session::put('cart', $cart);
+
+        return response()->json(['success' => 'Update quantity successfully !!!', 'cart' => $cart]);
+    }
 
     public function applyCoupon(Request $request)
     {

@@ -66,11 +66,10 @@
                                                             class="amount">${{ number_format($item['price'], 2, '.', ',') }}</span>
                                                     </td>
                                                     <td class="li-product-stock-status">
-                                                        <span
-                                                            class="{{ isset($item['Stock_Quantity']) && $item['Stock_Quantity'] > 0 ? 'in-stock' : 'out-of-stock' }}">
-                                                            {{ isset($item['Stock_Quantity']) && $item['Stock_Quantity'] > 0 ? 'In Stock' : 'Out Of Stock' }}
+                                                        <span class="{{ isset($item['stock_quantity']) && $item['stock_quantity'] > 0 ? 'in-stock' : 'out-of-stock' }}">
+                                                            {{ isset($item['stock_quantity']) && $item['stock_quantity'] > 0 ? 'In Stock' : 'Out of Stock'}}
                                                         </span>
-                                                    </td>
+                                                    </td>                                                                                                       
                                                     <td class="li-product-add-cart">
                                                         <a href="#" class="add-to-cart-btn"
                                                             data-product-id="{{ $item['product_id'] }}">ADD TO CART</a>
@@ -79,7 +78,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="6" style="text-align:center;">No items in wishlist.</td>
+                                                <td colspan="6" style="text-align:center; font-size: 16px; font-weight: bold; color: red;">NO PRODUCTS IN WISHLIST</td>
                                             </tr>
                                         @endif
                                     </tbody>
@@ -114,37 +113,42 @@
                     const productId = this.getAttribute('data-product-id');
 
                     fetch('{{ route('cart.add') }}', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                product_id: productId
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Hiện thông báo khi thêm vào giỏ hàng thành công
-                                const notification = document.getElementById('notification');
-                                const message = document.getElementById('notification-message');
-                                message.textContent = data.success; // Thiết lập thông điệp
-                                notification.style.display = 'block'; // Hiện thông báo
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ product_id: productId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hiển thị thông báo thành công hoặc lỗi
+                        const notification = document.getElementById('notification');
+                        const message = document.getElementById('notification-message');
+                        const icon = document.getElementById('notification-icon').querySelector('i');
 
-                                // Tự động ẩn thông báo sau 2 giây
-                                setTimeout(() => {
-                                    notification.style.display = 'none';
-                                }, 2000);
-                            } else {
-                                alert(data.error || 'Cannot add to cart');
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
+                        if (data.success) {
+                            message.textContent = data.success; // Thiết lập thông điệp thành công
+                            notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
+                            icon.className = 'fa fa-check-circle'; // Icon thành công
+                        } else {
+                            message.textContent = data.error || 'Cannot add to cart'; // Thiết lập thông điệp lỗi
+                            notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
+                            icon.className = 'fa fa-times'; // Icon lỗi
+                        }
+
+                        notification.style.display = 'block'; // Hiện thông báo
+
+                        // Tự động ẩn thông báo sau 2 giây
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 2000);
+                    })
+                    .catch(error => console.error('Error:', error));
                 });
             });
         });
-    </script>
+    </script> 
     <!-- Add To Cart Form Wishlist END -->
 
     <!-- Remove Product Form Wishlist START -->

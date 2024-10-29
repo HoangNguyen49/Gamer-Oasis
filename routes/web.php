@@ -64,6 +64,9 @@ Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'
 // Route để xóa sản phẩm từ cart
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
+// Route để cập nhật sản phẩm trực tiếp trong cart
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
 
 //Route Prefix Admin
 // Route cho trang Admin
