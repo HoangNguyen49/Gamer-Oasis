@@ -104,7 +104,7 @@
     </div>
     <!-- Notification HTML END -->
     
-    <!-- Add To Cart Form Wishlist START -->
+    <!-- Add To Cart From Wishlist START -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
@@ -122,7 +122,6 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // Hiển thị thông báo thành công hoặc lỗi
                         const notification = document.getElementById('notification');
                         const message = document.getElementById('notification-message');
                         const icon = document.getElementById('notification-icon').querySelector('i');
@@ -139,17 +138,18 @@
 
                         notification.style.display = 'block'; // Hiện thông báo
 
-                        // Tự động ẩn thông báo sau 2 giây
+                        // Tải lại trang sau 1.2 giây rồi hiển thị thông báo
                         setTimeout(() => {
-                            notification.style.display = 'none';
-                        }, 2000);
+                            notification.style.display = 'none'; // Ẩn thông báo
+                            location.reload(); // Tải lại trang
+                        }, 1200);
                     })
                     .catch(error => console.error('Error:', error));
                 });
             });
         });
-    </script> 
-    <!-- Add To Cart Form Wishlist END -->
+    </script>        
+    <!-- Add To Cart From Wishlist END -->
 
     <!-- Remove Product Form Wishlist START -->
     <script>
