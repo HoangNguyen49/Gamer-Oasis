@@ -7,10 +7,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 // Trang chính
-Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
-
+Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
 // Route cho các trang thông tin
 Route::view('/about-us', 'web.pages.about-us');
 Route::view('/contact', 'web.pages.contact');
@@ -28,8 +29,7 @@ Route::view('/checkout', 'web.pages.checkout');
 Route::view('/cart', 'web.pages.cart');
 Route::view('/wishlist', 'web.pages.wishlist');
 
-// Route cho trang Đăng nhập và Đăng ký
-Route::view('/login-register', 'web.pages.login-register');
+
 
 //Route show chi tiết sản phẩm bên web
 Route::get('/products/{Slug}', [ProductController::class, 'indexshowProduct'])->name('products.show');
@@ -67,13 +67,38 @@ Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('ca
 // Route để cập nhật sản phẩm trực tiếp trong cart
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
+Route::post('/login', [UserController::class, 'login'])->name('login');
+
+// Route cho trang Đăng nhập và Đăng ký
+Route::view('/login-register', 'web.pages.login-register');
+
+// Route cho đăng xuất
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login-register')->with('success', 'Đăng xuất thành công.');
+})->name('logout');
+
+// Route cho trang Login-Register
+Route::get('/login-register', function () {
+    return view('web.pages.login-register');
+})->name('login.register');
+
+
+
+
+
 
 //Route Prefix Admin
 // Route cho trang Admin
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.pages.index-admin');
-    });
+
+
+// Route cho đăng ký
+Route::post('/register', [UserController::class, 'store'])->name('users.store');
+Route::prefix('admin')->group(
+    function () {
+    Route::get('/admin', function () {
+        return view('admin.pages.admin-index');
+    })->name('admin.pages.admin-index');
 
     // Route cho trang quản lý đơn hàng
     Route::get('/quanlidonhang', function () {
@@ -125,7 +150,7 @@ Route::prefix('admin')->group(function () {
 
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
-});
+    });
 // End Prefix Admin
     //Route show chi tiết sản phẩm bên web
     Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
