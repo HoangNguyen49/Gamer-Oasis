@@ -1,4 +1,4 @@
-<body onload="time()" class="app sidebar-mini rtl">
+<body  class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
     <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"

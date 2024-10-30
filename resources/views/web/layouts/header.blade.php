@@ -79,7 +79,7 @@
                                         <div class="ht-setting-trigger"><span>Setting</span></div>
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">
-                                                <li><a href="{{url('/login-register')}}">My Account</a></li>
+                                                <li><a href="{{url('')}}">My Account</a></li>
                                                 <li><a href="{{ url('/checkout')}}">Checkout</a></li>
                                                 <li><a href="{{url('/login-register')}}">Sign In</a></li>
                                             </ul>

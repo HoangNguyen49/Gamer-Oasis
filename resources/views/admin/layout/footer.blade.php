@@ -1,8 +1,6 @@
 <div class="text-center" style="font-size: 13px">
       <p><b>Copyright
-          <script type="text/javascript">
-            document.write(new Date().getFullYear());
-          </script> 
+          
         </b></p>
     </div>
   </main>
@@ -22,6 +20,6 @@
   <!-- Page specific javascripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="{{asset('admin-asset/js/button.js')}}"></script>
+   <script src="{{asset('admin-asset/js/button.js')}}"></script> 
 
 </body>
