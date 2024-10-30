@@ -4,6 +4,7 @@
 <head>
     <!-- Include necessary head elements -->
     @include('admin.layout.head')
+
 </head>
 
 <body>
@@ -203,24 +204,24 @@
         </div>
         @include('admin.layout.footer')
     </div>
+    
 
     <!-- Script handle  -->
     <script>
         $(document).ready(function() {
             $('.view-product').on('click', function() {
                 var productId = $(this).data('id');
-
                 $.ajax({
-                    url: '/admin/products/' +
-                        productId, // Đường dẫn tới route hiển thị chi tiết sản phẩm
+                    url: '/admin/admin/products/' + productId, // Match this URL with the route definition
                     method: 'GET',
                     success: function(data) {
-                        // Thay thế nội dung trong modal với thông tin sản phẩm
                         $('#productDetailsContent').html(data);
-                        $('#productDetailModal').modal('show'); // Hiển thị modal
+                        $('#productDetailModal').modal('show');
                     },
-                    error: function() {
-                        alert('Error loading product details.');
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error); // Log error details
+                        alert('Error loading product details: ' + xhr.status + ' ' + xhr
+                            .statusText);
                     }
                 });
             });
@@ -241,7 +242,7 @@
                     success: function(response) {
                         if (response.success) {
                             $('#addCategoryModal').modal(
-                            'hide'); // Đóng modal sau khi lưu thành công
+                                'hide'); // Đóng modal sau khi lưu thành công
                             alert('Category added successfully!');
                             location.reload(); // Tải lại trang để cập nhật danh sách nếu cần
                         }
@@ -270,7 +271,7 @@
                     success: function(response) {
                         if (response.success) {
                             $('#addBrandModal').modal(
-                            'hide'); // Đóng modal sau khi lưu thành công
+                                'hide'); // Đóng modal sau khi lưu thành công
                             alert('Brand added successfully!');
                             location.reload(); // Tải lại trang để cập nhật danh sách nếu cần
                         }
@@ -283,4 +284,7 @@
             });
         });
     </script>
+
+</body>
+
 </html>

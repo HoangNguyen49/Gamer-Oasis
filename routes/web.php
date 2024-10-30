@@ -87,22 +87,19 @@ Route::prefix('admin')->group(function () {
 
     // Route cho trang quản lý sản phẩm
     Route::get('/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin');
-    Route::get('/quanlisanpham/taomoisanpham', function () {
-        return view('admin.pages.form-add-san-pham');
-    })->name('form-add-san-pham');
 
     // Route cho trang quản lý khách hàng
     Route::get('/quanlikhachhang', function () {
         return view('admin.pages.quanlikhachhang');
         return view('admin.pages.quanlikhachhang');
     });
+
     Route::get('/quanlikhachhang/khachhangmoi', function () {
         return view('admin.pages.form-add-khach-hang');
     })->name('khachhangmoi');
 
     // Route cho trang blog
     Route::get('/quanliblog', function () {
-        return view('admin.pages.quanliblog');
         return view('admin.pages.quanliblog');
     });
     Route::get('/quanliblog/taobai', function () {
@@ -121,14 +118,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('form-add-san-pham');
     Route::get('/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
     Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
-    Route::get('/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
+    Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
 
-    //Route show chi tiết sản phẩm bên web
-    Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
+
 
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
 });
-
 // End Prefix Admin
+    //Route show chi tiết sản phẩm bên web
+    Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
