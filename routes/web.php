@@ -8,7 +8,6 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 
-
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
 
@@ -92,7 +91,7 @@ Route::prefix('admin')->group(function () {
     // Route cho trang quản lý khách hàng
     Route::get('/quanlikhachhang', function () {
         return view('admin.pages.quanlikhachhang');
-        return view('admin.pages.quanlikhachhang');
+        
     });
 
     Route::get('/quanlikhachhang/khachhangmoi', function () {
@@ -128,5 +127,5 @@ Route::prefix('admin')->group(function () {
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
 });
 // End Prefix Admin
-//Route show chi tiết sản phẩm bên web
-Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
+    //Route show chi tiết sản phẩm bên web
+    Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');

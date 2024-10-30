@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
     <!-- Material Design Iconic Font-V2.2.0 -->
     <link rel="stylesheet" href="{{ asset('asset/css/material-design-iconic-font.min.css') }}">
     <!-- Font Awesome -->
@@ -79,9 +79,9 @@
                                         <div class="ht-setting-trigger"><span>Setting</span></div>
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">
-                                                <li><a href="{{url('')}}">My Account</a></li>
-                                                <li><a href="{{ url('/checkout')}}">Checkout</a></li>
-                                                <li><a href="{{url('/login-register')}}">Sign In</a></li>
+                                                <li><a href="{{ url('/login-register') }}">My Account</a></li>
+                                                <li><a href="{{ url('/checkout') }}">Checkout</a></li>
+                                                <li><a href="{{ url('/login-register') }}">Sign In</a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -128,8 +128,9 @@
                                 <ul class="hm-menu">
                                     <!-- Begin Header Middle Wishlist Area -->
                                     <li class="hm-wishlist">
-                                        <a href="{{url('/wishlist')}}">
-                                            <span class="cart-item-count wishlist-item-count">0</span>
+                                        <a href="{{ url('/wishlist') }}">
+                                            <span
+                                                class="cart-item-count wishlist-item-count">{{ count(Session::get('wishlist', [])) }}</span>
                                             <i class="fa fa-heart-o"></i>
                                         </a>
                                     </li>
@@ -139,25 +140,37 @@
                                         <div class="hm-minicart-trigger">
                                             <span class="item-icon"></span>
                                             <span class="item-text">
-                                                <span class="cart-item-count">0</span>
+                                                <span class="cart-item-count">{{ count(session('cart', [])) }}</span>
+                                                <!-- Hiển thị số lượng sản phẩm -->
                                             </span>
                                         </div>
                                         <span></span>
                                         <div class="minicart">
-
-                                            <p class="minicart-total">SUBTOTAL: <span>0</span></p>
+                                            @php
+                                                $subtotal = 0; // Khởi tạo biến subtotal
+                                                if (session('cart')) {
+                                                    foreach (session('cart') as $item) {
+                                                        $subtotal += $item['price'] * $item['quantity']; // Tính tổng giá trị giỏ hàng
+                                                    }
+                                                }
+                                            @endphp
+                                            <p class="minicart-total">SUBTOTAL:
+                                                <span>£{{ number_format($subtotal, 2) }}</span>
+                                            </p>
+                                            <!-- Hiển thị tổng giá trị -->
                                             <div class="minicart-button">
-                                                <a href="{{url('/cart')}}"
+                                                <a href="{{ url('/cart') }}"
                                                     class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                                     <span>View Full Cart</span>
                                                 </a>
-                                                <a href="{{ url('/checkout')}}"
-                                                    class="li-button li-button-fullwidth li-button-sm">
+                                                <a href="{{ url('/checkout') }}"
+                                                    class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                                     <span>Checkout</span>
                                                 </a>
                                             </div>
                                         </div>
                                     </li>
+
                                     <!-- Header Mini Cart Area End Here -->
                                 </ul>
                             </div>
@@ -180,39 +193,44 @@
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li class="megamenu-holder"><a href="shop-left-sidebar.html">Product</a>
                                             <ul class="megamenu hb-megamenu">
-                                                <li><a href="shop-left-sidebar.html">PLAYSTATION</a>
+                                                <li><a href="#">PLAYSTATION</a>
                                                     <ul>
-                                                        <li><a href="shop-3-column.html">PS5 Console</a></li>
-                                                        <li><a href="shop-4-column.html">PS5 Game</a></li>
-                                                        <li><a href="shop-left-sidebar.html">PS5 Accessories</a></li>
-                                                        <li><a href="shop-right-sidebar.html">PS5 VR2</a></li>
+                                                        <li><a
+                                                                href="{{ route('products.category', ['categoryId' => 1]) }}">PS5
+                                                                Console</a></li>
+                                                        <li><a href="{{ route('products.category', 3) }}">PS5 Game</a>
+                                                        </li>
+                                                        <li><a href="{{ route('products.category', 2) }}">PS5
+                                                                Accessories</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a href="single-product-gallery-left.html">NINTENDO SWITCH</a>
                                                     <ul>
-                                                        <li><a href="single-product-carousel.html">Nintendo Switch</a>
+                                                        <li><a
+                                                                href="{{ route('products.category', ['categoryId' => 4]) }}">Nintendo
+                                                                Switch</a>
                                                         </li>
-                                                        <li><a href="single-product-gallery-left.html">Nintendo Switch
+                                                        <li><a href="{{ route('products.category', 6) }}">Nintendo
+                                                                Switch
                                                                 Game</a></li>
-                                                        <li><a href="single-product-gallery-right.html">Nintendo Switch
+                                                        <li><a href="{{ route('products.category', 5) }}">Nintendo
+                                                                Switch
                                                                 Accessories</a></li>
-                                                        <li><a href="single-product-tab-style-top.html">Eshop Card</a>
-                                                        </li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown-holder"><a href="single-product.html">LAPTOP
+                                                <li class="dropdown-holder"><a href="#">LAPTOP
                                                         GAMING</a>
                                                     <ul>
-                                                        <li><a href="single-product.html">DELL</a></li>
-                                                        <li><a href="single-product-sale.html">ACER</a></li>
-                                                        <li><a href="single-product-group.html">LENOVO</a></li>
-                                                        <li><a href="single-product-normal.html">MSI</a></li>
-                                                        <li><a href="">Phụ Kiện Laptop</a></li>
+                                                        <li><a href="{{ route('products.brand', 3) }}">DELL</a></li>
+                                                        <li><a href="{{ route('products.brand', 4) }}">ACER</a></li>
+                                                        <li><a href="{{ route('products.brand', 5) }}">LENOVO</a></li>
+                                                        <li><a href="{{ route('products.brand', 6) }}">MSI</a></li>
+                                                        <li><a href="{{ route('products.category', 8) }}">Laptop Accessories</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li><a href="{{ url('/blog')}}">Blog</a></li>
+                                        <li><a href="{{ url('/blog') }}">Blog</a></li>
                                         <li><a href="{{ url('/about-us') }}">About Us</a></li>
                                         <li><a href="{{ url('/contact') }}">Contact</a></li>
 

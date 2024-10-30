@@ -451,7 +451,7 @@ textarea:focus {
 /*----------------------------------------*/
 /*Home One | Slider Background Image*/
 .bg-1, .bg-2, .bg-3 {
-	background-image: url(images/slider/1.jpg);
+	background-image: url(asset/images/slider/ps5.jpg);
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -459,56 +459,12 @@ textarea:focus {
 	width: 100%;
 }
 .bg-2 {
-	background-image: url(images/slider/2.jpg);
+	background-image: url(asset/images/slider/nintendo.jpg);
 }
 .bg-3 {
-	background-image: url(images/slider/3.jpg);
+	background-image: url(asset/images/slider/laptop);
 }
-/*Home Two | Slider Background Image*/
-.bg-4, .bg-5, .bg-6 {
-	background-image: url(images/slider/4.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 475px;
-	width: 100%;
-}
-.bg-5 {
-	background-image: url(images/slider/5.jpg);
-}
-.bg-6 {
-	background-image: url(images/slider/6.jpg);
-}
-/*Home Three | Slider Background Image*/
-.bg-7, .bg-8, .bg-9 {
-	background-image: url(images/slider/7.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 425px;
-	width: 100%;
-}
-.bg-8 {
-	background-image: url(images/slider/8.jpg);
-}
-.bg-9 {
-	background-image: url(images/slider/9.jpg);
-}
-/*Home Four | Slider Background Image*/
-.bg-10, .bg-11, .bg-12 {
-	background-image: url(images/slider/10.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 770px;
-	width: 100%;
-}
-.bg-11 {
-	background-image: url(images/slider/11.jpg);
-}
-.bg-12 {
-	background-image: url(images/slider/12.jpg);
-}
+
 /*----------------------------------------*/
 /*  li's Background Variation Set 
 /*----------------------------------------*/
@@ -1558,8 +1514,8 @@ textarea:focus {
 }
 .cart-item-count {
 		position: absolute;
-		top: -25px;
-		left: -60px;
+		top: -10px;
+		left: -64px;
 		display: block;
 		overflow: hidden;
 		min-width: 26px;
@@ -1765,10 +1721,10 @@ textarea:focus {
 	padding: 8px 0;
 }
 .hb-menu nav > ul > li:hover > a, 
-/* .hb-menu nav > ul > li:hover > a::after {
-		color: #ffffff; */
+.hb-menu nav > ul > li:hover > a::after {
+		color: #ffffff;
 }
-.hb-menu nav > ul > li > a::after {
+/* .hb-menu nav > ul > li > a::after {
 	content: "\f107";
 	position: absolute;
 	top: 8px;
@@ -1777,7 +1733,7 @@ textarea:focus {
 	font-size: 18px;
 	transition: all 0.3s ease-in-out;
 	color: #242424;
-}
+} */
 .hb-menu nav > ul > li:nth-child(n+5) > a::after {
 	content: none;
 }
@@ -2066,7 +2022,7 @@ textarea:focus {
 	font-size: 16px;
 	padding: 20px 0;
 	color: #fff;
-	background-image: url(images/static-top/1.jpg);
+	background-image: url(asset/images/static-top/1.jpg);
 	background-size: cover;
 	margin-top: 20px;
 }
@@ -3058,8 +3014,7 @@ text-align: center;
 	font-family: fontawesome;
 }
 .category-heading > h2 > i {
-	float: ;
-	text-align: ;
+	/* text-align: ; */
 	float: right;
 	padding-right: 20px;
 	font-size: 12px;
@@ -3541,21 +3496,24 @@ li.right-menu .cat-mega-menu-2 > li {
 	font-size: 16px;
 	font-weight: 700;
 }
-.table-content table td.li-product-stock-status span.in-stock,
-.table-content table td.li-product-stock-status span.out-stock {
-	color: #fed700;
-	font-size: 12px;
+.table-content table td.li-product-stock-status span.in-stock {
+	color: blue;
+	font-size: 14px;
+	font-weight: 500;
 	text-transform: capitalize;
 }
-.table-content table td.li-product-stock-status span.out-stock {
-	color: #EB3E32;
+.table-content table td.li-product-stock-status span.out-of-stock {
+	color: orange;
+	font-size: 14px;
+	font-weight: 500;
+	/* text-transform: capitalize; */
 }
 .table-content table td.li-product-add-cart a {
 	font-size: 14px;
 	text-transform: uppercase;
 	background: #242424;
 	color: #fff;
-	padding: 10px 20px;
+	padding: 5px 3px;
 	font-weight: 700;
 	display: inline-block;
 }
@@ -4051,7 +4009,7 @@ thead {
 	font-size: 13px;
 	border-radius: 0;
 	height: 42px;
-	width: 120px;
+	width: 170px;
 }
 .coupon-all input.button {
 	background-color: #333;

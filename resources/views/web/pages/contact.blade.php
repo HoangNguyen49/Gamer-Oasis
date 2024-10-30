@@ -8,7 +8,7 @@
         <title>Contact</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
     </head>
     <body>
     @include('web.layouts.header')
@@ -78,7 +78,6 @@
         <!-- Body Wrapper End Here -->
             <!-- Google Map -->
             <script src="https://maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.22&amp;key=AIzaSyChs2QWiAhnzz0a4OEhzqCXwx_qA9ST_lE"></script>
-            
             <script>
                 // When the window has finished loading create our google map below
                 google.maps.event.addDomListener(window, 'load', init);
