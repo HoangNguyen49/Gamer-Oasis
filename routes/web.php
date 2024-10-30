@@ -107,16 +107,24 @@ Route::prefix('admin')->group(function () {
         return view('admin.pages.quanliblog');
     });
 
+    // Route blog
+    Route::get('/quanliblog/taobai', function () {
+        return view('admin.pages.form-add-blog');
+    })->name('taobai');
+
     // Route cho trang quản lý coupon
     Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
 
     // Định nghĩa resource routes cho Coupon, ngoại trừ index
     Route::resource('coupons', CouponController::class)->except(['index']);
 
+    // Route để truy cập vào trang edit coupon
     Route::get('/coupons/{id}/edit', [CouponController::class, 'edit'])->name('coupons.edit');
 
+    // Route để update edit coupon
     Route::put('/coupons/{id}', [CouponController::class, 'update'])->name('coupons.update');
 
+    // Route để xóa coupon
     Route::delete('/admin/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
     // Route để hiển thị form tạo coupon mới
@@ -124,18 +132,6 @@ Route::prefix('admin')->group(function () {
 
     // Route để lưu coupon
     Route::post('/admin/coupons', [CouponController::class, 'store'])->name('coupons.store');
-
-    
-
-
-
-
-
-
-
-    Route::get('/quanliblog/taobai', function () {
-        return view('admin.pages.form-add-blog');
-    })->name('taobai');
 
     // Route cho Category
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
