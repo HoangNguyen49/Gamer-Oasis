@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CouponController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -105,6 +106,33 @@ Route::prefix('admin')->group(function () {
         return view('admin.pages.quanliblog');
         return view('admin.pages.quanliblog');
     });
+
+    // Route cho trang quản lý coupon
+    Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
+
+    // Định nghĩa resource routes cho Coupon, ngoại trừ index
+    Route::resource('coupons', CouponController::class)->except(['index']);
+
+    Route::get('/coupons/{id}/edit', [CouponController::class, 'edit'])->name('coupons.edit');
+
+    Route::put('/coupons/{id}', [CouponController::class, 'update'])->name('coupons.update');
+
+    Route::delete('/admin/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
+
+    // Route để hiển thị form tạo coupon mới
+    Route::get('/admin/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
+
+    // Route để lưu coupon
+    Route::post('/admin/coupons', [CouponController::class, 'store'])->name('coupons.store');
+
+    
+
+
+
+
+
+
+
     Route::get('/quanliblog/taobai', function () {
         return view('admin.pages.form-add-blog');
     })->name('taobai');
