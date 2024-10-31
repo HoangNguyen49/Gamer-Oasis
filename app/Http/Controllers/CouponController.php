@@ -4,15 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class CouponController extends Controller
 {
     // Hiển thị danh sách tất cả các coupon
-    public function index()
+    public function index(Request $request)
     {
-        $coupons = Coupon::all();
-        return view('admin.pages.quanlimagiamgia', compact('coupons'));
+        // Lấy dữ liệu tìm kiếm
+        $search = $request->get('search');
+
+        // Lấy các coupon dựa trên dữ liệu tìm kiếm hoặc tất cả nếu không có tìm kiếm
+        $coupons = Coupon::when($search, function ($query, $search) {
+            return $query->where('code', 'LIKE', "%{$search}%")
+                         ->orWhere('code', 'LIKE', "%{$search}"); // Tìm kiếm số trong mã coupon
+        }, function ($query) {
+            return $query->orderBy('coupon_id', 'asc'); // Sắp xếp theo coupon_id tăng dần nếu không có tìm kiếm
+        })->paginate(20); // Sử dụng phân trang để giao diện tốt hơn
+
+        // Trả về view với các coupon đã lấy và giá trị tìm kiếm
+        return view('admin.pages.quanlimagiamgia', compact('coupons', 'search'));
     }
 
     // Hiển thị form tạo coupon mới
@@ -49,6 +59,7 @@ class CouponController extends Controller
         return view('admin.pages.edit_coupon', compact('coupon'));
     }
 
+    // Cập nhật coupon
     public function update(Request $request, $id)
     {
         $request->validate([

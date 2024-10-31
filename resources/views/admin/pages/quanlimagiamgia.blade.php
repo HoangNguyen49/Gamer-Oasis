@@ -14,7 +14,7 @@
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
-                    <li class="breadcrumb-item active"><a><b>Coupon List</b></a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('quanlimagiamgia') }}"><b>Coupon List</b></a></li>
                 </ul>
                 <div id="clock"></div>
             </div>
@@ -26,6 +26,13 @@
                                 <div class="col-sm-2">
                                     <a class="btn btn-add btn-sm" href="{{ route('coupons.create') }}" title="Create"><i
                                             class="fas fa-plus"></i> Create New Coupon</a>
+                                </div>
+                                <div class="col-sm-4 d-flex justify-content-end"> <!-- Chiếm 4 cột -->
+                                    <form action="{{ route('coupons.index') }}" method="GET" class="form-inline mb-3">
+                                        <input style="height:32px" type="text" name="search" class="form-control mr-2"
+                                            placeholder="Search by coupon code" value="{{ $search ?? '' }}">
+                                        <button type="submit" class="btn btn-primary" style="height:32px;">Search</button>
+                                    </form>
                                 </div>
                             </div>
                             <table class="table table-hover table-bordered" id="sampleTable">
@@ -43,7 +50,7 @@
                                 <tbody>
                                     @if ($coupons->isEmpty())
                                         <tr>
-                                            <td colspan="7" class="text-center">NO COUPON FOUND</td>
+                                            <td colspan="7" class="text-center" style="color: red; font-weight: bold; font-size: 16px;">NO COUPON FOUND !!!</td>
                                         </tr>
                                     @else
                                         @foreach ($coupons as $coupon)
@@ -125,56 +132,58 @@
 
     <script>
         function deleteCoupon(couponId) {
-    const confirmDialog = document.getElementById("confirmDialog");
-    const overlay = document.getElementById("overlay");
-    
-    // Hiển thị overlay và hộp thoại xác nhận
-    overlay.style.display = "block";
-    confirmDialog.style.display = "block";
+            const confirmDialog = document.getElementById("confirmDialog");
+            const overlay = document.getElementById("overlay");
 
-    // Xử lý sự kiện khi nhấn "Yes"
-    document.getElementById("confirmYes").onclick = function() {
-        fetch(`/admin/coupons/${couponId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Hiển thị thông báo thành công
-                const notification = document.getElementById("notification");
-                notification.style.display = "flex"; // Hiển thị thông báo
-                notification.childNodes[1].innerText = 'Coupon deleted successfully!'; // Cập nhật nội dung thông báo
-                setTimeout(() => {
-                    notification.style.display = "none"; // Ẩn thông báo sau 3 giây
-                }, 2000);
-                
-                // Reload page to update the list
-                location.reload();
-            })
-            .catch(error => {
-                console.error('There was a problem with the delete operation:', error);
-            });
+            // Hiển thị overlay và hộp thoại xác nhận
+            overlay.style.display = "block";
+            confirmDialog.style.display = "block";
 
-        // Ẩn overlay và hộp thoại xác nhận
-        overlay.style.display = "none";
-        confirmDialog.style.display = "none";
-    };
+            // Xử lý sự kiện khi nhấn "Yes"
+            document.getElementById("confirmYes").onclick = function() {
+                fetch(`/admin/coupons/${couponId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Hiển thị thông báo thành công
+                        const notification = document.getElementById("notification");
+                        notification.style.display = "flex"; // Hiển thị thông báo
+                        notification.childNodes[1].innerText =
+                        'Coupon deleted successfully!'; // Cập nhật nội dung thông báo
+                        setTimeout(() => {
+                            notification.style.display = "none"; // Ẩn thông báo sau 3 giây
+                        }, 2000);
 
-    // Xử lý sự kiện khi nhấn "No"
-    document.getElementById("confirmNo").onclick = function() {
-        // Ẩn overlay và hộp thoại xác nhận
-        overlay.style.display = "none";
-        confirmDialog.style.display = "none";
-    };
-}
+                        // Reload page to update the list
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the delete operation:', error);
+                    });
+
+                // Ẩn overlay và hộp thoại xác nhận
+                overlay.style.display = "none";
+                confirmDialog.style.display = "none";
+            };
+
+            // Xử lý sự kiện khi nhấn "No"
+            document.getElementById("confirmNo").onclick = function() {
+                // Ẩn overlay và hộp thoại xác nhận
+                overlay.style.display = "none";
+                confirmDialog.style.display = "none";
+            };
+        }
     </script>
 
 </body>
