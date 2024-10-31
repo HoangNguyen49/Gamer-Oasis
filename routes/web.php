@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OrderController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -52,6 +53,10 @@ Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('c
 // Route để thêm mã giảm giá vào đơn hàng
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
 Route::post('/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
+
+// Route để checkout
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 
 // Route để thêm sản phẩm vào wishlist
 Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
@@ -126,6 +131,8 @@ Route::prefix('admin')->group(function () {
 
     // Route để xóa coupon
     Route::delete('/admin/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
+
+    Route::resource('coupons', CouponController::class);
 
     // Route để hiển thị form tạo coupon mới
     Route::get('/admin/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
