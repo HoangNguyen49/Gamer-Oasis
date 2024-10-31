@@ -40,6 +40,9 @@ Route::get('/products/category/{categoryId}', [ProductController::class, 'showBy
 //Route show sản phẩm theo Brand trên navbar
 Route::get('/products/brand/{brandId}', [ProductController::class, 'showByBrand'])->name('products.brand');
 
+//Route show chi tiết sản phẩm bên web
+Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
+
 // Route để thêm sản phẩm vào giỏ hàng
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 
@@ -120,12 +123,21 @@ Route::prefix('admin')->group(function () {
     Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
     Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
-
-
-
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
 });
 // End Prefix Admin
-    //Route show chi tiết sản phẩm bên web
-    Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
+
+
+// Category Management
+Route::get('/categories', [CategoryController::class, 'index2'])->name('category.management');
+Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory'])->name('categories.delete');
+Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
+
+
+// Brand Management
+Route::get('/brands', [BrandController::class, 'indexBrand'])->name('brand.management');
+Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand'])->name('brands.delete');
+Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.search');
+
+    

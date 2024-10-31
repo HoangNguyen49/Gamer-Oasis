@@ -15,6 +15,30 @@ class BrandController extends Controller
         return view('admin.brands.index', compact('brands'));
     }
 
+    public function indexBrand()
+    {
+        $brands = Brand::all();
+        return view('admin.pages.brand', compact('brands'));
+    }
+
+    public function deleteBrand($id)
+    {
+        // Tìm category theo ID
+        $brand = Brand::find($id);
+
+        // Kiểm tra nếu category tồn tại
+        if ($brand) {
+            // Xóa category
+            $brand->delete();
+
+            // Redirect hoặc trả về thông báo thành công
+            return redirect()->route('brand.management')->with('success', 'Brand deleted successfully.');
+        }
+
+        // Nếu không tìm thấy category, có thể redirect hoặc thông báo lỗi
+        return redirect()->route('brand.management')->with('error', 'Brand not found.');
+    }
+
     public function store(Request $request)
     {
         // Thực hiện xác thực dữ liệu
@@ -31,4 +55,27 @@ class BrandController extends Controller
         // Trả về phản hồi JSON
         return response()->json(['success' => true, 'brand_id' => $brand->Brand_id]);
     }
+
+    // Search Function
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        // Kiểm tra xem từ khóa tìm kiếm có hợp lệ không
+        if (empty($keyword)) {
+            return redirect()->route('brand.management')->with('error', 'Please enter a keyword to search.');
+        }
+
+        // Lấy tất cả category khớp với từ khóa tìm kiếm
+        $brands = Brand::where('Brand_name', 'LIKE', '%' . $keyword . '%')->get();
+
+        // Kiểm tra nếu không tìm thấy category nào
+        if ($brands->isEmpty()) {
+            return redirect()->route('brand.management')->with('error', 'No categories found matching your search.');
+        }
+
+        // Nếu có category, trả về view với dữ liệu
+        return view('admin.pages.brand', compact('brands'));
+    }
 }
+
