@@ -14,7 +14,8 @@
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
-                    <li class="breadcrumb-item active"><a href="{{ route('quanlimagiamgia') }}"><b>Coupon List</b></a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('quanlimagiamgia') }}"><b>Coupon List</b></a>
+                    </li>
                 </ul>
                 <div id="clock"></div>
             </div>
@@ -29,9 +30,11 @@
                                 </div>
                                 <div class="col-sm-4 d-flex justify-content-end"> <!-- Chiếm 4 cột -->
                                     <form action="{{ route('coupons.index') }}" method="GET" class="form-inline mb-3">
-                                        <input style="height:32px" type="text" name="search" class="form-control mr-2"
-                                            placeholder="Search by coupon code" value="{{ $search ?? '' }}">
-                                        <button type="submit" class="btn btn-primary" style="height:32px;">Search</button>
+                                        <input style="height:32px" type="text" name="search"
+                                            class="form-control mr-2" placeholder="Search by coupon code"
+                                            value="{{ $search ?? '' }}">
+                                        <button type="submit" class="btn btn-primary"
+                                            style="height:32px;">Search</button>
                                     </form>
                                 </div>
                             </div>
@@ -50,11 +53,13 @@
                                 <tbody>
                                     @if ($coupons->isEmpty())
                                         <tr>
-                                            <td colspan="7" class="text-center" style="color: red; font-weight: bold; font-size: 16px;">NO COUPON FOUND !!!</td>
+                                            <td colspan="7" class="text-center"
+                                                style="color: red; font-weight: bold; font-size: 16px;">NO COUPON FOUND
+                                                !!!</td>
                                         </tr>
                                     @else
                                         @foreach ($coupons as $coupon)
-                                            <tr>
+                                            <tr data-id="coupon-{{ $coupon->coupon_id }}">
                                                 <td><input type="checkbox" name="check{{ $coupon->coupon_id }}"
                                                         value="{{ $coupon->coupon_id }}"></td>
                                                 <td>{{ $coupon->coupon_id }}</td>
@@ -68,13 +73,11 @@
                                                         onclick="window.location='{{ route('coupons.edit', $coupon->coupon_id) }}'">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-
                                                     <button class="btn btn-primary btn-sm trash" type="button"
                                                         title="Delete"
                                                         onclick="deleteCoupon({{ $coupon->coupon_id }})">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
-
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -158,23 +161,32 @@
                     .then(data => {
                         // Hiển thị thông báo thành công
                         const notification = document.getElementById("notification");
+                        const notificationIcon = document.getElementById("notification-icon");
+                        const notificationMessage = document.getElementById("notification-message");
+
+                        notificationIcon.innerHTML =
+                            '<i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%;"></i>';
+                        notificationMessage.innerText = 'Coupon deleted successfully!'; // Corrected typo
                         notification.style.display = "flex"; // Hiển thị thông báo
-                        notification.childNodes[1].innerText =
-                        'Coupon deleted successfully!'; // Cập nhật nội dung thông báo
+
                         setTimeout(() => {
                             notification.style.display = "none"; // Ẩn thông báo sau 3 giây
                         }, 2000);
 
-                        // Reload page to update the list
-                        location.reload();
+                        // Xóa dòng đơn hàng khỏi bảng
+                        const row = document.querySelector(`tr[data-id="coupon-${couponId}"]`);
+                        if (row) {
+                            row.remove();
+                        }
                     })
                     .catch(error => {
                         console.error('There was a problem with the delete operation:', error);
+                    })
+                    .finally(() => {
+                        // Ẩn overlay và hộp thoại xác nhận
+                        overlay.style.display = "none";
+                        confirmDialog.style.display = "none";
                     });
-
-                // Ẩn overlay và hộp thoại xác nhận
-                overlay.style.display = "none";
-                confirmDialog.style.display = "none";
             };
 
             // Xử lý sự kiện khi nhấn "No"
