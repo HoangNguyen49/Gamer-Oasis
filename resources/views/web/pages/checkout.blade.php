@@ -96,26 +96,30 @@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Full Name<span class="required">*</span></label>
-                                            <input type="text" name="full_name" required placeholder="Full Name">
+                                            <input type="text" name="full_name" required placeholder="Full Name"
+                                                value="{{ auth()->check() ? auth()->user()->full_name : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Phone<span class="required">*</span></label>
-                                            <input type="text" name="phone" required placeholder="Phone Number">
+                                            <input type="text" name="phone" required placeholder="Phone Number"
+                                                value="{{ auth()->check() ? auth()->user()->phone : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Address <span class="required">*</span></label>
-                                            <input type="text" name="address" required placeholder="Address">
+                                            <input type="text" name="address" required placeholder="Address"
+                                                value="{{ auth()->check() ? auth()->user()->address : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Email Address<span class="required">*</span></label>
                                             <input type="email" name="email_address" required
-                                                placeholder="Email Address">
+                                                placeholder="Email Address"
+                                                value="{{ auth()->check() ? auth()->user()->email : '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -206,11 +210,13 @@
                                     <div class="checkout-form-list">
                                         <h4>Payment Method</h4>
                                         <label style="display:flex;align-items:center;">
-                                            <input type="radio" name="payment_method" value="COD" checked style="width:18px;margin-right:10px;">
+                                            <input type="radio" name="payment_method" value="COD" checked
+                                                style="width:18px;margin-right:10px;">
                                             Cash on Delivery (COD)
                                         </label>
                                         <label style="display:flex;align-items:center;">
-                                            <input type="radio" name="payment_method" value="VNPay" style="width:18px;margin-right:10px;">
+                                            <input type="radio" name="payment_method" value="VNPay"
+                                                style="width:18px;margin-right:10px;">
                                             Payment with VNPay
                                         </label>
                                     </div>
