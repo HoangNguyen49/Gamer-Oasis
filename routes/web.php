@@ -148,6 +148,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
     Route::resource('orders', OrderController::class);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Route delete
+    Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
     // Route cho Category
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');

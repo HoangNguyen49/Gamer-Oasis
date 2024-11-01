@@ -79,12 +79,18 @@
                                             </td>
                                             <td>{{ $order->created_at }}</td>
                                             <td>
+                                                <a href="{{ route('orders.show', $order->order_id) }}"
+                                                    class="btn btn-primary btn-sm view" title="View">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                {{-- <button class="btn btn-primary btn-sm view" type="button"
+                                                    title="View">
+                                                    <i class="fas fa-eye"></i></button> --}}
                                                 <button class="btn btn-primary btn-sm edit" type="button"
                                                     title="Edit"
                                                     onclick="window.location='{{ route('orders.edit', $order->order_id) }}'">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-
                                                 <button class="btn btn-primary btn-sm trash" type="button"
                                                     title="Delete" onclick="deleteOrder({{ $order->order_id }})">
                                                     <i class="fas fa-trash-alt"></i>

@@ -29,6 +29,17 @@ class OrderController extends Controller
         return view('admin.pages.orders', compact('orders', 'search'));
     }
 
+    public function show($id)
+    {
+        // Lấy thông tin chi tiết của đơn hàng theo order_id
+        $order = Order::with('product') // sử dụng quan hệ 'product'
+            ->where('order_id', $id)
+            ->firstOrFail();
+
+        // Trả về view với dữ liệu đơn hàng
+        return view('admin.pages.order_details', compact('order'));
+    }
+
     public function edit($id)
     {
         $order = Order::findOrFail($id);
@@ -89,6 +100,7 @@ class OrderController extends Controller
             'address' => 'required|string|max:255',
             'email_address' => 'required|email|max:50',
             'product_id' => 'required|array', // Nếu bạn lưu nhiều sản phẩm, hãy xác định rõ hơn
+            'payment_method' => 'required|string|in:COD,VNPay',
         ]);
 
         // Lấy thông tin từ session giỏ hàng
@@ -128,6 +140,7 @@ class OrderController extends Controller
             $order->status = 'pending'; // Trạng thái mặc định
             $order->user_id = null; // Vì đây là cho người dùng chưa đăng nhập
             $order->created_at = now(); // Thời gian hiện tại
+            $order->payment_method = $request->payment_method;
 
             // Lưu đơn hàng
             $order->save();

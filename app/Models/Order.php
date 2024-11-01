@@ -20,6 +20,7 @@ class Order extends Model
         'status',
         'user_id',
         'created_at',
+        'payment_method',
     ];
 
     // Định nghĩa quan hệ với Product
