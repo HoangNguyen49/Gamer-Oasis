@@ -47,6 +47,8 @@
                                         <th>Discount Type</th>
                                         <th>Discount Value</th>
                                         <th>Expiration Date</th>
+                                        <th>Created Time</th>
+                                        <th>Updated Time</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -67,6 +69,8 @@
                                                 <td>{{ ucfirst($coupon->discount_type) }}</td>
                                                 <td>{{ number_format($coupon->discount_value, 2) }}</td>
                                                 <td>{{ $coupon->expiration_date }}</td>
+                                                <td>{{ $coupon->created_at }}</td>
+                                                <td>{{ $coupon->updated_at }}</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm edit" type="button"
                                                         title="Edit"
