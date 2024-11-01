@@ -31,24 +31,23 @@
                             <div class="tile-body" style="display:flex;flex-wrap:wrap;">
                                 <form class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="control-label" for="code">Coupon Code</label>
-                                        <input class="form-control" type="text" id="code" name="code"
-                                            required>
+                                        <label class="control-label" required for="code">Coupon Code</label>
+                                        <input class="form-control" type="text" id="code" name="code">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="discount_type">Discount Type</label>
-                                        <input class="form-control" type="text" id="discount_type"
-                                            name="discount_type" required>
+                                        <input class="form-control" required type="text" id="discount_type"
+                                            name="discount_type">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="discount_value">Discount Value</label>
-                                        <input class="form-control" type="number" id="discount_value"
-                                            name="discount_value" required>
+                                        <input class="form-control" required type="number" id="discount_value"
+                                            name="discount_value">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="expiration_date">Expiration Date</label>
-                                        <input class="form-control" type="date" id="expiration_date"
-                                            name="expiration_date" required>
+                                        <input class="form-control" required type="date" id="expiration_date"
+                                            name="expiration_date">
                                     </div>
                             </div>
                             <div class="button-group" style="display:flex;justify-content:flex-end;padding-right:15px">
@@ -58,6 +57,7 @@
                                     style="width:80px;">Cancel</a>
                             </div>
                         </div>
+                    </div>
             </form>
         </main>
 
