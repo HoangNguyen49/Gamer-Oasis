@@ -53,7 +53,15 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout/payment', [CheckoutController::class, 'processPayment'])->name('checkout.payment');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
-// Route cho Wishlist
+// Route để thêm mã giảm giá vào đơn hàng
+Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
+Route::post('/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
+
+// Route để checkout
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
+// Route để thêm sản phẩm vào wishlist
 Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
 Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('wishlist.show');
 Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
@@ -90,9 +98,34 @@ Route::prefix('admin')->group(function () {
     Route::get('/quanliblog', function () {
         return view('admin.pages.quanliblog');
     });
+
+    // Route blog
     Route::get('/quanliblog/taobai', function () {
         return view('admin.pages.form-add-blog');
     })->name('taobai');
+
+    // Route cho trang quản lý coupon
+    Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
+
+    // Định nghĩa resource routes cho Coupon, ngoại trừ index
+    Route::resource('coupons', CouponController::class)->except(['index']);
+
+    // Route để truy cập vào trang edit coupon
+    Route::get('/coupons/{id}/edit', [CouponController::class, 'edit'])->name('coupons.edit');
+
+    // Route để update edit coupon
+    Route::put('/coupons/{id}', [CouponController::class, 'update'])->name('coupons.update');
+
+    // Route để xóa coupon
+    Route::delete('/admin/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
+
+    Route::resource('coupons', CouponController::class);
+
+    // Route để hiển thị form tạo coupon mới
+    Route::get('/admin/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
+
+    // Route để lưu coupon
+    Route::post('/admin/coupons', [CouponController::class, 'store'])->name('coupons.store');
 
     // Quản lý coupon
     Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
@@ -102,6 +135,16 @@ Route::prefix('admin')->group(function () {
     Route::delete('/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
     Route::get('/admin/coupons/create', [CouponController::class, 'create'])->name('coupons.create');
     Route::post('/admin/coupons', [CouponController::class, 'store'])->name('coupons.store');
+
+    // Quản lý đơn hàng
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
+
+    // Quản lý Category và Brand
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
     // Quản lý đơn hàng
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

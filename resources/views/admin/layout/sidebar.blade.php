@@ -23,6 +23,8 @@
                      class="app-menu__label">Brand Management</span></a></li>
          <li><a class="app-menu__item " href="/admin/quanlidonhang"><i class='app-menu__icon bx bx-task'></i><span
                      class="app-menu__label">Quản lý đơn hàng</span></a></li>
+         <li><a class="app-menu__item " href="/admin/quanlimagiamgia"><i class='app-menu__icon bx bxs-coupon'></i><span
+                     class="app-menu__label">Coupon Management</span></a></li>
          <li><a class="app-menu__item" href="/admin/quanliblog"><i class='app-menu__icon bx bx-calendar-check'></i><span
                      class="app-menu__label">Blog </span></a></li>
 

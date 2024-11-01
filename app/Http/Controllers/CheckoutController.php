@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Models\Coupon;
 
 class CheckoutController extends Controller
 {
@@ -30,36 +31,50 @@ class CheckoutController extends Controller
 
     public function applyCoupon(Request $request)
     {
+        // Lấy mã giảm giá từ yêu cầu
         $couponCode = $request->input('coupon_code');
-        $coupons = [
-            'SAVE10' => 0.10, // Giảm 10%
-            'SAVE20' => 0.20, // Giảm 20%
-            'SAVE30' => 0.30, // Giảm 30%
-        ];
+        // Lấy giỏ hàng từ session
+        $cart = Session::get('cart', []);
 
-        // Kiểm tra nếu mã giảm giá hợp lệ
-        if (array_key_exists($couponCode, $coupons)) {
-            // Tính tổng giá trị giảm giá
-            $cartItems = session('cart');
-            $subtotal = $cartItems ? array_sum(array_column($cartItems, 'price')) : 0;
+        // Kiểm tra xem giỏ hàng có sản phẩm không
+        if (empty($cart)) {
+            return redirect()->back()->with('error', "Cannot apply coupon, cart is empty !!!");
+        }
 
-            // Kiểm tra xem giỏ hàng có sản phẩm không
-            if ($subtotal <= 0) {
-                return back()->withErrors(['error' => 'Cannot apply coupon, cart is empty!']);
+        // Tính tổng giá trị giỏ hàng
+        $subtotal = array_sum(array_map(function ($item) {
+            return $item['price'] * $item['quantity']; // Tính toán subtotal với số lượng
+        }, $cart));
+
+        // Truy vấn mã giảm giá từ cơ sở dữ liệu
+        $coupon = Coupon::where('code', $couponCode)
+            ->where('expiration_date', '>=', now())
+            ->first();
+
+        // Kiểm tra mã giảm giá hợp lệ
+        if ($coupon) {
+            // Kiểm tra loại giảm giá
+            if ($coupon->discount_type === 'percentage') {
+                // Tính toán giảm giá theo phần trăm
+                $discount = ($coupon->discount_value / 100) * $subtotal;
+            } else {
+                // Nếu là giảm giá cố định
+                $discount = $coupon->discount_value;
             }
 
-            $discount = $subtotal * $coupons[$couponCode];
+            // Tính tổng giá trị sau khi giảm giá
+            $totalAfterDiscount = $subtotal - $discount;
 
             // Lưu thông tin mã giảm giá vào session
             Session::put('coupon', [
                 'code' => $couponCode,
                 'discount' => $discount,
-                'totalAfterDiscount' => $subtotal - $discount // Tính tổng sau khi giảm
+                'totalAfterDiscount' => $totalAfterDiscount
             ]);
 
-            return back()->with('success', 'Coupon applied successfully!');
+            return redirect()->back()->with('success', "Coupon applied successfully !!!");
+        } else {
+            return redirect()->back()->with('error', "Invalid coupon code or expired !!!");
         }
-
-        return back()->withErrors(['error' => 'Invalid coupon code.']);
     }
 }

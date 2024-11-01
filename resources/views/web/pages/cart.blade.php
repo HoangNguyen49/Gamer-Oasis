@@ -142,7 +142,7 @@
                                                 <span>-${{ number_format(Session::get('coupon')['discount'], 2) }}</span>
                                             </li>
                                             <li>Total
-                                                <span>${{ number_format(Session::get('coupon')['totalAfterDiscount'], 2) }}</span>
+                                                <span id="cart-total">${{ number_format($subtotal - Session::get('coupon')['discount'], 2) }}</span>
                                             </li>
                                         @else
                                             <li>Total <span>${{ number_format($subtotal, 2) }}</span></li>
@@ -382,7 +382,6 @@
             }
         });
     </script>
-
 
 </body>
 
