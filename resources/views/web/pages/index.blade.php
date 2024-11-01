@@ -457,7 +457,7 @@
                                                 </div>
                                                 <h4>
                                                     <a class="product_name"
-                                                        href="{{ route('products.show', $product->Product_id) }}">{{ $product->Product_name }}</a>  <!-- Cập nhật ở đây -->
+                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>  
                                                 </h4>
                                                 <div class="price-box">
                                                     <span class="new-price">${{ number_format($product->Price, 2) }}</span>
