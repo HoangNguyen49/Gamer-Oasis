@@ -140,6 +140,15 @@ Route::prefix('admin')->group(function () {
     // Route để lưu coupon
     Route::post('/admin/coupons', [CouponController::class, 'store'])->name('coupons.store');
 
+    // Route của Order Management
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
+    Route::resource('orders', OrderController::class);
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Route delete
+
     // Route cho Category
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
