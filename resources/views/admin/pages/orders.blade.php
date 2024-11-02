@@ -83,9 +83,6 @@
                                                     class="btn btn-primary btn-sm view" title="View">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                {{-- <button class="btn btn-primary btn-sm view" type="button"
-                                                    title="View">
-                                                    <i class="fas fa-eye"></i></button> --}}
                                                 <button class="btn btn-primary btn-sm edit" type="button"
                                                     title="Edit"
                                                     onclick="window.location='{{ route('orders.edit', $order->order_id) }}'">
@@ -101,6 +98,73 @@
                                 @endif
                             </tbody>
                         </table>
+
+                        <!-- Phân trang -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p>There are {{ $orders->total() }} orders currently</p>
+                                        <!-- Hiển thị tổng số đơn hàng -->
+                                    </div>
+                                    <div>
+                                        <nav>
+                                            <ul class="pagination">
+                                                {{-- Nút đến trang đầu tiên --}}
+                                                @if ($orders->currentPage() > 1)
+                                                    <li><a href="{{ $orders->url(1) }}">&laquo;</a></li>
+                                                @endif
+
+                                                {{-- Nút quay lại --}}
+                                                @if ($orders->onFirstPage())
+                                                    <li class="disabled"><span>&lt;</span></li>
+                                                @else
+                                                    <li><a href="{{ $orders->previousPageUrl() }}">&lt;</a></li>
+                                                @endif
+
+                                                {{-- Các nút phân trang --}}
+                                                @php
+                                                    $currentPage = $orders->currentPage();
+                                                    $lastPage = $orders->lastPage();
+                                                    $startPage = max(1, $currentPage - 1); // Bắt đầu từ trang 1 hoặc một trang trước trang hiện tại
+                                                    $endPage = min($lastPage, $startPage + 2); // Kết thúc ở trang cuối cùng hoặc trang 3 sau trang bắt đầu
+
+                                                    // Điều chỉnh startPage nếu endPage là trang cuối
+                                                    if ($endPage - $startPage < 2) {
+                                                        $startPage = max(1, $endPage - 2); // Đảm bảo hiển thị đúng 3 trang nếu có đủ
+                                                    }
+                                                @endphp
+
+                                                @for ($page = $startPage; $page <= $endPage; $page++)
+                                                    @if ($page == $currentPage)
+                                                        <li class="active"><span>{{ $page }}</span></li>
+                                                    @else
+                                                        <li><a
+                                                                href="{{ $orders->url($page) }}">{{ $page }}</a>
+                                                        </li>
+                                                    @endif
+                                                @endfor
+
+                                                {{-- Nút tiếp theo --}}
+                                                @if ($orders->hasMorePages())
+                                                    <li><a href="{{ $orders->nextPageUrl() }}">&gt;</a></li>
+                                                @else
+                                                    <li class="disabled"><span>&gt;</span></li>
+                                                @endif
+
+                                                {{-- Nút đến trang cuối cùng --}}
+                                                @if ($orders->currentPage() < $lastPage)
+                                                    <li><a
+                                                            href="{{ $orders->url($lastPage) }}">&raquo;</a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
