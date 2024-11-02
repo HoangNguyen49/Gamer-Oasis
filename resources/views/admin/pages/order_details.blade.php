@@ -21,7 +21,7 @@
             </ul>
             <div id="clock"></div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>Product ID</th>
-                                    <td>{{ $order->Product_id ? $order->Product_id : 'N/A' }}</td>
+                                    <td>{{ $productIds ? $productIds : 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Product Name</th>
@@ -99,7 +99,8 @@
                                 </tr>
                             </table>
                         </div>
-                        <a href="{{ route('orders.index') }}" class="btn btn-primary mt-3" style="padding: 0.500rem">Back to Orders List</a>
+                        <a href="{{ route('orders.index') }}" class="btn btn-primary mt-3"
+                            style="padding: 0.500rem">Back to Orders List</a>
                     </div>
                 </div>
             </div>

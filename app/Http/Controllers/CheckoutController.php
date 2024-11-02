@@ -31,41 +31,29 @@ class CheckoutController extends Controller
 
     public function applyCoupon(Request $request)
     {
-        // Lấy mã giảm giá từ yêu cầu
         $couponCode = $request->input('coupon_code');
-        // Lấy giỏ hàng từ session
         $cart = Session::get('cart', []);
 
-        // Kiểm tra xem giỏ hàng có sản phẩm không
         if (empty($cart)) {
             return redirect()->back()->with('error', "Cannot apply coupon, cart is empty !!!");
         }
 
-        // Tính tổng giá trị giỏ hàng
         $subtotal = array_sum(array_map(function ($item) {
-            return $item['price'] * $item['quantity']; // Tính toán subtotal với số lượng
+            return $item['price'] * $item['quantity'];
         }, $cart));
 
-        // Truy vấn mã giảm giá từ cơ sở dữ liệu
         $coupon = Coupon::where('code', $couponCode)
             ->where('expiration_date', '>=', now())
             ->first();
 
-        // Kiểm tra mã giảm giá hợp lệ
         if ($coupon) {
-            // Kiểm tra loại giảm giá
-            if ($coupon->discount_type === 'percentage') {
-                // Tính toán giảm giá theo phần trăm
-                $discount = ($coupon->discount_value / 100) * $subtotal;
-            } else {
-                // Nếu là giảm giá cố định
-                $discount = $coupon->discount_value;
-            }
+            $discount = $coupon->discount_type === 'percentage'
+                ? ($coupon->discount_value / 100) * $subtotal
+                : $coupon->discount_value;
 
-            // Tính tổng giá trị sau khi giảm giá
             $totalAfterDiscount = $subtotal - $discount;
 
-            // Lưu thông tin mã giảm giá vào session
+            // Lưu thông tin mã giảm giá vào session để có thể truy xuất trực tiếp
             Session::put('coupon', [
                 'code' => $couponCode,
                 'discount' => $discount,
