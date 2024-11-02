@@ -162,7 +162,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('form-add-san-pham');
     Route::get('/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
     Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
-    Route::get('/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
+    Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
 
     //Route show chi tiết sản phẩm bên web

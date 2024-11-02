@@ -96,31 +96,36 @@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Full Name<span class="required">*</span></label>
-                                            <input type="text" name="full_name" required placeholder="Full Name">
+                                            <input type="text" name="full_name" required placeholder="Full Name"
+                                                value="{{ auth()->check() ? auth()->user()->full_name : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Phone<span class="required">*</span></label>
-                                            <input type="text" name="phone" required placeholder="Phone Number">
+                                            <input type="text" name="phone" required placeholder="Phone Number"
+                                                value="{{ auth()->check() ? auth()->user()->phone : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Address <span class="required">*</span></label>
-                                            <input type="text" name="address" required placeholder="Address">
+                                            <input type="text" name="address" required placeholder="Address"
+                                                value="{{ auth()->check() ? auth()->user()->address : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Email Address<span class="required">*</span></label>
-                                            <input type="email" name="email_address" required placeholder="Email Address">
+                                            <input type="email" name="email_address" required
+                                                placeholder="Email Address"
+                                                value="{{ auth()->check() ? auth()->user()->email : '' }}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- Nút đặt hàng -->
-                            
+
 
                             <div class="col-lg-7">
                                 <div class="your-order">
@@ -143,57 +148,88 @@
                                                             $subtotal += $item['price'] * $item['quantity'];
                                                         @endphp
                                                         <tr class="cart_item">
-                                                            <input type="hidden" name="product_id[]" value="{{ $item['product_id'] }}">
-                                                            <input type="hidden" name="quantity[]" value="{{ $item['quantity'] }}">
+                                                            <input type="hidden" name="product_id[]"
+                                                                value="{{ $item['product_id'] }}">
+                                                            <input type="hidden" name="quantity[]"
+                                                                value="{{ $item['quantity'] }}">
                                                             <td class="cart-product-name">
-                                                                {{ $item['product_name'] }} <strong class="product-quantity"> × {{ $item['quantity'] }}</strong>
+                                                                {{ $item['product_name'] }} <strong
+                                                                    class="product-quantity"> ×
+                                                                    {{ $item['quantity'] }}</strong>
                                                             </td>
-                                                            <td class="cart-product-total"><span class="amount">${{ number_format($item['price'] * $item['quantity'], 2) }}</span></td>
+                                                            <td class="cart-product-total"><span
+                                                                    class="amount">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 @else
                                                     <tr>
-                                                        <td colspan="2" class="text-center" style="color: red; font-weight: bold; font-size: 18px;">CART IS EMPTY, PLEASE ADD NEW PRODUCTS !!!</td>
+                                                        <td colspan="2" class="text-center"
+                                                            style="color: red; font-weight: bold; font-size: 18px;">
+                                                            CART IS EMPTY, PLEASE ADD NEW PRODUCTS !!!</td>
                                                     </tr>
                                                 @endif
                                             </tbody>
                                             <tfoot>
                                                 <tr class="cart-subtotal">
                                                     <th>Cart Subtotal</th>
-                                                    <td><span class="amount">${{ number_format($subtotal, 2) }}</span></td>
+                                                    <td><span class="amount">${{ number_format($subtotal, 2) }}</span>
+                                                    </td>
                                                 </tr>
-                                                @if(Session::has('coupon'))
+                                                @if (Session::has('coupon'))
                                                     @php
                                                         $discount = Session::get('coupon')['discount'];
-                                                        $totalAfterDiscount = Session::get('coupon')['totalAfterDiscount'];
+                                                        $totalAfterDiscount = Session::get('coupon')[
+                                                            'totalAfterDiscount'
+                                                        ];
                                                     @endphp
                                                     <tr class="discount">
                                                         <th>Discount ({{ Session::get('coupon')['code'] }})</th>
-                                                        <td><span class="amount">-${{ number_format($discount, 2) }}</span></td>
+                                                        <td><span
+                                                                class="amount">-${{ number_format($discount, 2) }}</span>
+                                                        </td>
                                                     </tr>
                                                     <tr class="order-total">
                                                         <th>Order Total</th>
-                                                        <td><strong><span class="amount">${{ number_format($totalAfterDiscount, 2) }}</span></strong></td>
+                                                        <td><strong><span
+                                                                    class="amount">${{ number_format($totalAfterDiscount, 2) }}</span></strong>
+                                                        </td>
                                                     </tr>
                                                 @else
                                                     <tr class="order-total">
                                                         <th>Order Total</th>
-                                                        <td><strong><span class="amount">${{ number_format($subtotal, 2) }}</span></strong></td>
+                                                        <td><strong><span
+                                                                    class="amount">${{ number_format($subtotal, 2) }}</span></strong>
+                                                        </td>
                                                     </tr>
                                                 @endif
                                             </tfoot>
                                         </table>
                                     </div>
+                                    <!-- Payment Method Selection -->
+                                    <div class="checkout-form-list">
+                                        <h4>Payment Method</h4>
+                                        <label style="display:flex;align-items:center;">
+                                            <input type="radio" name="payment_method" value="COD" checked
+                                                style="width:18px;margin-right:10px;">
+                                            Cash on Delivery (COD)
+                                        </label>
+                                        <label style="display:flex;align-items:center;">
+                                            <input type="radio" name="payment_method" value="VNPay"
+                                                style="width:18px;margin-right:10px;">
+                                            Payment with VNPay
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="order-button-payment">
                                     <input value="Place order" type="submit">
                                 </div>
-                            </div> 
+                            </div>
                         </form>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -205,7 +241,8 @@
     <!-- Body Wrapper End Here -->
     @include('web.layouts.css-script')
 
-    <div id="notification" style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+    <div id="notification"
+        style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
         <span id="notification-icon" style="margin-right: 10px;">
             <i class="fa fa-check-circle" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i>
         </span>
@@ -219,36 +256,36 @@
                 const notification = document.getElementById('notification');
                 const message = document.getElementById('notification-message');
                 const icon = document.getElementById('notification-icon').querySelector('i');
-    
-                message.textContent = "{{ session('success') }}"; 
-                notification.style.backgroundColor = '#4CAF50'; 
-                icon.className = 'fa fa-check-circle'; 
-                notification.style.display = 'block'; 
-    
+
+                message.textContent = "{{ session('success') }}";
+                notification.style.backgroundColor = '#4CAF50';
+                icon.className = 'fa fa-check-circle';
+                notification.style.display = 'block';
+
                 // Tự động ẩn thông báo sau 2 giây
                 setTimeout(() => {
                     notification.style.display = 'none';
                 }, 2000);
             @endif
-            
+
             // Hiển thị thông báo khi nhập coupon không đúng
             @if ($errors->has('error'))
                 const notification = document.getElementById('notification');
                 const message = document.getElementById('notification-message');
                 const icon = document.getElementById('notification-icon').querySelector('i');
-    
-                message.textContent = "{{ $errors->first('error') }}"; 
-                notification.style.backgroundColor = '#f44336'; 
-                icon.className = 'fa fa-times'; 
-                notification.style.display = 'block'; 
-    
+
+                message.textContent = "{{ $errors->first('error') }}";
+                notification.style.backgroundColor = '#f44336';
+                icon.className = 'fa fa-times';
+                notification.style.display = 'block';
+
                 // Tự động ẩn thông báo sau 2 giây
                 setTimeout(() => {
                     notification.style.display = 'none';
                 }, 2000);
             @endif
         });
-    </script>    
+    </script>
 
 </body>
 

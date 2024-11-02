@@ -141,7 +141,7 @@
             $('.view-product').on('click', function() {
                 var productId = $(this).data('id');
                 $.ajax({
-                    url: '/admin/products/' + productId, // Match this URL with the route definition
+                    url: '/admin/admin/products/' + productId, // Match this URL with the route definition
                     method: 'GET',
                     success: function(data) {
                         $('#productDetailsContent').html(data);
