@@ -269,12 +269,12 @@
             @endif
 
             // Hiển thị thông báo khi nhập coupon không đúng
-            @if ($errors->has('error'))
+            @if (session('error'))
                 const notification = document.getElementById('notification');
                 const message = document.getElementById('notification-message');
                 const icon = document.getElementById('notification-icon').querySelector('i');
 
-                message.textContent = "{{ $errors->first('error') }}";
+                message.textContent = "{{ session('error') }}";
                 notification.style.backgroundColor = '#f44336';
                 icon.className = 'fa fa-times';
                 notification.style.display = 'block';
