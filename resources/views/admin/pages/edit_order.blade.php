@@ -194,6 +194,40 @@
         };
     </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const statusSelect = document.getElementById("status");
+            const currentStatus = "{{ $order->status }}";
+
+            function updateStatusOptions() {
+                Array.from(statusSelect.options).forEach(option => option.disabled = false);
+
+                switch (currentStatus) {
+                    case 'pending':
+                        // Không có hạn chế nào khi chuyển từ trạng thái "Pending"
+                        break;
+                    case 'processed':
+                        statusSelect.querySelector('option[value="pending"]').disabled = true;
+                        break;
+                    case 'shipped':
+                        statusSelect.querySelector('option[value="pending"]').disabled = true;
+                        statusSelect.querySelector('option[value="processed"]').disabled = true;
+                        break;
+                    case 'delivered':
+                        Array.from(statusSelect.options).forEach(option => option.disabled = true);
+                        statusSelect.querySelector('option[value="delivered"]').disabled = false;
+                        break;
+                    case 'canceled':
+                        // Không có hạn chế nào khi chuyển từ trạng thái "Canceled"
+                        break;
+                }
+            }
+
+            updateStatusOptions();
+        });
+    </script>
+
+
 </body>
 
 </html>
