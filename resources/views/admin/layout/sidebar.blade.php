@@ -14,7 +14,7 @@
          <li><a class="app-menu__item active" href="/admin"><i class='app-menu__icon bx bx-tachometer'></i><span
                      class="app-menu__label">Bảng điều khiển</span></a></li>
          <li><a class="app-menu__item" href="/admin/quanlikhachhang"><i class='app-menu__icon bx bx-user'></i><span
-                     class="app-menu__label">Quản lý khách hàng</span></a></li>
+                     class="app-menu__label">User Management</span></a></li>
          <li><a class="app-menu__item " href="/admin/quanlisanpham"><i class='app-menu__icon bx bx-id-card'></i> <span
                      class="app-menu__label">Product Management</span></a></li>
          <li><a class="app-menu__item " href="/admin/quanlidonhang"><i class='app-menu__icon bx bx-task'></i><span

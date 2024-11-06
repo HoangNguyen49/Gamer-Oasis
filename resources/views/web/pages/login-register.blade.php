@@ -31,36 +31,60 @@
 
         <div class="page-section mb-60">
             <div class="container">
-                <div class="row">
+                <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
-                        <!-- Login Form s-->
-                        <form action="{{ route('login') }}" method="POST">
+                        <!-- Login Form -->
+                        <form action="{{ route('login') }}" method="POST" class="row equal-height-form">
                             @csrf
                             <div class="login-form">
                                 <h4 class="login-title">Login</h4>
                                 <div class="row">
                                     <div class="col-md-12 col-12 mb-20">
                                         <label>Email Address*</label>
-                                        <input class="mb-0" type="email" name="email" required>
+                                        <input class="form-control" type="email" name="email" required>
                                         @error('email')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+
                                     <div class="col-12 mb-20">
                                         <label>Password</label>
-                                        <input class="mb-0" type="password" name="password" required>
+                                        <div class="input-group">
+                                            <input class="form-control" type="password" name="password" required>
+                                        </div>
                                         @error('password')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
+                                        <a href="#forgotPasswordModal" class="btn btn-link" data-toggle="modal" data-target="#forgotPasswordModal">Forgot your password?</a>
                                     </div>
+
                                     <div class="col-md-12">
-                                        <button class="register-button mt-0" type="submit">Login</button>
+                                        <button class="btn btn-primary w-100" type="submit">Login</button>
+                                        <button class="btn btn-primary w-100 mt-2" onclick="location.href='{{ route('auth.google') }}'">
+                                            Login with Google
+                                        </button>
+                                        <a href="#registerModal" class="btn btn-link" data-toggle="modal" data-target="#registerModal">Don't have an account? Please register</a>
                                     </div>
                                 </div>
+                            </div>
                         </form>
                     </div>
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                        <form action="{{ route('users.store') }}" method="POST" class="row">
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('users.store') }}" method="POST">
                             @csrf
                             @if ($errors->any())
                                 <div class="alert alert-danger">
@@ -71,61 +95,74 @@
                                     </ul>
                                 </div>
                             @endif
-
-                            <div class="login-form">
-                                <h4 class="login-title">Register</h4>
-                                <div class="row">
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>First Name</label>
-                                        <input class="mb-0" type="text" placeholder="First Name" name="first_name"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Last Name</label>
-                                        <input class="mb-0" type="text" placeholder="Last Name" name="last_name"
-                                            required>
-                                    </div>
-                                    <div class="col-md-12 mb-20">
-                                        <label>Email Address*</label>
-                                        <input class="mb-0" type="email" placeholder="Email Address" name="email"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6 mb-20">
-                                        <label>Password</label>
-                                        <input class="mb-0" type="password" placeholder="Password" name="password"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6 mb-20">
-                                        <label>Confirm Password</label>
-                                        <input class="mb-0" type="password" placeholder="Confirm Password"
-                                            name="password_confirmation" required>
-                                    </div>
-                                    <input type="hidden" name="role" value="customer">
-                                    <div class="col-12">
-                                        <button class="register-button mt-0" type="submit">Register</button>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
                             </div>
-                        </form>
-                    </div>
-                    <!-- Add Logout Form Here -->
-                    <div class="col-12 mb-20">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit">Logout</button>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirm Password</label>
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                            </div>
+                            <input type="hidden" name="role" value="customer">
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
+         <!-- Modal for Forgot Password -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('password.email')}}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                document.querySelector('form').addEventListener('submit', function() {
+                                    alert('If your email exists, please check your email. If your email does not exist, please register.');
+                                });
+                            });
+                        </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
         @include('web.layouts.footer')
 
     </div>
 
     @include('web.layouts.css-script')
+
+
 </body>
-
-
 
 </html>

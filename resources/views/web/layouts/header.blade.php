@@ -75,13 +75,23 @@
                             <div class="header-top-right">
                                 <ul class="ht-menu">
                                     <!-- Begin Setting Area -->
-                                    <li>
+                                    <li class="setting-area">
                                         <div class="ht-setting-trigger"><span>Setting</span></div>
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">
-                                                <li><a href="{{ url('/login-register') }}">My Account</a></li>
-                                                <li><a href="{{ url('/checkout') }}">Checkout</a></li>
-                                                <li><a href="{{ url('/login-register') }}">Sign In</a></li>
+                                                @if(Auth::check())
+                                                    <li><a href="{{ route('user.account') }}" class="account-link">My Account</a></li>
+                                                    <li><a href="{{ url('/order-history') }}" class="order-link">Order History</a></li>
+                                                    <li><a href="{{ url('/checkout') }}" class="checkout-link">Checkout</a></li>
+                                                    <li>
+                                                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-link logout-link" style="padding: 0; text-decoration: none; color: #007bff;">Logout</button>
+                                                        </form>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{ url('/login-register') }}" class="login-link">Sign In</a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </li>
