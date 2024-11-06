@@ -77,7 +77,6 @@
                                                             class="amount">${{ number_format($item['price'], 2) }}</span>
                                                     </td>
                                                     <td class="quantity">
-                                                        <label>Quantity</label>
                                                         <div class="cart-plus-minus">
                                                             <div class="dec qtybutton"><i class="fa fa-angle-down"></i>
                                                             </div>
@@ -88,7 +87,6 @@
                                                         </div>
                                                         <small>Stock: {{ $item['stock_quantity'] }}</small>
                                                     </td>
-
                                                     <td class="product-subtotal">
                                                         @php
                                                             $total = $item['price'] * $item['quantity'];

@@ -219,12 +219,20 @@
                                                 style="width:18px;margin-right:10px;">
                                             Payment with VNPay
                                         </label>
+
                                     </div>
                                 </div>
                                 <div class="order-button-payment">
                                     <input value="Place order" type="submit">
                                 </div>
                             </div>
+
+                        </form>
+                        <form action="{{ url('/vnpay_payment') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger mt-3" name ="redirect">
+                                VNPay Payment
+                            </button>
                         </form>
                     </div>
 

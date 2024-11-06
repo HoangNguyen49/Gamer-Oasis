@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\VnpayOrderController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -186,4 +187,7 @@ Route::get('/brands', [BrandController::class, 'indexBrand'])->name('brand.manag
 Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand'])->name('brands.delete');
 Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.search');
 
-    
+//VNPAY payment
+Route::post('/vnpay_payment', [VnpayOrderController::class, 'vnpay_payment']);
+Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn']);
+   
