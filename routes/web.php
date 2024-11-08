@@ -187,7 +187,8 @@ Route::get('/brands', [BrandController::class, 'indexBrand'])->name('brand.manag
 Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand'])->name('brands.delete');
 Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.search');
 
-//VNPAY payment
-Route::post('/vnpay_payment', [VnpayOrderController::class, 'vnpay_payment']);
-Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn']);
+Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_payment'])->name('vnpay.payment');
+Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');
+
+
    

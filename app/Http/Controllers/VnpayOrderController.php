@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\VnpayOrder; // Đảm bảo đã tạo model cho bảng vnpay_orders
 use Carbon\Carbon; // Nếu bạn cần xử lý ngày tháng
 use Illuminate\Support\Facades\Session;
+use App\Models\Order;
 
 
 class VnpayOrderController extends Controller
 {
-    public function vnpay_payment(Request $request)
+    public function vnpay_payment($order_id)
     {
         // Lấy giỏ hàng từ session
         $cart = Session::get('cart', []);
@@ -31,15 +32,11 @@ class VnpayOrderController extends Controller
         $exchangeRate = 25000;
         $totalInUSD = $total * $exchangeRate;
 
-        //tạo mã đơn hàng ngẫu nhiên
-        $order_id = uniqid('order_'); // Tạo mã đơn hàng ngẫu nhiên
-
-
-        // Logic VNPAY
+        // Tạo mã đơn hàng ngẫu nhiên
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/vnpay_return";
-        $vnp_TmnCode = "DII1D8KA"; //Mã website tại VNPAY 
-        $vnp_HashSecret = "QI3W2HVVADMKGLKCKRS7KT2T5I1PBJXP"; //Chuỗi bí mật
+        $vnp_Returnurl = route('vnpay.return');
+        $vnp_TmnCode = "DII1D8KA"; // Mã website tại VNPAY 
+        $vnp_HashSecret = "QI3W2HVVADMKGLKCKRS7KT2T5I1PBJXP"; // Chuỗi bí mật
 
         $vnp_TxnRef = $order_id;
         $vnp_OrderInfo = 'Order payment for Gamer Oasis';
@@ -47,7 +44,8 @@ class VnpayOrderController extends Controller
         $vnp_Amount = round($totalInUSD * 100);
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $vnp_IpAddr = request()->ip();
+
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -70,7 +68,6 @@ class VnpayOrderController extends Controller
             $inputData['vnp_Bill_State'] = $vnp_Bill_State;
         }
 
-        //var_dump($inputData);
         ksort($inputData);
         $query = "";
         $i = 0;
@@ -87,21 +84,13 @@ class VnpayOrderController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array(
-            'code' => '00',
-            'message' => 'success',
-            'data' => $vnp_Url
-        );
-        if (isset($_POST['redirect'])) {
-            header('Location: ' . $vnp_Url);
-            die();
-        } else {
-            echo json_encode($returnData);
-        }
+
+        return redirect()->away($vnp_Url);
     }
+
 
     public function vnpayReturn(Request $request)
     {
@@ -119,10 +108,13 @@ class VnpayOrderController extends Controller
         // Xác định kết quả giao dịch
         $responseCode = $request->input('vnp_ResponseCode');
 
+        // Lấy order_id từ VNPAY trả về
+        $order_id = $request->input('vnp_TxnRef'); // Lấy order_id trả về từ VNPAY
+
         // Lưu thông tin vào bảng vnpay_orders
         $vnpayOrder = new VnpayOrder();
         $vnpayOrder->vnpay_id = $request->input('vnp_TransactionNo'); // Mã giao dịch từ VNPAY
-        $vnpayOrder->order_id = session('order_id'); // ID đơn hàng từ session
+        $vnpayOrder->vnpay_orders_id = $order_id; // Lưu order_id trả về từ VNPAY
         $vnpayOrder->transaction_code = $request->input('vnp_TransactionNo');
 
         // Chia cho 100 để chuyển đổi từ đồng sang VND
@@ -142,6 +134,13 @@ class VnpayOrderController extends Controller
 
         // Lưu vào cơ sở dữ liệu
         $vnpayOrder->save();
+
+        // Cập nhật bảng orders với vnpay_orders_id
+        $order = Order::where('order_id', $request->input('vnp_TxnRef'))->first();
+        if ($order) {
+            $order->vnpay_orders_id = $vnpayOrder->vnpay_orders_id; // Gán vnpay_orders_id vào đơn hàng
+            $order->save(); // Lưu lại vào bảng orders
+        }
 
         // Truyền dữ liệu vào view
         return view('web.pages.vnpay_return', [
@@ -165,7 +164,7 @@ class VnpayOrderController extends Controller
 
         // Gán các giá trị cho các thuộc tính của đơn hàng
         $vnpayOrder->vnpay_id = $request->input('vnp_TxnRef'); // Mã giao dịch
-        $vnpayOrder->order_id = session('order_id'); // ID đơn hàng từ session
+        $vnpayOrder->vnpay_orders_id = $request->input('order_id');
         $vnpayOrder->transaction_code = $request->input('vnp_TransactionNo'); // Mã giao dịch tại VNPAY
 
         // Lấy và định dạng số tiền thanh toán

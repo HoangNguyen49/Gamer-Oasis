@@ -21,6 +21,7 @@ class Order extends Model
         'user_id',
         'created_at',
         'payment_method',
+        'vnpay_orders_id'
     ];
 
     // Định nghĩa quan hệ với Product

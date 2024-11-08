@@ -228,12 +228,6 @@
                             </div>
 
                         </form>
-                        <form action="{{ url('/vnpay_payment') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger mt-3" name ="redirect">
-                                VNPay Payment
-                            </button>
-                        </form>
                     </div>
 
                 </div>

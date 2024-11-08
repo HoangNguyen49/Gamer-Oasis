@@ -10,7 +10,7 @@ class VnpayOrder extends Model
 
     protected $fillable = [
         'vnpay_id',
-        'order_id',
+        'vnpay_orders_id',  
         'transaction_code',
         'amount',
         'status',
@@ -20,15 +20,7 @@ class VnpayOrder extends Model
         'payment_type',
         'pay_date',
         'vnp_secure_hash',
-        'full_name',     
-        'phone',          
-        'address',        
-        'email_address'
     ];
-
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'order_id');
-    }
 }
+
 
