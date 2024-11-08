@@ -124,7 +124,7 @@ Route::prefix('admin')->middleware('auth')->group(
     // Route cho trang quản lý khách hàng
     Route::get('/quanlikhachhang', function () {
         return view('admin.pages.quanlikhachhang');
-        return view('admin.pages.quanlikhachhang');
+     
     });
     Route::get('/quanlikhachhang/khachhangmoi', function () {
         return view('admin.pages.form-add-khach-hang');
@@ -135,7 +135,7 @@ Route::prefix('admin')->middleware('auth')->group(
     // Route cho trang blog
     Route::get('/quanliblog', function () {
         return view('admin.pages.quanliblog');
-        return view('admin.pages.quanliblog');
+        
     });
 
     // Route blog
@@ -234,7 +234,7 @@ Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name(
    
         // Route cho trang danh sách sản phẩm
         Route::get('/products', [ProductController::class, 'indexAdmin'])->name('products.index');
-    });
+    
 //end Route Prefix Admin
 
 
