@@ -9,7 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderHistoryController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
@@ -175,7 +175,7 @@ Route::post('password/update', [UserController::class, 'resetPassword'])->name('
 Route::get('/password/reset/{email}', [UserController::class, 'showResetForm'])->name('password.reset');
 
 // Route để hiển thị chi tiết đơn hàng
-Route::get('/order-history', [OrderController::class, 'show']);
+Route::get('/order-history', [OrderHistoryController::class, 'show']);
 
 // Route để đăng xuất
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
