@@ -66,6 +66,13 @@ class UserController extends Controller
 
         $user = User::where('Email', $request->email)->first();
 
+        // Kiểm tra xem người dùng có bị chặn không
+        if ($user && $user->is_blocked) {
+            return redirect()->back()->withErrors([
+                'email' => 'Your account has been blocked. Please contact the administrator.',
+            ]);
+        }
+
         if ($user && Hash::check($request->password, $user->Password)) {
             Auth::login($user);
 
@@ -150,7 +157,7 @@ class UserController extends Controller
             $user->save(); // Lưu thông tin người dùng
         } else {
             // Xử lý trường hợp người dùng không tồn tại
-            return redirect()->back()->withErrors(['user' => 'Người dùng không tồn tại.']);
+            return redirect()->back()->withErrors(['user' => 'User does not exist.']);
         }
 
         // Set a success message
@@ -169,7 +176,7 @@ class UserController extends Controller
 
         // If the user does not exist, return an error message
         if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Không tìm thấy người dùng với email này.']);
+            return redirect()->back()->withErrors(['email' => 'User not found with this email.']);
         }
 
         // Prepare the data to send to the email view
@@ -182,11 +189,11 @@ class UserController extends Controller
         Mail::send('emails.reset_password', $data, function ($message) use ($request) {
             $message->from('temppol1901@gmail.com', 'PhiLong'); // Sender's email
             $message->to($request->email, 'Customer'); // Recipient's email
-            $message->subject('Yêu cầu đặt lại mật khẩu'); // Email subject
+            $message->subject('Password Reset Request'); // Email subject
         });
 
         // Redirect back with a success message
-        return redirect()->route('web.pages.index')->with('success', 'Chúng tôi đã gửi liên kết đặt lại mật khẩu đến email của bạn!');
+        return redirect()->route('web.pages.index')->with('success', 'We have sent a password reset link to your email!');
     }
 
     public function resetPassword(Request $request)
@@ -199,7 +206,7 @@ class UserController extends Controller
         $user = User::where('Email', $request->email)->first();
 
         if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Không tìm thấy người dùng với email này.']);
+            return redirect()->back()->withErrors(['email' => 'User not found with this email.']);
         }
 
         // Mã hóa mật khẩu mới và lưu vào cơ sở dữ liệu
@@ -214,7 +221,7 @@ class UserController extends Controller
         });
 
         // Hiển thị thông báo sau khi gửi email
-        return redirect()->route('web.pages.index')->with('success', 'Chúng tôi đã gửi liên kết đặt lại mật khẩu đến email của bạn!')->with('alert', 'Check your mail');
+        return redirect()->route('web.pages.index')->with('success', 'We have sent a password reset link to your email!')->with('alert', 'Check your mail');
     }
     public function showResetForm($email)
     {
@@ -224,6 +231,51 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout(); // Đăng xuất người dùng
-        return redirect()->route('web.pages.index')->with('success', 'Bạn đã đăng xuất thành công!'); // Chuyển hướng đến trang chính
+        return redirect()->route('web.pages.index')->with('success', 'You have successfully logged out!'); // Redirect to the home page
     }
+ 
+    //Chặn tài khoản
+    public function blockUser(Request $request)
+    {
+        // Xác thực người dùng
+        $request->validate([
+            'user_id' => 'required|exists:users,User_id', // Sử dụng User_id làm khóa chính
+        ]);
+
+        // Tìm người dùng theo User_id
+        $user = User::find($request->input('user_id'));
+
+        if ($user) {
+            $user->is_blocked = true; // Đánh dấu tài khoản là bị chặn
+            $user->save(); // Lưu thay đổi vào cơ sở dữ liệu
+
+            return response()->json(['success' => true, 'message' => 'User has been blocked.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+    }
+
+    // Bỏ chặn tài khoản
+    
+    public function unblockUser(Request $request)
+    {
+        // Xác thực người dùng
+        $request->validate([
+            'user_id' => 'required|exists:users,User_id', // Sử dụng User_id làm khóa chính
+        ]);
+
+        // Tìm người dùng theo User_id
+        $user = User::find($request->input('user_id'));
+
+        if ($user) {
+            $user->is_blocked = false; // Đánh dấu tài khoản là không bị chặn
+            $user->save(); // Lưu thay đổi vào cơ sở dữ liệu
+
+            return response()->json(['success' => true, 'message' => 'User has been unblocked.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+    }
+
+    
 }

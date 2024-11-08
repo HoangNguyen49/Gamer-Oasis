@@ -22,6 +22,10 @@
                 </ul>
                 
                 <div id="clock"></div>
+                <!-- Thêm ô tìm kiếm -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for customers..." onkeyup="searchFunction()" class="form-control">
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -58,6 +62,13 @@
                                                    
                                                     <div class="text-center">
                                                         <button class="btn btn-primary btn-sm" type="button" title="Detail" data-toggle="modal" data-target="#customerModal{{ $user->User_id }}"><i class="fas fa-eye"></i></button>
+                                                        @if($user->is_blocked) <!-- Kiểm tra trạng thái bị chặn -->
+                                                            <!-- Nút Unblock nếu tài khoản bị chặn -->
+                                                            <button class="btn btn-success btn-sm" type="button" title="Unblock" onclick="unblockCustomer({{ $user->User_id }})"><i class="fas fa-user-check"></i> Unblock</button>
+                                                        @else
+                                                            <!-- Nút Block nếu tài khoản không bị chặn -->
+                                                            <button class="btn btn-danger btn-sm" type="button" title="Block" onclick="blockCustomer({{ $user->User_id }})"><i class="fas fa-user-slash"></i> Block</button>
+                                                        @endif
                                                     </div>
                                                     <div class="modal fade" id="customerModal{{ $user->User_id }}" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel{{ $user->User_id }}" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
@@ -118,5 +129,78 @@
     </div>
     @include('admin.layout.footer')
     </div>
+    <style>
+    .search-container {
+        margin-bottom: 20px; /* Khoảng cách dưới ô tìm kiếm */
+    }
+    .form-control {
+        width: 100%; /* Chiều rộng 100% */
+        padding: 10px; /* Padding cho ô tìm kiếm */
+        border-radius: 5px; /* Bo góc cho ô tìm kiếm */
+        border: 1px solid #ccc; /* Đường viền cho ô tìm kiếm */
+    }
+</style>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function searchFunction() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toLowerCase();
+        table = document.getElementById("sampleTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Lặp qua tất cả các hàng trong bảng và ẩn/hiện chúng dựa trên từ khóa tìm kiếm
+        for (i = 1; i < tr.length; i++) { // Bắt đầu từ 1 để bỏ qua hàng tiêu đề
+            tr[i].style.display = "none"; // Ẩn hàng
+            td = tr[i].getElementsByTagName("td");
+            for (j = 1; j < td.length; j++) { // Bắt đầu từ 1 để bỏ qua ô checkbox
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ""; // Hiện hàng nếu tìm thấy
+                        break; // Không cần kiểm tra thêm các ô khác
+                    }
+                }
+            }
+        }
+    }
+
+    function blockCustomer(userId) {
+        $.ajax({
+            url: '/block', // Đường dẫn đến API chặn tài khoản
+            method: 'POST',
+            data: { user_id: userId },
+            success: function(response) {
+                alert("User with ID: " + User_id + " has been blocked.");
+                location.reload(); // Làm mới trang để cập nhật trạng thái
+            },
+            error: function(xhr, status, error) {
+                console.error("Error blocking user:", xhr.responseText);
+                alert("Block failed. Please try again.");
+            }
+        });
+    }
+
+    function unblockCustomer(userId) {
+        $.ajax({
+            url: '/unblock', // Đường dẫn đến API không chặn tài khoản
+            method: 'POST',
+            data: { user_id: userId },
+            success: function(response) {
+                alert("User with ID: " + User_id + " has been unblocked.");
+                location.reload(); // Làm mới trang để cập nhật trạng thái
+            },
+            error: function(xhr, status, error) {
+                console.error("Error unblocking user:", xhr.responseText);
+                alert("Unblock failed. Please try again.");
+            }
+        });
+    }
+</script>
 
 </html>

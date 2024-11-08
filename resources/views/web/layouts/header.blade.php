@@ -76,7 +76,9 @@
                                 <ul class="ht-menu">
                                     <!-- Begin Setting Area -->
                                     <li class="setting-area">
-                                        <div class="ht-setting-trigger"><span>Setting</span></div>
+                                        <div class="ht-setting-trigger">
+                                            <span style="font-size: 18px; font-weight: bold;">{{ Auth::check() ? Auth::user()->Name : 'setting' }}</span>
+                                        </div>
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">
                                                 @if(Auth::check())

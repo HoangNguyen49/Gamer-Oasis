@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-4 text-center mt-4"> <!-- Added mt-4 for spacing -->
-                                    <button type="submit" class="btn btn-primary mr-2 mb-2" style="width: 50%;">Update Profile</button>
+                                    <button type="submit" class="btn btn-primary mr-2 mb-2" style="width: 50%;" onclick="alert('Update successful!')">Update Profile</button>
                                 </div>
                                 <div class="form-group mb-4 text-center mt-4"> <!-- Added mt-4 for spacing -->
                             </form>

@@ -147,10 +147,8 @@ Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->na
 //google login
 Route::get('/auth/{provider}', [UserController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [UserController::class, 'handleGoogleCallback'])->name('google.callback');
-
 Route::get('auth/google', [UserController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [UserController::class, 'handleGoogleCallback'])->name('auth.google.callback');
-
 
 //Route show thông tin tài khoản
 Route::get('/my-account', [UserController::class, 'showAccount'])->name('user.account');
@@ -161,13 +159,8 @@ Route::get('/my-account', [UserController::class, 'showAccount'])->name('user.ac
 // Route để cập nhật thông tin tài khoản
 Route::put('/account/update', [UserController::class, 'update'])->name('user.update');
 
-
-
-
-// //send mail
 // Route::get('sendMail', [MailController::class, 'sendMail']);
-
-// web.php
+//send mail
 Route::post('password/reset', [UserController::class, 'sendPasswordResetLink'])->name('password.email');
 
 Route::post('password/update', [UserController::class, 'resetPassword'])->name('password.update');
@@ -180,3 +173,6 @@ Route::get('/order-history', [OrderHistoryController::class, 'show']);
 // Route để đăng xuất
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+// Route để chặn tài khoản
+Route::post('/block', [UserController::class, 'blockUser']);
+Route::post('/unblock', [UserController::class, 'unblockUser']);

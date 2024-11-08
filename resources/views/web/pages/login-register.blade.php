@@ -106,6 +106,9 @@
                             <div class="form-group">
                                 <label for="email">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
@@ -138,23 +141,29 @@
                         @csrf
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                document.querySelector('form').addEventListener('submit', function() {
-                                    alert('If your email exists, please check your email. If your email does not exist, please register.');
-                                });
-                            });
-                        </script>
+                    @if(session()->has('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    
 
         @include('web.layouts.footer')
 
