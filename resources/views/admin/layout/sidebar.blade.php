@@ -17,18 +17,17 @@
                      class="app-menu__label">User Management</span></a></li>
          <li><a class="app-menu__item " href="/admin/quanlisanpham"><i class='app-menu__icon bx bx-id-card'></i> <span
                      class="app-menu__label">Product Management</span></a></li>
+         <li><a class="app-menu__item " href="{{ route('category.management') }}"><i class='app-menu__icon bx bx-id-card'></i> <span
+                     class="app-menu__label">Category Management</span></a></li>
+         <li><a class="app-menu__item " href="{{ route('brand.management') }}"><i class='app-menu__icon bx bx-id-card'></i> <span
+                     class="app-menu__label">Brand Management</span></a></li>
          <li><a class="app-menu__item " href="/admin/quanlidonhang"><i class='app-menu__icon bx bx-task'></i><span
                      class="app-menu__label">Quản lý đơn hàng</span></a></li>
+         <li><a class="app-menu__item" href="/admin/orders"><i class='app-menu__icon bx bx-task'></i><span
+                     class="app-menu__label">Order Management </span></a></li>
+         <li><a class="app-menu__item " href="/admin/quanlimagiamgia"><i class='app-menu__icon bx bxs-coupon'></i><span
+                     class="app-menu__label">Coupon Management</span></a></li>
          <li><a class="app-menu__item" href="/admin/quanliblog"><i class='app-menu__icon bx bx-calendar-check'></i><span
                      class="app-menu__label">Blog </span></a></li>
-
-
-
-
-
-
-
-
-
      </ul>
  </aside>

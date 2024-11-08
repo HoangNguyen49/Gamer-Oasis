@@ -77,7 +77,6 @@
                                                             class="amount">${{ number_format($item['price'], 2) }}</span>
                                                     </td>
                                                     <td class="quantity">
-                                                        <label>Quantity</label>
                                                         <div class="cart-plus-minus">
                                                             <div class="dec qtybutton"><i class="fa fa-angle-down"></i>
                                                             </div>
@@ -88,7 +87,6 @@
                                                         </div>
                                                         <small>Stock: {{ $item['stock_quantity'] }}</small>
                                                     </td>
-
                                                     <td class="product-subtotal">
                                                         @php
                                                             $total = $item['price'] * $item['quantity'];
@@ -142,7 +140,7 @@
                                                 <span>-${{ number_format(Session::get('coupon')['discount'], 2) }}</span>
                                             </li>
                                             <li>Total
-                                                <span>${{ number_format(Session::get('coupon')['totalAfterDiscount'], 2) }}</span>
+                                                <span id="cart-total">${{ number_format($subtotal - Session::get('coupon')['discount'], 2) }}</span>
                                             </li>
                                         @else
                                             <li>Total <span>${{ number_format($subtotal, 2) }}</span></li>
@@ -382,7 +380,6 @@
             }
         });
     </script>
-
 
 </body>
 

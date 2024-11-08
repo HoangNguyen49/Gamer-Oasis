@@ -9606,6 +9606,8 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
  
 }
 .btn-delete{
@@ -15664,4 +15666,44 @@ text-align:center;
   padding: 5px 16px;
   background-color: white;
   color: white;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center; /* Căn giữa các nút */
+  list-style: none; /* Bỏ dấu chấm */
+  padding: 0; /* Bỏ padding */
+  font-size: 15px;
+}
+
+.pagination li {
+  margin: 0 2px; /* Khoảng cách giữa các nút */
+}
+
+.pagination li span {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.pagination a, .pagination span {
+  display: inline-block;
+  padding: 0px 10px; /* Khoảng cách trong nút */
+  border: 1px solid #F59D39; /* Đường viền */
+  color: #F59D39; /* Màu chữ */
+  text-decoration: none; /* Bỏ gạch chân */
+  border-radius: 4px; /* Bo góc */
+}
+
+.pagination a:hover {
+  background-color: rgb(0, 28, 64); /* Màu nền khi hover */
+  color: white; /* Màu chữ khi hover */
+}
+
+.pagination .active span {
+  background-color: #FBE2C5; /* Màu nền của trang hiện tại */
+  color: #F59D39; /* Màu chữ của trang hiện tại */
+}
+
+.pagination .disabled span {
+  color: #ccc; /* Màu cho các nút không hoạt động */
 }

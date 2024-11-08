@@ -167,7 +167,7 @@
                                                 }
                                             @endphp
                                             <p class="minicart-total">SUBTOTAL:
-                                                <span>£{{ number_format($subtotal, 2) }}</span>
+                                                <span>${{ number_format($subtotal, 2) }}</span>
                                             </p>
                                             <!-- Hiển thị tổng giá trị -->
                                             <div class="minicart-button">

@@ -13,7 +13,7 @@
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Product List</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('products.indexAdmin') }}">Product List</a></li>
                     <li class="breadcrumb-item"><a href="">Add Product</a></li>
                 </ul>
             </div>

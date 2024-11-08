@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Product;
+use App\Models\Coupon;
 
 class CartController extends Controller
 {
@@ -62,6 +63,9 @@ class CartController extends Controller
         $cart[$productId]['quantity'] = $newQuantity;
         Session::put('cart', $cart);
 
+        // Xóa mã giảm giá khỏi session
+        Session::forget('coupon');
+
         return response()->json(['success' => 'Update quantity successfully !!!', 'cart' => $cart]);
     }
 
@@ -78,19 +82,27 @@ class CartController extends Controller
         }
 
         // Tính tổng giá trị giỏ hàng
-        $subtotal = array_sum(array_column($cart, 'price'));
+        $subtotal = array_sum(array_map(function ($item) {
+            return $item['price'] * $item['quantity']; // Tính toán subtotal với số lượng
+        }, $cart));
 
-        // Danh sách mã giảm giá hợp lệ
-        $coupons = [
-            'SAVE10' => 0.1,  // Giảm 10%
-            'SAVE20' => 0.2,  // Giảm 20%
-            'SAVE30' => 0.3,  // Giảm 30%
-        ];
+        // Truy vấn mã giảm giá từ cơ sở dữ liệu
+        $coupon = Coupon::where('code', $couponCode)
+            ->where('expiration_date', '>=', now())
+            ->first();
 
         // Kiểm tra mã giảm giá hợp lệ
-        if (isset($coupons[$couponCode])) {
-            // Tính toán giảm giá
-            $discount = $coupons[$couponCode] * $subtotal;
+        if ($coupon) {
+            // Kiểm tra loại giảm giá
+            if ($coupon->discount_type === 'percentage') {
+                // Tính toán giảm giá theo phần trăm
+                $discount = ($coupon->discount_value / 100) * $subtotal;
+            } else {
+                // Nếu là giảm giá cố định
+                $discount = $coupon->discount_value;
+            }
+
+            // Tính tổng giá trị sau khi giảm giá
             $totalAfterDiscount = $subtotal - $discount;
 
             // Lưu thông tin mã giảm giá vào session
@@ -102,7 +114,7 @@ class CartController extends Controller
 
             return redirect()->back()->with('success', "Coupon applied successfully !!!");
         } else {
-            return redirect()->back()->with('error', "Invalid coupon code !!!");
+            return redirect()->back()->with('error', "Invalid coupon code or expired !!!");
         }
     }
 
