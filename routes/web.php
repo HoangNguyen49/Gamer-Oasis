@@ -75,8 +75,7 @@ Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])-
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 
-// Route cho trang Đăng nhập và Đăng ký
-Route::view('/login-register', 'web.pages.login-register');
+
 
 
 
@@ -90,7 +89,7 @@ Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
 
 //Route Prefix Admin
-Route::prefix('admin')->group(
+Route::prefix('admin')->middleware('auth')->group(
     function () {
         // Route cho trang chủ admin
         Route::get('/', function () {
