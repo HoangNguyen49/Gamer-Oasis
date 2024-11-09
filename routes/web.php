@@ -10,6 +10,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VnpayOrderController;
+use App\Http\Controllers\DashboardController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -81,6 +82,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.pages.index-admin');
     });
+
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+
 
     // Route cho trang quản lý đơn hàng
     Route::get('/quanlidonhang', function () {

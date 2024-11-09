@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Include necessary head elements -->
     @include('admin.layout.head')
 </head>
+
 <body>
     <!-- Include Navbar -->
     @include('admin.layout.navbar')
@@ -17,7 +19,7 @@
                 <div class="col-md-12">
                     <div class="app-title">
                         <ul class="app-breadcrumb breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><b>Bảng điều khiển</b></a></li>
+                            <li class="breadcrumb-item"><a href="/admin"><b>Dashboard</b></a></li>
                         </ul>
                         <div id="clock"></div>
                     </div>
@@ -32,9 +34,9 @@
                             <div class="widget-small primary coloured-icon">
                                 <i class='icon bx bxs-user-account fa-3x'></i>
                                 <div class="info">
-                                    <h4>Tổng khách hàng</h4>
-                                    <p><b>56 khách hàng</b></p>
-                                    <p class="info-tong">Tổng số khách hàng được quản lý.</p>
+                                    <h4>Total Customers</h4>
+                                    <p><b>{{ $totalCustomers }} customers</b></p>
+                                    <p class="info-tong">Total number of customers managed.</p>
                                 </div>
                             </div>
                         </div>
@@ -43,9 +45,9 @@
                             <div class="widget-small info coloured-icon">
                                 <i class='icon bx bxs-data fa-3x'></i>
                                 <div class="info">
-                                    <h4>Tổng sản phẩm</h4>
-                                    <p><b>1850 sản phẩm</b></p>
-                                    <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
+                                    <h4>Total Products</h4>
+                                    <p><b>{{ $totalProducts }} products</b></p>
+                                    <p class="info-tong">Total number of products managed.</p>
                                 </div>
                             </div>
                         </div>
@@ -54,9 +56,9 @@
                             <div class="widget-small warning coloured-icon">
                                 <i class='icon bx bxs-shopping-bags fa-3x'></i>
                                 <div class="info">
-                                    <h4>Tổng đơn hàng</h4>
-                                    <p><b>247 đơn hàng</b></p>
-                                    <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
+                                    <h4>Total Orders</h4>
+                                    <p><b>{{ $totalOrders }} orders</b></p>
+                                    <p class="info-tong">Total number of orders managed.</p>
                                 </div>
                             </div>
                         </div>
@@ -65,97 +67,80 @@
                             <div class="widget-small danger coloured-icon">
                                 <i class='icon bx bxs-error-alt fa-3x'></i>
                                 <div class="info">
-                                    <h4>Sắp hết hàng</h4>
-                                    <p><b>4 sản phẩm</b></p>
-                                    <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
+                                    <h4>Running Low</h4>
+                                    <p><b>{{ $lowStockProducts }} product</b></p>
+                                    <p class="info-tong">The product quantity is warned to be running low.</p>
                                 </div>
                             </div>
                         </div>
                         <!-- col-12 -->
                         <div class="col-md-12">
                             <div class="tile">
-                                <h3 class="tile-title">Tình trạng đơn hàng</h3>
+                                <h3 class="tile-title">New Orders Status</h3>
                                 <div>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>ID đơn hàng</th>
-                                                <th>Tên khách hàng</th>
-                                                <th>Tổng tiền</th>
-                                                <th>Trạng thái</th>
+                                                <th>Order ID</th>
+                                                <th>Customer Name</th>
+                                                <th>Total Price</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>AL3947</td>
-                                                <td>Phạm Thị Ngọc</td>
-                                                <td>19.770.000 đ</td>
-                                                <td><span class="badge bg-info">Chờ xử lý</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>ER3835</td>
-                                                <td>Nguyễn Thị Mỹ Yến</td>
-                                                <td>16.770.000 đ</td>
-                                                <td><span class="badge bg-warning">Đang vận chuyển</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>MD0837</td>
-                                                <td>Triệu Thanh Phú</td>
-                                                <td>9.400.000 đ</td>
-                                                <td><span class="badge bg-success">Đã hoàn thành</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>MT9835</td>
-                                                <td>Đặng Hoàng Phúc</td>
-                                                <td>40.650.000 đ</td>
-                                                <td><span class="badge bg-danger">Đã hủy</span></td>
-                                            </tr>
+                                            @foreach ($recentOrders as $order)
+                                                <tr>
+                                                    <td>{{ $order->order_id }}</td>
+                                                    <td>{{ $order->full_name }}</td>
+                                                    <td>${{ number_format($order->subtotal, 2, '.', '.') }}</td>
+                                                    <td>
+                                                        @if ($order->status == 'pending')
+                                                            <span class="badge bg-warning">Pending</span>
+                                                        @elseif($order->status == 'processed')
+                                                            <span class="badge bg-info">Processed</span>
+                                                        @elseif($order->status == 'shipped')
+                                                            <span class="badge bg-primary">Shipped</span>
+                                                        @elseif($order->status == 'delivered')
+                                                            <span class="badge bg-success">Delivered</span>
+                                                        @elseif($order->status == 'canceled')
+                                                            <span class="badge bg-danger">Canceled</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- / div trống-->
                             </div>
                         </div>
+
                         <!-- / col-12 -->
                         <!-- col-12 -->
                         <div class="col-md-12">
                             <div class="tile">
-                                <h3 class="tile-title">Khách hàng mới</h3>
+                                <h3 class="tile-title">New Customers</h3>
                                 <div>
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Tên khách hàng</th>
-                                                <th>Ngày sinh</th>
-                                                <th>Số điện thoại</th>
+                                                <th>Customer Name</th>
+                                                <th>Created Time</th>
+                                                <th>Phone Number</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>#183</td>
-                                                <td>Hột vịt muối</td>
-                                                <td>21/7/1992</td>
-                                                <td><span class="tag tag-success">0921387221</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#219</td>
-                                                <td>Bánh tráng trộn</td>
-                                                <td>30/4/1975</td>
-                                                <td><span class="tag tag-warning">0912376352</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#627</td>
-                                                <td>Cút rang b��</td>
-                                                <td>12/3/1999</td>
-                                                <td><span class="tag tag-primary">01287326654</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#175</td>
-                                                <td>Hủ tiếu nam vang</td>
-                                                <td>4/12/20000</td>
-                                                <td><span class="tag tag-danger">0912376763</span></td>
-                                            </tr>
+                                            @foreach ($recentCustomers as $user)
+                                                <tr>
+                                                    <td>{{ $user->User_id }}</td>
+                                                    <td>{{ $user->Name }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($user->dob)->format('d/m/Y') }}
+                                                    </td>
+                                                    <td><span
+                                                            class="tag tag-success">{{ $user->Phone }}</span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -164,11 +149,136 @@
                         <!-- / col-12 -->
                     </div>
                 </div>
+                <!--Right-->
+                <div class="col-md-12 col-lg-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tile">
+                                <h3 class="tile-title">6 Month Order Statistics</h3>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="tile">
+                                <h3 class="tile-title">6 Month Revenue Statistics</h3>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--END right-->
             </div>
         </main>
 
         <!-- Include Footer -->
         @include('admin.layout.footer')
     </div>
+
+    <script>
+        // Hàm cập nhật đồng hồ
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            document.getElementById('clock').innerHTML = time;
+        }
+
+        // Gọi hàm updateClock khi trang tải
+        window.onload = function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('lineChartDemo').getContext('2d');
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach (range(5, 0) as $i)
+                        "{{ \Carbon\Carbon::now()->subMonths($i)->format('M Y') }}",
+                    @endforeach
+                ],
+                datasets: [{
+                        label: 'Total orders',
+                        data: @json($ordersPerMonth),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Delivered',
+                        data: @json($deliveredOrdersPerMonth),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Cancelled',
+                        data: @json($cancelledOrdersPerMonth),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var ctx = document.getElementById('barChartDemo').getContext('2d');
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach (range(5, 0) as $i)
+                        "{{ \Carbon\Carbon::now()->subMonths($i)->format('M Y') }}",
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Revenue',
+                    data: @json($revenuePerMonth),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 71, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 71, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>
