@@ -87,7 +87,6 @@
                                                         </div>
                                                         <small>Stock: {{ $item['stock_quantity'] }}</small>
                                                     </td>
-
                                                     <td class="product-subtotal">
                                                         @php
                                                             $total = $item['price'] * $item['quantity'];

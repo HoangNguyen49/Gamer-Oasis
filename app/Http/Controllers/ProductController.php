@@ -22,7 +22,7 @@ class ProductController extends Controller
             ->when($search, function ($query, $search) {
                 return $query->where('Product_name', 'like', '%' . $search . '%');
             })
-            ->get();
+            ->paginate(10); // Phân trang 10 sản phẩm trên mỗi trang
 
         return view('admin.pages.quanlisanpham', compact('products', 'search'));
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\VnpayOrderController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -117,6 +118,15 @@ Route::prefix('admin')->group(function () {
         return view('admin.pages.form-add-blog');
     })->name('taobai');
 
+    Route::get('/trans.verifi', function () {
+        return view('admin.pages.trans.verifi');
+        return view('admin.pages.trans.verifi');
+    });
+
+    // Route mặc định
+    Route::get('/trans_verifi', [VnpayOrderController::class, 'index'])->name('trans_verifi.index');
+    Route::get('/trans_verifi_details/{vnpay_id}', [VnpayOrderController::class, 'showDetails'])->name('trans_verifi_details');
+
     // Route cho trang quản lý coupon
     Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
 
@@ -162,7 +172,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('form-add-san-pham');
     Route::get('/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
     Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
-    Route::get('/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
+    Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
 
     //Route show chi tiết sản phẩm bên web
@@ -173,3 +183,18 @@ Route::prefix('admin')->group(function () {
 });
 
 // End Prefix Admin
+
+
+// Category Management
+Route::get('/categories', [CategoryController::class, 'index2'])->name('category.management');
+Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory'])->name('categories.delete');
+Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
+
+
+// Brand Management
+Route::get('/brands', [BrandController::class, 'indexBrand'])->name('brand.management');
+Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand'])->name('brands.delete');
+Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.search');
+
+Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_payment'])->name('vnpay.payment');
+Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 
+
 class OrderController extends Controller
 {
     // Hiển thị danh sách tất cả các đơn hàng
@@ -104,65 +105,72 @@ class OrderController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Xác thực dữ liệu
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:50',
-            'address' => 'required|string|max:255',
-            'email_address' => 'required|email|max:50',
-            'product_id' => 'required|array',
-            'payment_method' => 'required|string|in:COD,VNPay',
-        ]);
+{
+    // Xác thực dữ liệu
+    $request->validate([
+        'full_name' => 'required|string|max:255',
+        'phone' => 'required|string|max:50',
+        'address' => 'required|string|max:255',
+        'email_address' => 'required|email|max:50',
+        'product_id' => 'required|array',
+        'payment_method' => 'required|string|in:COD,VNPay',
+    ]);
 
-        // Lấy thông tin từ session giỏ hàng
-        $cartItems = session('cart');
+    // Lấy thông tin từ session giỏ hàng
+    $cartItems = session('cart');
 
-        if (empty($cartItems)) {
-            return redirect()->back()->with('error', 'Your cart is empty.');
-        }
-
-        // Khởi tạo mảng để lưu tên sản phẩm và tổng giá trị đơn hàng
-        $productNames = [];
-        $totalPrice = 0;
-
-        // Duyệt qua từng item trong giỏ hàng để lấy tên sản phẩm và tính toán tổng
-        foreach ($cartItems as $item) {
-            if (!isset($item['product_id']) || !isset($item['product_name']) || !isset($item['quantity']) || !isset($item['price'])) {
-                return redirect()->back()->with('error', 'Invalid product data in cart.');
-            }
-
-            $productNames[] = $item['product_name'];
-            $totalPrice += $item['price'] * $item['quantity'];
-        }
-
-        // Kiểm tra xem có mã giảm giá và totalAfterDiscount trong session không
-        $totalAfterDiscount = session()->has('coupon.totalAfterDiscount')
-            ? session('coupon.totalAfterDiscount')
-            : $totalPrice;
-
-        // Tạo một đơn hàng duy nhất cho toàn bộ giỏ hàng
-        $order = new Order();
-        $order->full_name = $request->full_name;
-        $order->phone = $request->phone;
-        $order->address = $request->address;
-        $order->email_address = $request->email_address;
-        $order->product_name = implode(', ', $productNames);
-        $order->quantity = count($request->product_id);
-        $order->subtotal = $totalAfterDiscount; // Tổng giá trị đơn hàng sau giảm giá
-        $order->status = 'pending';
-        $order->user_id = null;
-        $order->created_at = now();
-        $order->payment_method = $request->payment_method;
-
-        // Lưu đơn hàng
-        $order->save();
-
-        // Xóa giỏ hàng và thông tin giảm giá sau khi đặt hàng
-        session()->forget('cart');
-        session()->forget('coupon');
-        session()->forget('totalAfterDiscount');
-
-        return redirect()->route('checkout')->with('success', 'Your order has been placed successfully!');
+    if (empty($cartItems)) {
+        return redirect()->back()->with('error', 'Your cart is empty.');
     }
+
+    // Khởi tạo mảng để lưu tên sản phẩm và tổng giá trị đơn hàng
+    $productNames = [];
+    $totalPrice = 0;
+
+    // Duyệt qua từng item trong giỏ hàng để lấy tên sản phẩm và tính toán tổng
+    foreach ($cartItems as $item) {
+        if (!isset($item['product_id']) || !isset($item['product_name']) || !isset($item['quantity']) || !isset($item['price'])) {
+            return redirect()->back()->with('error', 'Invalid product data in cart.');
+        }
+
+        $productNames[] = $item['product_name'];
+        $totalPrice += $item['price'] * $item['quantity'];
+    }
+
+    // Kiểm tra xem có mã giảm giá và totalAfterDiscount trong session không
+    $totalAfterDiscount = session()->has('coupon.totalAfterDiscount')
+        ? session('coupon.totalAfterDiscount')
+        : $totalPrice;
+
+    // Tạo một đơn hàng duy nhất cho toàn bộ giỏ hàng
+    $order = new Order();
+    $order->full_name = $request->full_name;
+    $order->phone = $request->phone;
+    $order->address = $request->address;
+    $order->email_address = $request->email_address;
+    $order->product_name = implode(', ', $productNames);
+    $order->quantity = count($request->product_id);
+    $order->subtotal = $totalAfterDiscount; // Tổng giá trị đơn hàng sau giảm giá
+    $order->status = 'pending';
+    $order->user_id = null;
+    $order->created_at = now();
+    $order->payment_method = $request->payment_method;
+
+    // Lưu đơn hàng
+    $order->save();
+
+    // Kiểm tra nếu thanh toán bằng VNPay
+    if ($request->payment_method == 'VNPay') {
+        $vnpayPaymentUrl = route('vnpay.payment', ['order_id' => $order->order_id]);
+        return redirect($vnpayPaymentUrl);
+    }
+    
+    // Xóa giỏ hàng và thông tin giảm giá sau khi đặt hàng
+    session()->forget('cart');
+    session()->forget('coupon');
+    session()->forget('totalAfterDiscount');
+
+    return redirect()->route('checkout')->with('success', 'Your order has been placed successfully!');
+}
+
 }

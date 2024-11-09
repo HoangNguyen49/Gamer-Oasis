@@ -458,7 +458,7 @@
                                                 </div>
                                                 <h4>
                                                     <a class="product_name"
-                                                        href="{{ route('products.show', $product->Product_id) }}">{{ $product->Product_name }}</a>  <!-- Cập nhật ở đây -->
+                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>  
                                                 </h4>
                                                 <div class="price-box">
                                                     <span class="new-price">${{ number_format($product->Price, 2) }}</span>
@@ -514,14 +514,14 @@
                                             <div class="product_desc_info">
                                                 <div class="product-review">
                                                     <h5 class="manufacturer">
-                                                        <a href="product-details.html">
+                                                        <a href="{{ route('products.show', $product->Slug) }}">
                                                             {{ optional($product->brand)->Brand_name ?? 'No Brand' }}
                                                         </a>
                                                     </h5>
                                                 </div>
                                                 <h4>
                                                     <a class="product_name"
-                                                        href="single-product.html">{{ $product->Product_name }}</a>
+                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
                                                     <span
@@ -587,7 +587,7 @@
                                                 </div>
                                                 <h4>
                                                     <a class="product_name"
-                                                        href="single-product.html">{{ $product->Product_name }}</a>
+                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
                                                     <span

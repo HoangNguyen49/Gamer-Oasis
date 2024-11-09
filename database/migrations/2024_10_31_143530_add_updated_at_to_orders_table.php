@@ -12,12 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            // Thêm các cột cần thiết
-            $table->string('full_name')->nullable(); // Tên khách hàng
-            $table->string('phone')->nullable(); // Số điện thoại
-            $table->string('address')->nullable(); // Địa chỉ
-            $table->string('email_address')->nullable(); // Email
-            $table->timestamp('updated_at')->nullable(); // Cột updated_at
+            // Thêm các cột cần thiết nếu chưa tồn tại
+            if (!Schema::hasColumn('orders', 'full_name')) {
+                $table->string('full_name')->nullable(); // Tên khách hàng
+            }
+            if (!Schema::hasColumn('orders', 'phone')) {
+                $table->string('phone')->nullable(); // Số điện thoại
+            }
+            if (!Schema::hasColumn('orders', 'address')) {
+                $table->string('address')->nullable(); // Địa chỉ
+            }
+            if (!Schema::hasColumn('orders', 'email_address')) {
+                $table->string('email_address')->nullable(); // Email
+            }
+            if (!Schema::hasColumn('orders', 'updated_at')) {
+                $table->timestamp('updated_at')->nullable(); // Cột updated_at
+            }
         });
     }
 
@@ -46,3 +56,4 @@ return new class extends Migration
         });
     }
 };
+
