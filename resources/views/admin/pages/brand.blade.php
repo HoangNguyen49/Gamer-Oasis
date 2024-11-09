@@ -112,10 +112,6 @@
 
         @include('admin.layout.footer')
     </div>
-    
-
-   
-    
 
     {{-- Script for Create Brand --}}
     <script>
@@ -144,9 +140,6 @@
             });
         });
     </script>
-
-
-
 </body>
 
 </html>
