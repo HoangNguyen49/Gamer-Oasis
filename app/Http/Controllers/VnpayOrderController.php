@@ -11,6 +11,38 @@ use App\Models\Order;
 
 class VnpayOrderController extends Controller
 {
+    public function index(Request $request)
+    {
+        // Kiểm tra nếu có từ khóa tìm kiếm trong URL
+        $search = $request->input('search');
+
+        // Lọc các đơn hàng VNPay theo từ khóa tìm kiếm và phân trang
+        $vnpayOrders = VnpayOrder::when($search, function ($query, $search) {
+            return $query->where('vnpay_orders_id', 'like', "%{$search}%")
+                ->orWhere('transaction_code', 'like', "%{$search}%");
+        })->paginate(10); // 10 là số lượng đơn hàng mỗi trang
+
+        // Trả về view với dữ liệu đã phân trang
+        return view('admin.pages.trans_verifi', compact('vnpayOrders'));
+    }
+
+
+    public function showDetails($vnpay_id)
+    {
+        // Lấy thông tin chi tiết của đơn hàng VNPay theo vnpay_id
+        $vnpayOrder = VnpayOrder::where('vnpay_id', $vnpay_id)->first();
+
+        // Kiểm tra xem có dữ liệu không
+        if (!$vnpayOrder) {
+            return redirect()->route('vnpay.index')->with('error', 'Transaction not found!');
+        }
+
+        // Trả về view với dữ liệu đơn hàng VNPay
+        return view('admin.pages.trans_verifi_details', compact('vnpayOrder'));
+    }
+
+
+
     public function vnpay_payment($order_id)
     {
         // Lấy giỏ hàng từ session

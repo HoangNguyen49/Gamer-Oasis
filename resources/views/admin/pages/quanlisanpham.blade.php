@@ -4,7 +4,6 @@
 <head>
     <!-- Include necessary head elements -->
     @include('admin.layout.head')
-
 </head>
 
 <body>
@@ -31,6 +30,14 @@
                                         title="Thêm">
                                         <i class="fas fa-plus"></i> Create New Product
                                     </a>
+                                    <a class="btn btn-add btn-sm mr-2" data-toggle="modal"
+                                        data-target="#addCategoryModal" title="Thêm Category">
+                                        <i class="fas fa-plus"></i> Create New Category
+                                    </a>
+                                    <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addBrandModal"
+                                        title="Thêm Brand">
+                                        <i class="fas fa-plus"></i> Create New Brand
+                                    </a>
                                 </div>
                                 <div class="col-sm-4 d-flex justify-content-end"> <!-- Chiếm 4 cột -->
                                     <form action="{{ route('products.indexAdmin') }}" method="GET"
@@ -41,6 +48,8 @@
                                     </form>
                                 </div>
                             </div>
+
+
                             <table class="table table-hover table-bordered" id="sampleTable">
                                 <thead>
                                     <tr>
@@ -58,7 +67,6 @@
                                 <tbody>
                                     @foreach ($products as $product)
                                         <tr>
-                                            
                                             <td>{{ $product->Product_id }}</td>
                                             <td>{{ $product->category->Category_name }}</td>
                                             <td>{{ $product->brand->Brand_name }}</td>
@@ -103,6 +111,74 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
+                            <!-- Phân trang -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p>There are {{ $products->total() }} products currently
+                                            </p>
+                                            <!-- Hiển thị tổng số đơn hàng -->
+                                        </div>
+                                        <div>
+                                            <nav>
+                                                <ul class="pagination">
+                                                    {{-- Nút đến trang đầu tiên --}}
+                                                    @if ($products->currentPage() > 1)
+                                                        <li><a href="{{ $products->url(1) }}">&laquo;</a></li>
+                                                    @endif
+
+                                                    {{-- Nút quay lại --}}
+                                                    @if ($products->onFirstPage())
+                                                        <li class="disabled"><span>&lt;</span></li>
+                                                    @else
+                                                        <li><a href="{{ $products->previousPageUrl() }}">&lt;</a>
+                                                        </li>
+                                                    @endif
+
+                                                    {{-- Các nút phân trang --}}
+                                                    @php
+                                                        $currentPage = $products->currentPage();
+                                                        $lastPage = $products->lastPage();
+                                                        $startPage = max(1, $currentPage - 1); // Bắt đầu từ trang 1 hoặc một trang trước trang hiện tại
+                                                        $endPage = min($lastPage, $startPage + 2); // Kết thúc ở trang cuối cùng hoặc trang 3 sau trang bắt đầu
+
+                                                        // Điều chỉnh startPage nếu endPage là trang cuối
+                                                        if ($endPage - $startPage < 2) {
+                                                            $startPage = max(1, $endPage - 2); // Đảm bảo hiển thị đúng 3 trang nếu có đủ
+                                                        }
+                                                    @endphp
+
+                                                    @for ($page = $startPage; $page <= $endPage; $page++)
+                                                        @if ($page == $currentPage)
+                                                            <li class="active"><span>{{ $page }}</span></li>
+                                                        @else
+                                                            <li><a
+                                                                    href="{{ $products->url($page) }}">{{ $page }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endfor
+
+                                                    {{-- Nút tiếp theo --}}
+                                                    @if ($products->hasMorePages())
+                                                        <li><a href="{{ $products->nextPageUrl() }}">&gt;</a></li>
+                                                    @else
+                                                        <li class="disabled"><span>&gt;</span></li>
+                                                    @endif
+
+                                                    {{-- Nút đến trang cuối cùng --}}
+                                                    @if ($products->currentPage() < $lastPage)
+                                                        <li><a href="{{ $products->url($lastPage) }}">&raquo;</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -132,25 +208,112 @@
                 </div>
             </div>
         </div>
+
+        {{-- Modal for Create Category --}}
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog"
+            aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="categoryForm">
+                            @csrf
+                            <div class="form-group">
+                                <label for="category_name">Category Name</label>
+                                <input type="text" class="form-control" id="category_name" name="Category_name"
+                                    required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save Category</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Modal for Create Brand --}}
+        <div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog"
+            aria-labelledby="addBrandModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addBrandModalLabel">Add New Brand</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="brandForm">
+                            @csrf
+                            <div class="form-group">
+                                <label for="brand_name">Brand Name</label>
+                                <input type="text" class="form-control" id="brand_name" name="Brand_name"
+                                    required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="saveBrandBtn">Save Brand</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         @include('admin.layout.footer')
     </div>
-    
+
     <!-- Script handle  -->
     <script>
         $(document).ready(function() {
             $('.view-product').on('click', function() {
                 var productId = $(this).data('id');
+
                 $.ajax({
-                    url: '/admin/admin/products/' + productId, // Match this URL with the route definition
+                    url: '/admin/products/' +
+                        productId, // Đường dẫn tới route hiển thị chi tiết sản phẩm
                     method: 'GET',
                     success: function(data) {
+                        // Thay thế nội dung trong modal với thông tin sản phẩm
                         $('#productDetailsContent').html(data);
-                        $('#productDetailModal').modal('show');
+                        $('#productDetailModal').modal('show'); // Hiển thị modal
                     },
-                    error: function(xhr, status, error) {
-                        console.error("Error:", error); // Log error details
-                        alert('Error loading product details: ' + xhr.status + ' ' + xhr
-                            .statusText);
+                    error: function() {
+                        alert('Error loading product details.');
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- Script for Create Category --}}
+    <script>
+        $(document).ready(function() {
+            // Xử lý sự kiện khi bấm nút Save Category
+            $('#saveCategoryBtn').click(function() {
+                var formData = $('#categoryForm').serialize(); // Lấy dữ liệu từ form
+
+                $.ajax({
+                    url: '{{ route('categories.store') }}', // Đường dẫn tới route store
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#addCategoryModal').modal(
+                                'hide'); // Đóng modal sau khi lưu thành công
+                            alert('Category added successfully!');
+                            location.reload(); // Tải lại trang để cập nhật danh sách nếu cần
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        alert('An error occurred while adding the category.');
                     }
                 });
             });
@@ -158,6 +321,32 @@
     </script>
 
 
-</body>
+    {{-- Script for Create Brand --}}
+    <script>
+        $(document).ready(function() {
+            // Xử lý sự kiện khi bấm nút Save Brand
+            $('#saveBrandBtn').click(function() {
+                var formData = $('#brandForm').serialize(); // Lấy dữ liệu từ form
+
+                $.ajax({
+                    url: '{{ route('brands.store') }}', // Đường dẫn tới route store cho Brand
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#addBrandModal').modal(
+                                'hide'); // Đóng modal sau khi lưu thành công
+                            alert('Brand added successfully!');
+                            location.reload(); // Tải lại trang để cập nhật danh sách nếu cần
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        alert('An error occurred while adding the brand.');
+                    }
+                });
+            });
+        });
+    </script>
 
 </html>

@@ -10,6 +10,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VnpayOrderController;
+use App\Http\Controllers\DashboardController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -82,6 +83,9 @@ Route::prefix('admin')->group(function () {
         return view('admin.pages.index-admin');
     });
 
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+
     // Route cho trang quản lý đơn hàng
     Route::get('/quanlidonhang', function () {
         return view('admin.pages.quanlidonhang');
@@ -117,6 +121,15 @@ Route::prefix('admin')->group(function () {
     Route::get('/quanliblog/taobai', function () {
         return view('admin.pages.form-add-blog');
     })->name('taobai');
+
+    Route::get('/trans.verifi', function () {
+        return view('admin.pages.trans.verifi');
+        return view('admin.pages.trans.verifi');
+    });
+
+    // Route mặc định
+    Route::get('/trans_verifi', [VnpayOrderController::class, 'index'])->name('trans_verifi.index');
+    Route::get('/trans_verifi_details/{vnpay_id}', [VnpayOrderController::class, 'showDetails'])->name('trans_verifi_details');
 
     // Route cho trang quản lý coupon
     Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
@@ -189,6 +202,3 @@ Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.s
 
 Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_payment'])->name('vnpay.payment');
 Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');
-
-
-   

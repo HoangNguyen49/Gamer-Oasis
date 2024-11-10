@@ -19,7 +19,7 @@ class CouponController extends Controller
                          ->orWhere('code', 'LIKE', "%{$search}"); // Tìm kiếm số trong mã coupon
         }, function ($query) {
             return $query->orderBy('coupon_id', 'asc'); // Sắp xếp theo coupon_id tăng dần nếu không có tìm kiếm
-        })->paginate(20); // Sử dụng phân trang để giao diện tốt hơn
+        })->paginate(10); // Sử dụng phân trang để giao diện tốt hơn
 
         // Trả về view với các coupon đã lấy và giá trị tìm kiếm
         return view('admin.pages.quanlimagiamgia', compact('coupons', 'search'));
