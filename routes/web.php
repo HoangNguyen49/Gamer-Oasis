@@ -232,8 +232,8 @@ Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name(
 
 
    
-        // Route cho trang danh sách sản phẩm
-        Route::get('/products', [ProductController::class, 'indexAdmin'])->name('products.index');
+// Route cho trang danh sách sản phẩm
+Route::get('/products', [ProductController::class, 'indexAdmin'])->name('products.index');
     
 //end Route Prefix Admin
 
