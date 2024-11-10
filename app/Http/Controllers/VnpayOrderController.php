@@ -113,9 +113,12 @@ class VnpayOrderController extends Controller
 
         // Lưu thông tin vào bảng vnpay_orders
         $vnpayOrder = new VnpayOrder();
-        $vnpayOrder->vnpay_id = $request->input('vnp_TransactionNo'); // Mã giao dịch từ VNPAY
+
+        // Kiểm tra nếu `vnp_TransactionNo` là `0`, đặt chuỗi tùy chỉnh
+        $transactionNo = $request->input('vnp_TransactionNo');
+        $vnpayOrder->vnpay_id = $transactionNo != '0' ? $transactionNo : 'Failed_Tx_' . uniqid();
         $vnpayOrder->vnpay_orders_id = $order_id; // Lưu order_id trả về từ VNPAY
-        $vnpayOrder->transaction_code = $request->input('vnp_TransactionNo');
+        $vnpayOrder->transaction_code = $transactionNo;
 
         // Chia cho 100 để chuyển đổi từ đồng sang VND
         $vnpayOrder->amount = is_numeric($request->input('vnp_Amount')) ? $request->input('vnp_Amount') / 100 : 0;
