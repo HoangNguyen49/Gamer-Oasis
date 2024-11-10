@@ -33,18 +33,22 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-4 d-flex justify-content-end"> <!-- Chiếm 4 cột -->
-                                    <form action="{{ route('categories.search') }}" method="GET" class="form-inline mb-3">
-                                        <input type="text" name="keyword" class="form-control mr-2" placeholder="Search by category name" value="{{ request('keyword') }}">
-                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    <form action="{{ route('categories.search') }}" method="GET"
+                                        class="form-inline mb-3">
+                                        <input style="height:32px;" type="text" name="keyword"
+                                            class="form-control mr-2" placeholder="Search by category name"
+                                            value="{{ request('keyword') }}">
+                                        <button type="submit" class="btn btn-primary"
+                                            style="height:32px;">Search</button>
                                     </form>
-                                    
+
                                     @if (session('error'))
                                         <div class="alert alert-danger mt-2">
                                             {{ session('error') }}
                                         </div>
                                     @endif
                                 </div>
-                                
+
                             </div>
 
 
@@ -66,14 +70,16 @@
                                                     title="Sửa" data-toggle="modal" data-target="#ModalUP"
                                                     onclick="window.location.href='{{ route('edit-product', $product->Product_id) }}'">
                                                     <i class="fas fa-edit"></i>
-                                                </button>--}}
-                                                <form action="{{ route('categories.delete', $category->Category_id) }}" method="POST">
+                                                </button> --}}
+                                                <form action="{{ route('categories.delete', $category->Category_id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm trash" type="submit" onclick="return confirm('Are you sure you want to delete this category?');">
+                                                    <button class="btn btn-danger btn-sm trash" type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this category?');">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
-                                                </form>                                                
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -117,10 +123,21 @@
 
         @include('admin.layout.footer')
     </div>
-    
 
-    <!-- Script handle  -->
-    
+    <script>
+        // Hàm cập nhật đồng hồ
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            document.getElementById('clock').innerHTML = time;
+        }
+
+        // Gọi hàm updateClock khi trang tải
+        window.onload = function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+        };
+    </script>
 
     {{-- Script for Create Category --}}
     <script>
