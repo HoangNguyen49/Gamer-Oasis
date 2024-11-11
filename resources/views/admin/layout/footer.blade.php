@@ -1,8 +1,6 @@
 <div class="text-center" style="font-size: 13px">
       <p><b>Copyright
-          <script type="text/javascript">
-            document.write(new Date().getFullYear());
-          </script> 
+          
         </b></p>
     </div>
   </main>

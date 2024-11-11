@@ -1,113 +1,177 @@
 <!doctype html>
-<html class="no-js" lang="zxx">
-    
-<!-- login-register31:27-->
-<head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Login Register</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
-    </head>
-    <body>
-    <!--[if lt IE 8]>
-		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
-        <!-- Begin Body Wrapper -->
-        <div class="body-wrapper">
-            <!-- Begin Header Area -->
-            @include('web.layouts.header')
-            <!-- Header Area End Here -->
-            <!-- Begin Li's Breadcrumb Area -->
-            <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="{{ url('/') }}">Home</a></li>
-                            <li class="active">Login Register</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
-            <!-- Begin Login Content Area -->
-            <div class="page-section mb-60">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
-                            <!-- Login Form s-->
-                            <form action="#" >
-                                <div class="login-form">
-                                    <h4 class="login-title">Login</h4>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12 mb-20">
-                                            <label>Email Address*</label>
-                                            <input class="mb-0" type="email" placeholder="Email Address">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>Password</label>
-                                            <input class="mb-0" type="password" placeholder="Password">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                                <input type="checkbox" id="remember_me">
-                                                <label for="remember_me">Remember me</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                            <a href="#"> Forgotten pasward?</a>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="register-button mt-0">Login</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                            <form action="#">
-                                <div class="login-form">
-                                    <h4 class="login-title">Register</h4>
-                                    <div class="row">
-                                        <div class="col-md-6 col-12 mb-20">
-                                            <label>First Name</label>
-                                            <input class="mb-0" type="text" placeholder="First Name">
-                                        </div>
-                                        <div class="col-md-6 col-12 mb-20">
-                                            <label>Last Name</label>
-                                            <input class="mb-0" type="text" placeholder="Last Name">
-                                        </div>
-                                        <div class="col-md-12 mb-20">
-                                            <label>Email Address*</label>
-                                            <input class="mb-0" type="email" placeholder="Email Address">
-                                        </div>
-                                        <div class="col-md-6 mb-20">
-                                            <label>Password</label>
-                                            <input class="mb-0" type="password" placeholder="Password">
-                                        </div>
-                                        <div class="col-md-6 mb-20">
-                                            <label>Confirm Password</label>
-                                            <input class="mb-0" type="password" placeholder="Confirm Password">
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="register-button mt-0">Register</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Login Content Area End Here -->
-            <!-- Begin Footer Area -->
-            @include('web.layouts.footer')
-            <!-- Footer Area End Here -->
-        </div>
-        <!-- Body Wrapper End Here -->
-        @include('web.layouts.css-script')
-    </body>
+<html class="no-js" lang="eng">
 
 <!-- login-register31:27-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login Register</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+    <div class="body-wrapper">
+
+        @include('web.layouts.header')
+
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="breadcrumb-content">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">Login Register</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-section mb-60">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+                        <!-- Login Form -->
+                        <form action="{{ route('login') }}" method="POST" class="row equal-height-form">
+                            @csrf
+                            <div class="login-form">
+                                <h4 class="login-title">Login</h4>
+                                <div class="row">
+                                    <div class="col-md-12 col-12 mb-20">
+                                        <label>Email Address*</label>
+                                        <input class="form-control" type="email" name="email" required>
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-12 mb-20">
+                                        <label>Password</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="password" name="password" required>
+                                        </div>
+                                        @error('password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                        <a href="#forgotPasswordModal" class="btn btn-link" data-toggle="modal" data-target="#forgotPasswordModal">Forgot your password?</a>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <button class="btn btn-primary w-100" type="submit">Login</button>
+                                        <button class="btn btn-primary w-100 mt-2" onclick="location.href='{{ route('auth.google') }}'">
+                                            Login with Google
+                                        </button>
+                                        <a href="#registerModal" class="btn btn-link" data-toggle="modal" data-target="#registerModal">Don't have an account? Please register</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('users.store') }}" method="POST">
+                            @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirm Password</label>
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                            </div>
+                            <input type="hidden" name="role" value="customer">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- Modal for Forgot Password -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('password.email')}}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                    @if(session()->has('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        @include('web.layouts.footer')
+
+    </div>
+
+    @include('web.layouts.css-script')
+
+
+</body>
+
 </html>

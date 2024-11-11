@@ -75,13 +75,30 @@
                             <div class="header-top-right">
                                 <ul class="ht-menu">
                                     <!-- Begin Setting Area -->
-                                    <li>
-                                        <div class="ht-setting-trigger"><span>Setting</span></div>
+                                    <li class="setting-area">
+                                        <div class="ht-setting-trigger">
+                                            <span
+                                                style="font-size: 18px; font-weight: bold;">{{ Auth::check() ? Auth::user()->Name : 'setting' }}</span>
+                                        </div>
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">
-                                                <li><a href="{{ url('/login-register') }}">My Account</a></li>
-                                                <li><a href="{{ url('/checkout') }}">Checkout</a></li>
-                                                <li><a href="{{ url('/login-register') }}">Sign In</a></li>
+                                                @if (Auth::check())
+                                                    <li><a href="{{ route('user.account') }}" class="account-link">My
+                                                            Account</a></li>
+                                                    <li><a href="{{ url('/order-history') }}" class="order-link">Order
+                                                            History</a></li>
+
+                                                    <li><a href="{{ route('logout') }}" class="logout-link"
+                                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                                    </li>
+                                                    <form id="logout-form" action="{{ route('logout') }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                    </form>
+                                                @else
+                                                    <li><a href="{{ url('/login-register') }}" class="login-link">Sign
+                                                            In</a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </li>
@@ -225,7 +242,8 @@
                                                         <li><a href="{{ route('products.brand', 4) }}">ACER</a></li>
                                                         <li><a href="{{ route('products.brand', 5) }}">LENOVO</a></li>
                                                         <li><a href="{{ route('products.brand', 6) }}">MSI</a></li>
-                                                        <li><a href="{{ route('products.category', 8) }}">Laptop Accessories</a></li>
+                                                        <li><a href="{{ route('products.category', 8) }}">Laptop
+                                                                Accessories</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>

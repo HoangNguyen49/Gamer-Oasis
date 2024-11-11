@@ -1,19 +1,24 @@
-//---- Button View All ----
+// JavaScript to handle the modal population
 // Get the modal
 var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
-btn.onclick = function () {
-    modal.style.display = "block";
+// Function to show customer details and open modal
+function showCustomerDetails(userId, name, email, phone, address, createdAt) {
+    document.getElementById('customerID').innerText = userId;
+    document.getElementById('customerName').innerText = name;
+    document.getElementById('customerEmail').innerText = email;
+    document.getElementById('customerPhone').innerText = phone;
+    document.getElementById('customerAddress').innerText = address;
+    document.getElementById('registerDate').innerText = createdAt;
+
+    // Show the modal
+    modal.style.display = "block"; // Open the modal
 }
 
-// When the user clicks on <span> (x), close the modal
+// Close the modal when the user clicks on <span> (x)
 span.onclick = function () {
     modal.style.display = "none";
 }
@@ -24,5 +29,3 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
-
-// ------------------------------------------------------------

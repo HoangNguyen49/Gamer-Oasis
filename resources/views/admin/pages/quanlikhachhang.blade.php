@@ -4,6 +4,7 @@
 <head>
     <!-- Include necessary head elements -->
     @include('admin.layout.head')
+    
 </head>
 
 <body>
@@ -17,89 +18,101 @@
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
-                    <li class="breadcrumb-item active"><a><b>Danh sách khách hàng</b></a></li>
+                    <li class="breadcrumb-item active"><a><b>Customer List</b></a></li>
                 </ul>
+                
                 <div id="clock"></div>
+                <!-- Thêm ô tìm kiếm -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for customers..." onkeyup="searchFunction()" class="form-control">
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
                         <div class="tile-body">
-                            <div class="row element-button">
-                                <div class="col-sm-2">
-                                    <a class="btn btn-add btn-sm" href="{{ route('khachhangmoi') }}" title="Thêm"><i
-                                            class="fas fa-plus"></i>
-                                        khách hàng mới</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập"
-                                        onclick="myFunction(this)"><i class="fas fa-file-upload"></i> Tải từ file</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                        onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-delete btn-sm" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i> Xóa tất cả </a>
-                                </div>
-                            </div>
+
                             <table class="table table-hover table-bordered" id="sampleTable">
                                 <thead>
                                     <tr>
                                         <th width="10"><input type="checkbox" id="all"></th>
-                                        <th>Mã khách hàng</th>
-                                        <th>Tên khách hàng</th>
+                                        <th>Customer_Id</th>
+                                        <th>Customer_Name</th>
                                         <th>Email</th>
-                                        <th>Số điện thoại</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Chức năng</th>
+                                        <th>Function</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Example customer row -->
-                                    <tr>
-                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                        <td>KH001</td>
-                                        <td>Nguyễn Văn A</td>
-                                        <td>nguyenvana@example.com</td>
-                                        <td>0123456789</td>
-                                        <td>Hà Nội</td>
-                                        <td>
-                                            {{-- ------------------- --}}
-                                            <button id="myBtn" class="btn btn-primary" type="button" title="ViewAll"
-                                                ><i class="fas fa-eye"></i></button>
-                                            <div id="myModal" class="modal">
-
-                                                <!-- Modal content -->
-                                                <div class="modal-content">
-                                                    <span class="close">&times;</span>
-                                                    <h2 id="modalTitle">Thông  khách hàng</h2>
-                                                    <p><strong>Mã khách hàng:</strong> <span
-                                                            id="customerID">KH12345</span></p>
-                                                    <p><strong>Tên khách hàng:</strong> <span id="customerName">Nguyễn
-                                                            Văn A</span></p>
-                                                    <p><strong>Email:</strong> <span
-                                                            id="customerEmail">nguyenvana@example.com</span></p>
-                                                    <p><strong>Số điện thoại:</strong> <span
-                                                            id="customerPhone">0123456789</span></p>
-                                                    <p><strong>Địa chỉ:</strong> <span id="customerAddress">123 Phố ABC,
-                                                            Hà Nội</span></p>
-                                                    <p><strong>Ngày đăng ký:</strong> <span
-                                                            id="registerDate">2023-10-21</span></p>
-                                                    <p><strong>Mật khẩu:</strong> <span
-                                                            id="customerPassword">********</span></p>
-                                                </div>
-
-                                            </div>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                                id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                    class="fas fa-edit"></i></button>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                onclick="myFunction(this)"><i class="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                    <!-- Add more customer rows as needed -->
+                                   
+                                    @foreach ($users as $user)
+                                        @if($user->Role == 'customer')
+                                            <tr
+                                                onclick="showCustomerDetails({{ $user->User_id }}, '{{ $user->Name }}', '{{ $user->Email }}', '{{ $user->Phone }}', '{{ $user->Address }}', '{{ $user->created_at }}')">
+                                                <!-- Thêm sự kiện click vào hàng -->
+                                                <td width="10"><input type="checkbox" name="check1"
+                                                        value="{{ $user->User_id }}"></td> 
+                                                <td>{{ $user->User_id }}</td> 
+                                                <td>{{ $user->Name }}</td> 
+                                                <td>{{ $user->Email }}</td> 
+                                                <td>
+                                                   
+                                                    <div class="text-center">
+                                                        <button class="btn btn-primary btn-sm" type="button" title="Detail" data-toggle="modal" data-target="#customerModal{{ $user->User_id }}"><i class="fas fa-eye"></i></button>
+                                                        @if($user->is_blocked) <!-- Kiểm tra trạng thái bị chặn -->
+                                                            <!-- Nút Unblock nếu tài khoản bị chặn -->
+                                                            <button class="btn btn-success btn-sm" type="button" title="Unblock" onclick="toggleBlockUnblock({{ $user->User_id }}, false)"><i class="fas fa-user-check"></i> Unblock</button>
+                                                        @else
+                                                            <!-- Nút Block nếu tài khoản không bị chặn -->
+                                                            <button class="btn btn-danger btn-sm" type="button" title="Block" onclick="toggleBlockUnblock({{ $user->User_id }}, true)"><i class="fas fa-user-slash"></i> Block</button>
+                                                        @endif
+                                                    </div>
+                                                    <div class="modal fade" id="customerModal{{ $user->User_id }}" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel{{ $user->User_id }}" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="customerModalLabel{{ $user->User_id }}" style="font-weight: bold; color: #4CAF50;">Customer Details</h4>
+                                                                   
+                                                                </div>
+                                                                <div class="modal-body" style="padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group mb-4">
+                                                                                <label for="name" class="font-bold text-dark" style="font-size: 18px; margin-bottom: 10px;"><strong>Name:</strong></label>
+                                                                                <p id="name" class="text-gray-800" style="font-size: 16px; color: #333; margin-bottom: 20px;">{{ $user->Name }}</p>
+                                                                            </div>
+                                                                            <div class="form-group mb-4">
+                                                                                <label for="email" class="font-bold text-dark" style="font-size: 18px; margin-bottom: 10px;"><strong>Email:</strong></label>
+                                                                                <p id="email" class="text-gray-800" style="font-size: 16px; color: #333; margin-bottom: 20px;">{{ $user->Email }}</p>
+                                                                            </div>
+                                                                            <div class="form-group mb-4">
+                                                                                <label for="phone" class="font-bold text-dark" style="font-size: 18px; margin-bottom: 10px;"><strong>Phone:</strong></label>
+                                                                                <p id="phone" class="text-gray-800" style="font-size: 16px; color: #333; margin-bottom: 20px;">{{ $user->Phone }}</p>
+                                                                            </div>
+                                                                            <div class="form-group mb-4">
+                                                                                <label for="address" class="font-bold text-dark" style="font-size: 18px; margin-bottom: 10px;"><strong>Address:</strong></label>
+                                                                                <p id="address" class="text-gray-800" style="font-size: 16px; color: #333; margin-bottom: 20px;">{{ $user->Address }}</p>
+                                                                            </div>
+                                                                            <div class="form-group mb-4">
+                                                                                <label for="registeredOn" class="font-bold text-dark" style="font-size: 18px; margin-bottom: 10px;"><strong>Registered On:</strong></label>
+                                                                                <p id="registeredOn" class="text-gray-800" style="font-size: 16px; color: #333; margin-bottom: 20px;">{{ $user->created_at }}</p>
+                                                                            </div>
+                                                                            <div class="form-group mb-4">
+                                                                                <label for="role" class="font-bold text-dark" style="font-size: 18px; margin-bottom: 10px;"><strong>Role:</strong></label>
+                                                                                <p id="role" class="text-gray-800" style="font-size: 16px; color: #333; margin-bottom: 20px;">{{ $user->Role }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer" style="background-color: #f9f9f9; border-top: 1px solid #ddd; padding: 10px; text-align: right;">
+                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -108,54 +121,71 @@
             </div>
         </main>
 
-        <!--
-  MODAL
--->
-        <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
-            data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+    </div>
+    </div>
+    @include('admin.layout.footer')
+    </div>
+    <style>
+    .search-container {
+        margin-bottom: 20px; /* Khoảng cách dưới ô tìm kiếm */
+    }
+    .form-control {
+        width: 100%; /* Chiều rộng 100% */
+        padding: 10px; /* Padding cho ô tìm kiếm */
+        border-radius: 5px; /* Bo góc cho ô tìm kiếm */
+        border: 1px solid #ccc; /* Đường viền cho ô tìm kiếm */
+    }
+</style>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group  col-md-12">
-                                <span class="thong-tin-thanh-toan">
-                                    <h5>Chỉnh sửa thông tin khách hàng</h5>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mã khách hàng </label>
-                                <input class="form-control" type="text" value="KH001">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Tên khách hàng</label>
-                                <input class="form-control" type="text" required value="Nguyễn Văn A">
-                            </div>
-                            <div class="form-group  col-md-6">
-                                <label class="control-label">Email</label>
-                                <input class="form-control" type="email" required value="nguyenvana@example.com">
-                            </div>
-                            <div class="form-group col-md-6 ">
-                                <label class="control-label">Số điện thoại</label>
-                                <input class="form-control" type="text" required value="0123456789">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Địa chỉ</label>
-                                <input class="form-control" type="text" value="Hà Nội">
-                            </div>
-                        </div>
-                        <BR>
-                        <button class="btn btn-save" type="button">Lưu lại</button>
-                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                        <BR>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                </div>
-            </div>
-            @include('admin.layout.footer')
-        </div>
+    function searchFunction() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toLowerCase();
+        table = document.getElementById("sampleTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Lặp qua tất cả các hàng trong bảng và ẩn/hiện chúng dựa trên từ khóa tìm kiếm
+        for (i = 1; i < tr.length; i++) { // Bắt đầu từ 1 để bỏ qua hàng tiêu đề
+            tr[i].style.display = "none"; // Ẩn hàng
+            td = tr[i].getElementsByTagName("td");
+            for (j = 1; j < td.length; j++) { // Bắt đầu từ 1 để bỏ qua ô checkbox
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ""; // Hiện hàng nếu tìm thấy
+                        break; // Không cần kiểm tra thêm các ô khác
+                    }
+                }
+            }
+        }
+    }
+
+    function toggleBlockUnblock(userId, block) {
+        $.ajax({
+            url: block ? '/block' : '/unblock', // Đường dẫn đến API chặn hoặc không chặn tài khoản
+            method: 'POST',
+            data: { user_id: userId },
+            success: function(response) {
+                alert(`User with ID: ${userId} has been ${block ? 'blocked' : 'unblocked'}.`);
+                // Cập nhật trạng thái chặn/không chặn ngay lập tức
+                if (block) {
+                    $(`#blockButton${userId}`).text('Unblock').removeClass('btn-danger').addClass('btn-success');
+                } else {
+                    $(`#blockButton${userId}`).text('Block').removeClass('btn-success').addClass('btn-danger');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(`Error ${block ? 'blocking' : 'unblocking'} user:`, xhr.responseText);
+                alert(`${block ? 'Block' : 'Unblock'} failed. Please try again.`);
+            }
+        });
+    }
+</script>
 
 </html>
