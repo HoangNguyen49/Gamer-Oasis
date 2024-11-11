@@ -77,7 +77,7 @@ class UserController extends Controller
             Auth::login($user);
 
             if ($user->Role === 'admin') {
-                return redirect()->route('admin.pages.admin-index'); // Trang admin
+                return redirect()->route('admin.pages.index-admin'); // Trang admin
             } else {
                 return redirect()->route('web.pages.index'); // Trang customer
             }

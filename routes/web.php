@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VnpayOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderHistoryController;
+use App\Http\Controllers\DashboardController;
 
 
 // Trang chính
@@ -89,10 +90,12 @@ Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
 //Route Prefix Admin
 // Route cho trang Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('admin.pages.index-admin');
-    });
+    })->name('admin.pages.index-admin');
+
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         // Route cho trang quản lý đơn hàng
         Route::get('/quanlidonhang', function () {
@@ -261,3 +264,5 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 // Route để chặn tài khoản
 Route::post('/block', [UserController::class, 'blockUser']);
 Route::post('/unblock', [UserController::class, 'unblockUser']);
+
+
