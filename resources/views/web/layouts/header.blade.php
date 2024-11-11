@@ -85,12 +85,10 @@
                                                     <li><a href="{{ route('user.account') }}" class="account-link">My Account</a></li>
                                                     <li><a href="{{ url('/order-history') }}" class="order-link">Order History</a></li>
                                                     <li><a href="{{ url('/checkout') }}" class="checkout-link">Checkout</a></li>
-                                                    <li>
-                                                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-link logout-link" style="padding: 0; text-decoration: none; color: #007bff;">Logout</button>
-                                                        </form>
-                                                    </li>
+                                                    <li><a href="{{ route('logout') }}" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                    </form>
                                                 @else
                                                     <li><a href="{{ url('/login-register') }}" class="login-link">Sign In</a></li>
                                                 @endif

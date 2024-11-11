@@ -75,16 +75,8 @@ Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('ca
 // Route để cập nhật sản phẩm trực tiếp trong cart
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
-
-
-
-
-
+//rout login
 Route::post('/login', [UserController::class, 'login'])->name('login');
-
-
-
-
 
 // Route cho trang Login-Register
 Route::get('/login-register', function () {

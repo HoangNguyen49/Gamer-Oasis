@@ -39,8 +39,6 @@
                                         <th>Customer_Id</th>
                                         <th>Customer_Name</th>
                                         <th>Email</th>
-                                        <th>Phone Number</th>
-                                        <th>Address</th>
                                         <th>Function</th>
                                     </tr>
                                 </thead>
@@ -56,18 +54,16 @@
                                                 <td>{{ $user->User_id }}</td> 
                                                 <td>{{ $user->Name }}</td> 
                                                 <td>{{ $user->Email }}</td> 
-                                                <td>{{ $user->Phone }}</td> 
-                                                <td>{{ $user->Address }}</td> 
                                                 <td>
                                                    
                                                     <div class="text-center">
                                                         <button class="btn btn-primary btn-sm" type="button" title="Detail" data-toggle="modal" data-target="#customerModal{{ $user->User_id }}"><i class="fas fa-eye"></i></button>
                                                         @if($user->is_blocked) <!-- Kiểm tra trạng thái bị chặn -->
                                                             <!-- Nút Unblock nếu tài khoản bị chặn -->
-                                                            <button class="btn btn-success btn-sm" type="button" title="Unblock" onclick="unblockCustomer({{ $user->User_id }})"><i class="fas fa-user-check"></i> Unblock</button>
+                                                            <button class="btn btn-success btn-sm" type="button" title="Unblock" onclick="toggleBlockUnblock({{ $user->User_id }}, false)"><i class="fas fa-user-check"></i> Unblock</button>
                                                         @else
                                                             <!-- Nút Block nếu tài khoản không bị chặn -->
-                                                            <button class="btn btn-danger btn-sm" type="button" title="Block" onclick="blockCustomer({{ $user->User_id }})"><i class="fas fa-user-slash"></i> Block</button>
+                                                            <button class="btn btn-danger btn-sm" type="button" title="Block" onclick="toggleBlockUnblock({{ $user->User_id }}, true)"><i class="fas fa-user-slash"></i> Block</button>
                                                         @endif
                                                     </div>
                                                     <div class="modal fade" id="customerModal{{ $user->User_id }}" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel{{ $user->User_id }}" aria-hidden="true">
@@ -170,34 +166,23 @@
         }
     }
 
-    function blockCustomer(userId) {
+    function toggleBlockUnblock(userId, block) {
         $.ajax({
-            url: '/block', // Đường dẫn đến API chặn tài khoản
+            url: block ? '/block' : '/unblock', // Đường dẫn đến API chặn hoặc không chặn tài khoản
             method: 'POST',
             data: { user_id: userId },
             success: function(response) {
-                alert("User with ID: " + User_id + " has been blocked.");
-                location.reload(); // Làm mới trang để cập nhật trạng thái
+                alert(`User with ID: ${userId} has been ${block ? 'blocked' : 'unblocked'}.`);
+                // Cập nhật trạng thái chặn/không chặn ngay lập tức
+                if (block) {
+                    $(`#blockButton${userId}`).text('Unblock').removeClass('btn-danger').addClass('btn-success');
+                } else {
+                    $(`#blockButton${userId}`).text('Block').removeClass('btn-success').addClass('btn-danger');
+                }
             },
             error: function(xhr, status, error) {
-                console.error("Error blocking user:", xhr.responseText);
-                alert("Block failed. Please try again.");
-            }
-        });
-    }
-
-    function unblockCustomer(userId) {
-        $.ajax({
-            url: '/unblock', // Đường dẫn đến API không chặn tài khoản
-            method: 'POST',
-            data: { user_id: userId },
-            success: function(response) {
-                alert("User with ID: " + User_id + " has been unblocked.");
-                location.reload(); // Làm mới trang để cập nhật trạng thái
-            },
-            error: function(xhr, status, error) {
-                console.error("Error unblocking user:", xhr.responseText);
-                alert("Unblock failed. Please try again.");
+                console.error(`Error ${block ? 'blocking' : 'unblocking'} user:`, xhr.responseText);
+                alert(`${block ? 'Block' : 'Unblock'} failed. Please try again.`);
             }
         });
     }

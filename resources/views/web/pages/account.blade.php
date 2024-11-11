@@ -58,7 +58,7 @@
                                                 </div>
                                                 <div class="form-group mb-4">
                                                     <label for="email" class="account-info-label">Email Address:</label>
-                                                    <input type="email" class="form-control" id="email" name="email" value="{{ $user->Email }}">
+                                                    <input type="email" class="form-control" id="email" name="email" value="{{ $user->Email }}" disabled>
                                                 </div>
                                                 <div class="form-group mb-4">
                                                     <label for="phone" class="account-info-label">Phone Number:</label>
