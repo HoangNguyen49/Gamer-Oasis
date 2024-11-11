@@ -34,17 +34,20 @@
                                 </div>
                                 <div class="col-sm-4 d-flex justify-content-end"> <!-- Chiếm 4 cột -->
                                     <form action="{{ route('brands.search') }}" method="GET" class="form-inline mb-3">
-                                        <input type="text" name="keyword" class="form-control mr-2" placeholder="Search by brand name" value="{{ request('keyword') }}">
-                                        <button type="submit" class="btn btn-primary">Search</button>
+                                        <input style="height:32px;" type="text" name="keyword"
+                                            class="form-control mr-2" placeholder="Search by brand name"
+                                            value="{{ request('keyword') }}">
+                                        <button type="submit" class="btn btn-primary"
+                                            style="height:32px;">Search</button>
                                     </form>
-                                    
+
                                     @if (session('error'))
                                         <div class="alert alert-danger mt-2">
                                             {{ session('error') }}
                                         </div>
                                     @endif
                                 </div>
-                                
+
                             </div>
 
 
@@ -62,13 +65,15 @@
                                             <td>{{ $brand->Brand_id }}</td>
                                             <td>{{ $brand->Brand_name }}</td>
                                             <td>
-                                                <form action="{{ route('brands.delete', $brand->Brand_id) }}" method="POST">
+                                                <form action="{{ route('brands.delete', $brand->Brand_id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm trash" type="submit" onclick="return confirm('Are you sure you want to delete this Brand?');">
+                                                    <button class="btn btn-danger btn-sm trash" type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this category?');">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
-                                                </form>                                                
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -82,8 +87,8 @@
         </main>
 
         {{-- Modal for Create Brand --}}
-        <div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog"
-            aria-labelledby="addBrandModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog" aria-labelledby="addBrandModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -97,8 +102,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="brand_name">Brand Name</label>
-                                <input type="text" class="form-control" id="brand_name" name="Brand_name"
-                                    required>
+                                <input type="text" class="form-control" id="brand_name" name="Brand_name" required>
                             </div>
                         </form>
                     </div>
@@ -112,6 +116,21 @@
 
         @include('admin.layout.footer')
     </div>
+
+    <script>
+        // Hàm cập nhật đồng hồ
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            document.getElementById('clock').innerHTML = time;
+        }
+
+        // Gọi hàm updateClock khi trang tải
+        window.onload = function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+        };
+    </script>
 
     {{-- Script for Create Brand --}}
     <script>
@@ -140,6 +159,9 @@
             });
         });
     </script>
+
+
+
 </body>
 
 </html>

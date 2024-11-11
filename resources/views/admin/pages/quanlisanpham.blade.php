@@ -35,9 +35,11 @@
                                 <div class="col-sm-4 d-flex justify-content-end"> <!-- Chiếm 4 cột -->
                                     <form action="{{ route('products.indexAdmin') }}" method="GET"
                                         class="form-inline mb-3">
-                                        <input type="text" name="search" class="form-control mr-2"
-                                            placeholder="Search by product name" value="{{ $search ?? '' }}">
-                                        <button type="submit" class="btn btn-primary">Search</button>
+                                        <input style="height:32px" type="text" name="search"
+                                            class="form-control mr-2" placeholder="Search by product name"
+                                            value="{{ $search ?? '' }}">
+                                        <button type="submit" class="btn btn-primary"
+                                            style="height:32px;">Search</button>
                                     </form>
                                 </div>
                             </div>
@@ -58,7 +60,7 @@
                                 <tbody>
                                     @foreach ($products as $product)
                                         <tr>
-                                            
+
                                             <td>{{ $product->Product_id }}</td>
                                             <td>{{ $product->category->Category_name }}</td>
                                             <td>{{ $product->brand->Brand_name }}</td>
@@ -103,6 +105,74 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
+                            <!-- Phân trang -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p>There are {{ $products->total() }} products currently
+                                            </p>
+                                            <!-- Hiển thị tổng số đơn hàng -->
+                                        </div>
+                                        <div>
+                                            <nav>
+                                                <ul class="pagination">
+                                                    {{-- Nút đến trang đầu tiên --}}
+                                                    @if ($products->currentPage() > 1)
+                                                        <li><a href="{{ $products->url(1) }}">&laquo;</a></li>
+                                                    @endif
+
+                                                    {{-- Nút quay lại --}}
+                                                    @if ($products->onFirstPage())
+                                                        <li class="disabled"><span>&lt;</span></li>
+                                                    @else
+                                                        <li><a href="{{ $products->previousPageUrl() }}">&lt;</a>
+                                                        </li>
+                                                    @endif
+
+                                                    {{-- Các nút phân trang --}}
+                                                    @php
+                                                        $currentPage = $products->currentPage();
+                                                        $lastPage = $products->lastPage();
+                                                        $startPage = max(1, $currentPage - 1); // Bắt đầu từ trang 1 hoặc một trang trước trang hiện tại
+                                                        $endPage = min($lastPage, $startPage + 2); // Kết thúc ở trang cuối cùng hoặc trang 3 sau trang bắt đầu
+
+                                                        // Điều chỉnh startPage nếu endPage là trang cuối
+                                                        if ($endPage - $startPage < 2) {
+                                                            $startPage = max(1, $endPage - 2); // Đảm bảo hiển thị đúng 3 trang nếu có đủ
+                                                        }
+                                                    @endphp
+
+                                                    @for ($page = $startPage; $page <= $endPage; $page++)
+                                                        @if ($page == $currentPage)
+                                                            <li class="active"><span>{{ $page }}</span></li>
+                                                        @else
+                                                            <li><a
+                                                                    href="{{ $products->url($page) }}">{{ $page }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endfor
+
+                                                    {{-- Nút tiếp theo --}}
+                                                    @if ($products->hasMorePages())
+                                                        <li><a href="{{ $products->nextPageUrl() }}">&gt;</a></li>
+                                                    @else
+                                                        <li class="disabled"><span>&gt;</span></li>
+                                                    @endif
+
+                                                    {{-- Nút đến trang cuối cùng --}}
+                                                    @if ($products->currentPage() < $lastPage)
+                                                        <li><a href="{{ $products->url($lastPage) }}">&raquo;</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -134,14 +204,30 @@
         </div>
         @include('admin.layout.footer')
     </div>
-    
+
+    <script>
+        // Hàm cập nhật đồng hồ
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            document.getElementById('clock').innerHTML = time;
+        }
+
+        // Gọi hàm updateClock khi trang tải
+        window.onload = function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+        };
+    </script>
+
     <!-- Script handle  -->
     <script>
         $(document).ready(function() {
             $('.view-product').on('click', function() {
                 var productId = $(this).data('id');
                 $.ajax({
-                    url: '/admin/admin/products/' + productId, // Match this URL with the route definition
+                    url: '/admin/admin/products/' +
+                        productId, // Match this URL with the route definition
                     method: 'GET',
                     success: function(data) {
                         $('#productDetailsContent').html(data);
