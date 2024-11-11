@@ -97,21 +97,21 @@
                                         <div class="checkout-form-list">
                                             <label>Full Name<span class="required">*</span></label>
                                             <input type="text" name="full_name" required placeholder="Full Name"
-                                                value="{{ auth()->check() ? auth()->user()->full_name : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Name : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Phone<span class="required">*</span></label>
                                             <input type="text" name="phone" required placeholder="Phone Number"
-                                                value="{{ auth()->check() ? auth()->user()->phone : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Phone : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Address <span class="required">*</span></label>
                                             <input type="text" name="address" required placeholder="Address"
-                                                value="{{ auth()->check() ? auth()->user()->address : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Address : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -119,7 +119,7 @@
                                             <label>Email Address<span class="required">*</span></label>
                                             <input type="email" name="email_address" required
                                                 placeholder="Email Address"
-                                                value="{{ auth()->check() ? auth()->user()->email : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Email : '' }}">
                                         </div>
                                     </div>
                                 </div>

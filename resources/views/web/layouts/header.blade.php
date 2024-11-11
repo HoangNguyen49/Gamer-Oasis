@@ -128,14 +128,14 @@
                         <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                             <!-- Begin Header Middle Searchbox Area -->
                             <form action="#" class="hm-searchbox">
-                                <select class="nice-select select-search-category">
+                                {{-- <select class="nice-select select-search-category">
                                     <option value="0">All</option>
                                     <option value="1">Laptop Gaming</option>
                                     <option value="2">Console</option>
                                     <option value="3">Nintendo Switch</option>
                                     <option value="4">Assesories</option>
                                     <option value="5">Blog</option>
-                                </select>
+                                </select> --}}
                                 <input type="text" placeholder="Enter your search ...">
                                 <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                             </form>
@@ -208,7 +208,7 @@
                                 <nav>
                                     <ul>
                                         <li><a href="{{ url('/') }}">Home</a></li>
-                                        <li class="megamenu-holder"><a href="shop-left-sidebar.html">Product</a>
+                                        <li class="megamenu-holder"><a>Product</a>
                                             <ul class="megamenu hb-megamenu">
                                                 <li><a href="#">PLAYSTATION</a>
                                                     <ul>

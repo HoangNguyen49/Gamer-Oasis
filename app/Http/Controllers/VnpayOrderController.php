@@ -177,6 +177,11 @@ class VnpayOrderController extends Controller
             $order->save(); // Lưu lại vào bảng orders
         }
 
+        // Kiểm tra trạng thái thanh toán thành công để xóa giỏ hàng và mã giảm giá khỏi session
+        if ($vnpayOrder->status === 'success') {
+            session()->forget(['cart', 'coupon']); // Xóa giỏ hàng và mã giảm giá khỏi session
+        }
+
         // Truyền dữ liệu vào view
         return view('web.pages.vnpay_return', [
             'vnp_TxnRef' => $request->input('vnp_TxnRef'),
@@ -204,7 +209,7 @@ class VnpayOrderController extends Controller
 
         // Lấy và định dạng số tiền thanh toán
         $amount = $request->input('vnp_Amount');
-        $vnpayOrder->amount = is_numeric($amount) ? $amount / 100 : 0; // Chia cho 100
+        $vnpayOrder->amount = is_numeric($amount) ? $amount / 100 : 0; // Chia cho 100 để lấy số tiền thực tế
 
         // Xác định trạng thái thanh toán
         $vnpayOrder->status = ($request->input('vnp_ResponseCode') == '00') ? 'success' : 'failed'; // Trạng thái
@@ -213,7 +218,7 @@ class VnpayOrderController extends Controller
         $vnpayOrder->bank_transaction_code = $request->input('vnp_BankTranNo'); // Mã giao dịch tại ngân hàng
         $vnpayOrder->payment_type = $request->input('vnp_CardType'); // Loại thẻ thanh toán
 
-        // Kiểm tra định dạng ngày tháng
+        // Kiểm tra và định dạng ngày thanh toán
         $payDate = $request->input('vnp_PayDate');
         $vnpayOrder->pay_date = $payDate ? Carbon::parse($payDate) : null; // Ngày và thời gian thanh toán
 
@@ -222,7 +227,7 @@ class VnpayOrderController extends Controller
         // Lưu đơn hàng vào database
         $vnpayOrder->save();
 
-        // Trả về response hoặc redirect
-        return response()->json(['message' => 'Order saved successfully.']);
+        // Trả về phản hồi
+        return response()->json(['message' => 'Lưu đơn hàng thành công.']);
     }
 }

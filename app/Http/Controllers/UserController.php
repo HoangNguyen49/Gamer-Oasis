@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Password;
 
 
 
+
 class UserController extends Controller
 {
     public function index()
