@@ -31,10 +31,10 @@ class User extends Authenticatable
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-    public function isAdmin()
-    {
-        return $this->role === 'admin'; // Điều chỉnh điều kiện dựa trên cách bạn quản lý vai trò người dùng
-    }
+    // public function isAdmin()
+    // {
+    //     return $this->Role === 'admin'; // Điều chỉnh điều kiện dựa trên cách bạn quản lý vai trò người dùng
+    // }
     public function getAuthPassword()
     {
         return $this->password;

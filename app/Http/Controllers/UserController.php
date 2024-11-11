@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Auth;
@@ -77,13 +76,13 @@ class UserController extends Controller
             Auth::login($user);
 
             if ($user->Role === 'admin') {
-                return redirect()->route('admin.pages.index-admin'); // Trang admin
+                return redirect()->route('admin.dashboard'); // Trang admin
             } else {
-                return redirect()->route('web.pages.index'); // Trang customer
+                return redirect()->route('web.pages.index'); // Redirect customer to the home page instead of aborting
             }
         } else {
             return redirect()->back()->withErrors([
-                'email' => 'Thông tin đăng nhập không chính xác.',
+                'email' => 'Login information is incorrect.',
             ]);
         }
     }
@@ -255,7 +254,7 @@ class UserController extends Controller
         return response()->json(['success' => false, 'message' => 'User not found.'], 404);
     }
 
-    // Bỏ chặn tài khoản
+    // Bỏ chặn tài kho���n
     
     public function unblockUser(Request $request)
     {
@@ -275,7 +274,5 @@ class UserController extends Controller
         }
 
         return response()->json(['success' => false, 'message' => 'User not found.'], 404);
-    }
-
-    
+    }   
 }

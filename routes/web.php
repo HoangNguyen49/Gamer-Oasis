@@ -13,6 +13,8 @@ use App\Http\Controllers\VnpayOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\AdminMiddleware;
+    
 
 
 // Trang chính
@@ -90,13 +92,13 @@ Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
 //Route Prefix Admin
 // Route cho trang Admin
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('admin.pages.index-admin');
-    })->name('admin.pages.index-admin');
+Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () {
+ // Route::get('/', function () {
+        //     return view('admin.pages.index-admin');
+        // })->name('admin.pages.index-admin');
 
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-
+        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+       
         // Route cho trang quản lý đơn hàng
         Route::get('/quanlidonhang', function () {
             return view('admin.pages.quanlidonhang');
@@ -118,7 +120,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Route cho trang quản lý khách hàng
     Route::get('/quanlikhachhang', function () {
         return view('admin.pages.quanlikhachhang');
-     
     });
     Route::get('/quanlikhachhang/khachhangmoi', function () {
         return view('admin.pages.form-add-khach-hang');
@@ -264,5 +265,7 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 // Route để chặn tài khoản
 Route::post('/block', [UserController::class, 'blockUser']);
 Route::post('/unblock', [UserController::class, 'unblockUser']);
+
+
 
 

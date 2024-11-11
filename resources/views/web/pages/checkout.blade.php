@@ -42,31 +42,22 @@
                     <div class="col-12">
                         <div class="coupon-accordion">
                             <!--Accordion Start-->
-                            <h3>Returning customer? <span id="showlogin">Click here to login</span></h3>
-                            <div id="checkout-login" class="coupon-content">
-                                <div class="coupon-info">
-                                    <p class="coupon-text">Quisque gravida turpis sit amet nulla posuere lacinia. Cras
-                                        sed est sit amet ipsum luctus.</p>
-                                    <form action="#">
-                                        <p class="form-row-first">
-                                            <label>Username or email <span class="required">*</span></label>
-                                            <input type="text">
-                                        </p>
-                                        <p class="form-row-last">
-                                            <label>Password <span class="required">*</span></label>
-                                            <input type="text">
-                                        </p>
-                                        <p class="form-row">
-                                            <input value="Login" type="submit">
-                                            <label>
-                                                <input type="checkbox">
-                                                Remember me
-                                            </label>
-                                        </p>
-                                        <p class="lost-password"><a href="#">Lost your password?</a></p>
-                                    </form>
+                            @if(auth()->check())
+                                <h3>Welcome, {{ auth()->user()->Name }}!</h3>
+                                <div class="coupon-content">
+                                    <div class="coupon-info">
+                                        <p class="coupon-text">You are already logged in. Proceed to checkout.</p>
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <h3>Returning customer? <span id="showlogin">Click here to login/register</span></h3>
+                                <div id="checkout-login" class="coupon-content">
+                                    <div class="coupon-info">
+                                        <p class="coupon-text">If you have an account, please login to proceed with checkout.</p>
+                                        <p><a href="{{ route('login.register') }}" style="font-weight: bold;">Login/Register</a> to continue.</p>
+                                    </div>
+                                </div>
+                            @endif
                             <!--Accordion End-->
                             <!--Accordion Start-->
                             <h3>Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
@@ -97,21 +88,21 @@
                                         <div class="checkout-form-list">
                                             <label>Full Name<span class="required">*</span></label>
                                             <input type="text" name="full_name" required placeholder="Full Name"
-                                                value="{{ auth()->check() ? auth()->user()->full_name : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Name : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Phone<span class="required">*</span></label>
                                             <input type="text" name="phone" required placeholder="Phone Number"
-                                                value="{{ auth()->check() ? auth()->user()->phone : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Phone : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Address <span class="required">*</span></label>
                                             <input type="text" name="address" required placeholder="Address"
-                                                value="{{ auth()->check() ? auth()->user()->address : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Address : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -119,7 +110,7 @@
                                             <label>Email Address<span class="required">*</span></label>
                                             <input type="email" name="email_address" required
                                                 placeholder="Email Address"
-                                                value="{{ auth()->check() ? auth()->user()->email : '' }}">
+                                                value="{{ auth()->check() ? auth()->user()->Email : '' }}">
                                         </div>
                                     </div>
                                 </div>

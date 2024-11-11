@@ -78,7 +78,7 @@
                                     <li class="setting-area">
                                         <div class="ht-setting-trigger">
                                             <span
-                                                style="font-size: 18px; font-weight: bold;">{{ Auth::check() ? Auth::user()->Name : 'setting' }}</span>
+                                                style="font-size: 24px; font-weight: 500;"><i class="fa fa-user-circle"></i> {{ Auth::check() ? Auth::user()->Name : '' }}</span>
                                         </div>
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">

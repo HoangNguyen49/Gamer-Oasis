@@ -154,7 +154,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    @if(session('error'))
+                    @if(session()->has('error'))
                         <div class="alert alert-danger" role="alert">
                             {{ session('error') }}
                         </div>
@@ -164,6 +164,11 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+            $('#forgotPasswordModal').modal('show');
+        });
+    </script>
 
         @include('web.layouts.footer')
 
