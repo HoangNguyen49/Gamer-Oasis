@@ -65,7 +65,7 @@
                                                 <form action="{{ route('brands.delete', $brand->Brand_id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm trash" type="submit" onclick="return confirm('Are you sure you want to delete this category?');">
+                                                    <button class="btn btn-danger btn-sm trash" type="submit" onclick="return confirm('Are you sure you want to delete this Brand?');">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>                                                

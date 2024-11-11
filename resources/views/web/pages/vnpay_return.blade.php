@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VNPAY RESPONSE</title>
-    <link href="/vnpay_php/assets/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/vnpay_php/assets/jumbotron-narrow.css" rel="stylesheet">         
+    <link href="/vnpay_php/assets/bootstrap.min.css" rel="stylesheet" />
+    <link href="/vnpay_php/assets/jumbotron-narrow.css" rel="stylesheet">
     <script src="/vnpay_php/assets/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -17,6 +19,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .container {
             background-color: white;
             border-radius: 5px;
@@ -25,47 +28,70 @@
             width: 100%;
             max-width: 600px;
         }
+
         .header {
-            background-color: #007bff;
+            background-color: #0070A8;
             color: white;
             padding: 10px;
             text-align: center;
             border-radius: 5px 5px 0 0;
             margin-bottom: 20px;
         }
+
         .header h3 {
             margin: 0;
             font-size: 20px;
         }
+
         .footer {
             text-align: center;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #0070A8;
             color: white;
             border-radius: 0 0 5px 5px;
             margin-top: 20px;
         }
+
         .footer p {
             margin: 0;
             font-size: 14px;
         }
+
         .form-group label {
             font-weight: bold;
         }
+
         .form-group span {
             font-size: 18px;
         }
+
         .status-success {
             color: #28a745;
         }
+
         .status-failed {
             color: #dc3545;
         }
+
         .btn-back {
             margin-top: 20px;
+            font-size: 18px; 
+            text-decoration:none; 
+            color:black; 
+            font-weight:bold
+        }
+
+        .btn-back:hover {
+            color: #0070A8;
+            text-decoration: underline
+        }
+
+        .btn-back i {
+            margin-right: 2px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -79,7 +105,7 @@
             <div class="form-group">
                 <label>Amount:</label>
                 <span>
-                    {{ $vnp_Amount }} 
+                    {{ $vnp_Amount }}
                 </span>
             </div>
             <div class="form-group">
@@ -118,11 +144,15 @@
             </div>
         </div>
         <div class="text-center">
-            <a href="/web/pages/cart.blade.php" class="btn btn-primary btn-back">Back to Cart</a>
+            <a href="{{ url('/') }}" class="btn btn-primary btn-back">
+                <i class="fa-solid fa-arrow-rotate-left" style="font-size: 18px; padding-top:15px"></i> Back to Home
+            </a>
         </div>
+
         <footer class="footer">
             <p>&copy; VNPAY {{ date('Y') }}</p>
         </footer>
-    </div>  
+    </div>
 </body>
+
 </html>

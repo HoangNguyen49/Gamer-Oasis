@@ -41,7 +41,6 @@
                             <table class="table table-hover table-bordered" id="sampleTable">
                                 <thead>
                                     <tr>
-                                        <th width="10"><input type="checkbox" id="all"></th>
                                         <th>ID</th>
                                         <th>Coupon Code</th>
                                         <th>Discount Type</th>
@@ -62,8 +61,6 @@
                                     @else
                                         @foreach ($coupons as $coupon)
                                             <tr data-id="coupon-{{ $coupon->coupon_id }}">
-                                                <td><input type="checkbox" name="check{{ $coupon->coupon_id }}"
-                                                        value="{{ $coupon->coupon_id }}"></td>
                                                 <td>{{ $coupon->coupon_id }}</td>
                                                 <td>{{ $coupon->code }}</td>
                                                 <td>{{ ucfirst($coupon->discount_type) }}</td>
@@ -88,6 +85,74 @@
                                     @endif
                                 </tbody>
                             </table>
+
+                            <!-- Phân trang -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p>There are {{ $coupons->total() }} coupons currently
+                                            </p>
+                                            <!-- Hiển thị tổng số đơn hàng -->
+                                        </div>
+                                        <div>
+                                            <nav>
+                                                <ul class="pagination">
+                                                    {{-- Nút đến trang đầu tiên --}}
+                                                    @if ($coupons->currentPage() > 1)
+                                                        <li><a href="{{ $coupons->url(1) }}">&laquo;</a></li>
+                                                    @endif
+
+                                                    {{-- Nút quay lại --}}
+                                                    @if ($coupons->onFirstPage())
+                                                        <li class="disabled"><span>&lt;</span></li>
+                                                    @else
+                                                        <li><a href="{{ $coupons->previousPageUrl() }}">&lt;</a>
+                                                        </li>
+                                                    @endif
+
+                                                    {{-- Các nút phân trang --}}
+                                                    @php
+                                                        $currentPage = $coupons->currentPage();
+                                                        $lastPage = $coupons->lastPage();
+                                                        $startPage = max(1, $currentPage - 1); // Bắt đầu từ trang 1 hoặc một trang trước trang hiện tại
+                                                        $endPage = min($lastPage, $startPage + 2); // Kết thúc ở trang cuối cùng hoặc trang 3 sau trang bắt đầu
+
+                                                        // Điều chỉnh startPage nếu endPage là trang cuối
+                                                        if ($endPage - $startPage < 2) {
+                                                            $startPage = max(1, $endPage - 2); // Đảm bảo hiển thị đúng 3 trang nếu có đủ
+                                                        }
+                                                    @endphp
+
+                                                    @for ($page = $startPage; $page <= $endPage; $page++)
+                                                        @if ($page == $currentPage)
+                                                            <li class="active"><span>{{ $page }}</span></li>
+                                                        @else
+                                                            <li><a
+                                                                    href="{{ $coupons->url($page) }}">{{ $page }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endfor
+
+                                                    {{-- Nút tiếp theo --}}
+                                                    @if ($coupons->hasMorePages())
+                                                        <li><a href="{{ $coupons->nextPageUrl() }}">&gt;</a></li>
+                                                    @else
+                                                        <li class="disabled"><span>&gt;</span></li>
+                                                    @endif
+
+                                                    {{-- Nút đến trang cuối cùng --}}
+                                                    @if ($coupons->currentPage() < $lastPage)
+                                                        <li><a href="{{ $coupons->url($lastPage) }}">&raquo;</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

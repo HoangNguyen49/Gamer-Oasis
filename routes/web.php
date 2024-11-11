@@ -11,8 +11,8 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VnpayOrderController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrderHistoryController;
+
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
@@ -88,12 +88,11 @@ Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
 
 //Route Prefix Admin
-Route::prefix('admin')->middleware('auth')->group(
-    function () {
-        // Route cho trang chủ admin
-        Route::get('/', function () {
-            return view('admin.pages.admin-index');
-        })->name('admin.pages.admin-index');
+// Route cho trang Admin
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('admin.pages.index-admin');
+    });
 
         // Route cho trang quản lý đơn hàng
         Route::get('/quanlidonhang', function () {
@@ -134,6 +133,14 @@ Route::prefix('admin')->middleware('auth')->group(
     Route::get('/quanliblog/taobai', function () {
         return view('admin.pages.form-add-blog');
     })->name('taobai');
+
+    Route::get('/trans.verifi', function () {
+        return view('admin.pages.trans.verifi');
+    });
+
+    // Route mặc định
+    Route::get('/trans_verifi', [VnpayOrderController::class, 'index'])->name('trans_verifi.index');
+    Route::get('/trans_verifi_details/{vnpay_id}', [VnpayOrderController::class, 'showDetails'])->name('trans_verifi_details');
 
     // Route cho trang quản lý coupon
     Route::get('/quanlimagiamgia', [CouponController::class, 'index'])->name('quanlimagiamgia');
@@ -221,17 +228,6 @@ Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.s
 
 Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_payment'])->name('vnpay.payment');
 Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');
-
-
-   
-// Route cho trang danh sách sản phẩm
-Route::get('/products', [ProductController::class, 'indexAdmin'])->name('products.index');
-    
-//end Route Prefix Admin
-
-
-//Route show chi tiết sản phẩm bên web
-Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
 
 //google login
 Route::get('/auth/{provider}', [UserController::class, 'redirectToGoogle']);

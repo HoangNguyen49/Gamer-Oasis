@@ -36,7 +36,6 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th width="10"><input type="checkbox" id="all"></th>
                                     <th>ID</th>
                                     <th>Customer Name</th>
                                     <th>Product Name</th>
@@ -57,8 +56,6 @@
                                 @else
                                     @foreach ($orders as $order)
                                         <tr data-id="order-{{ $order->order_id }}">
-                                            <td width="10"><input type="checkbox" name="check1" value="1">
-                                            </td>
                                             <td>{{ $order->order_id }}</td>
                                             <td>{{ $order->full_name }}</td>
                                             <td>{{ $order->product_name }}</td>
