@@ -2406,6 +2406,11 @@ textarea:focus {
     position: relative;
 }
 .product_desc .product_desc_info .product_name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     color: #0363cd;
     display: block;
     font-size: 14px;

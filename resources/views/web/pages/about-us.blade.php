@@ -130,30 +130,24 @@
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="team-member mb-60 mb-sm-30 mb-xs-30">
                                 <div class="team-thumb">
-                                    <img src="images/team/1.png" alt="Our Team Member">
+                                    <img src="{{asset('asset/images/team/avatar2(NguyenMinhHoang).jpg')}}" alt="Our Team Member">
                                 </div>
                                 <div class="team-content text-center">
                                     <h3>Nguyễn Minh Hoàng</h3>
                                     <p>Leader</p>
-                                    <a href="#">hoangmh49@gmail.com</a>
+                                    <a>hoangmh49@gmail.com</a>
                                 </div>
                             </div>
                         </div> <!-- end single team member -->
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="team-member mb-60 mb-sm-30 mb-xs-30">
                                 <div class="team-thumb">
-                                    <img src="images/team/2.png" alt="Our Team Member">
+                                    <img src="{{asset('asset/images/team/avatar1(NgoMinhTuan).jpg')}}" alt="Our Team Member">
                                 </div>
                                 <div class="team-content text-center">
-                                    <h3>Oliver Bastin</h3>
+                                    <h3>Ngô Minh Tuấn</h3>
                                     <p>Web Designer</p>
-                                    <a href="#">info@example.com</a>
-                                    <div class="team-social">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    </div>
+                                    <a >info@example.com</a>
                                 </div>
                             </div>
                         </div> <!-- end single team member -->

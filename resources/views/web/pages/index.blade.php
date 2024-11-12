@@ -154,7 +154,7 @@
                                                     </h5>
                                                 </div>
                                                 <h4>
-                                                    <a class="product_name"
+                                                    <a style="display: -webkit-box;" class="product_name"
                                                         href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
@@ -261,7 +261,7 @@
         </div>
     </section>
     <!-- Begin Li's Laptop Product Area -->
-    <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
+    <section class="product-area li-laptop-product pt-60 pb-80 pt-sm-50 pt-xs-60">
         <div class="container">
             <div class="row">
                 <!-- Begin Li's Section Area -->
@@ -350,7 +350,7 @@
     </div>
     <!-- Li's Static Home Area End Here -->
     <!-- Begin Group Featured Product Area -->
-    <div class="group-featured-product pt-20 pb-40 pb-xs-25">
+    <div class="group-featured-product pt-20 pb-60 pb-xs-25">
     </div>
     <!-- Group Featured Product Area End Here -->
     @include('web.layouts.footer')
