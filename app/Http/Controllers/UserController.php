@@ -78,13 +78,13 @@ class UserController extends Controller
             Auth::login($user);
 
             if ($user->Role === 'admin') {
-                return redirect()->route('admin.pages.index-admin'); // Trang admin
+                return redirect()->route('admin.dashboard'); // Trang admin
             } else {
-                return redirect()->route('web.pages.index'); // Trang customer
+                return redirect()->route('web.pages.index'); // Redirect customer to the home page instead of aborting
             }
         } else {
             return redirect()->back()->withErrors([
-                'email' => 'Thông tin đăng nhập không chính xác.',
+                'email' => 'Login information is incorrect.',
             ]);
         }
     }

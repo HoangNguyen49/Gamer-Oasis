@@ -13,7 +13,7 @@ use App\Http\Controllers\VnpayOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Middleware\AdminMiddleware;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
@@ -90,11 +90,11 @@ Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
 //Route Prefix Admin
 // Route cho trang Admin
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('admin.pages.index-admin');
-    })->name('admin.pages.index-admin');
-
+Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () {
+    // Route::get('/', function () {
+           //     return view('admin.pages.index-admin');
+           // })->name('admin.pages.index-admin');
+   
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         // Route cho trang quản lý đơn hàng

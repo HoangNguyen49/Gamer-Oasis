@@ -4792,6 +4792,7 @@ span.required {
     height: 200px;
 }
 .contact-form .li-btn-3 {
+    float: right;
     background: #f2f2f2;
     line-height: 12px;
     display: inline-block;
@@ -4839,8 +4840,8 @@ span.required {
 }
 .about-image-wrap {
     position: relative;
-    padding-left: 30px;
-    padding-top: 30px;
+    padding-left: 20px;
+    padding-top: 20px;
     margin-bottom: 50px;
 }
 .about-image-wrap::after {

@@ -197,7 +197,7 @@
                             <span>{{ $product->Product_description }}</span> <!-- Mô tả sản phẩm -->
                         @else
                             <!-- Thông báo nếu không có description -->
-                            <p class="no-description-message">Dữ liệu descriptions chưa được nhập</p>
+                            <p class="no-description-message">Description data has not been entered.</p>
                         @endif
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                             </div>
                         @else
                             <!-- Thông báo nếu không có specifications -->
-                            <p class="no-specs-message">Sản phẩm chưa được nhập spec</p>
+                            <p class="no-specs-message">Product specifications have not been entered yet.</p>
                         @endif
                     </div>
                 </div>

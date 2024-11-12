@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Quantity</label>
-                                    <input class="form-control" type="number" name="stock_quantity" required>
+                                    <input class="form-control" type="number" name="stock_quantity" min="0" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Category</label>
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Price</label>
-                                    <input class="form-control" type="text" name="price" required>
+                                    <input class="form-control" type="text" name="price" min="0" step="0.01" required>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Images</label>

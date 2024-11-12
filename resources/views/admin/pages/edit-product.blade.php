@@ -73,12 +73,12 @@
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price" class="form-control" value="{{ $product->Price }}" required>
+                <input type="number" name="price" id="price" class="form-control" value="{{ $product->Price }}" min="0" step="0.01" required>
             </div>
 
             <div class="form-group">
                 <label for="stock_quantity">Stock Quantity</label>
-                <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" value="{{ $product->Stock_Quantity }}" required>
+                <input type="number" name="stock_quantity" id="stock_quantity" class="form-control" value="{{ $product->Stock_Quantity }}" min="0" required>
             </div>
 
             <div class="form-group">

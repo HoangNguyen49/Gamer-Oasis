@@ -21,9 +21,9 @@
                         <div class="col-lg-6 order-last order-lg-first">
                             <div class="about-text-wrap">
                                 <h2><span>Provide Best</span>Product For You</h2>
-                                <p>We provide the best Beard oile all over the world. We are the worldd best store in indi for Beard Oil. You can buy our product without any hegitation because they truste us and buy our product without any hagitation because they belive and always happy buy our product.</p>
-                                <p>Some of our customer say’s that they trust us and buy our product without any hagitation because they belive us and always happy to buy our product.</p>
-                                <p>We provide the beshat they trusted us and buy our product without any hagitation because they belive us and always happy to buy.</p>
+                                <p>Welcome to our store, where we are dedicated to offering the finest beard oil products available worldwide. As the top destination in India for beard care, we pride ourselves on delivering quality you can trust. With our products, you can shop with confidence, just as countless others have. Our loyal customers choose us because they believe in our commitment to quality and are consistently satisfied with their purchases.</p>
+                                <p>Our customers often share that they trust our products and find joy in returning to buy from us time and again. Their satisfaction is a testament to our dedication, and it motivates us to continue offering only the best for your grooming needs.</p>
+                                <p>Thank you for choosing us as your trusted source for beard care. We look forward to helping you experience the quality and satisfaction our customers love.</p>
                             </div>
                         </div>
                         <!-- About Text End -->
@@ -72,7 +72,7 @@
                                         <h3 class="counter">869</h3>
                                     </div>
                                     <div class="counter-text">
-                                        <span>AWARDS WINNED</span>
+                                        <span>AWARDS WINNER</span>
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="counter-info">
                                     <div class="counter-number">
-                                        <h3 class="counter">689</h3>
+                                        <h3 class="counter">720</h3>
                                     </div>
                                     <div class="counter-text">
                                         <span>HOURS WORKED</span>
@@ -106,7 +106,7 @@
                                         <h3 class="counter">2169</h3>
                                     </div>
                                     <div class="counter-text">
-                                        <span>COMPLETE PROJECTS</span>
+                                        <span>COMPLETE ORDERS</span>
                                     </div>
                                 </div>
                             </div>
@@ -133,15 +133,9 @@
                                     <img src="images/team/1.png" alt="Our Team Member">
                                 </div>
                                 <div class="team-content text-center">
-                                    <h3>Jonathan Scott</h3>
-                                    <p>IT Expert</p>
-                                    <a href="#">info@example.com</a>
-                                    <div class="team-social">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    </div>
+                                    <h3>Nguyễn Minh Hoàng</h3>
+                                    <p>Leader</p>
+                                    <a href="#">hoangmh49@gmail.com</a>
                                 </div>
                             </div>
                         </div> <!-- end single team member -->
