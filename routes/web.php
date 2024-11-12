@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\ContactController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
@@ -33,8 +34,6 @@ Route::view('/checkout', 'web.pages.checkout');
 // Route cho giỏ hàng và danh sách yêu thích
 Route::view('/cart', 'web.pages.cart');
 Route::view('/wishlist', 'web.pages.wishlist');
-
-
 
 //Route show chi tiết sản phẩm bên web
 Route::get('/products/{Slug}', [ProductController::class, 'indexshowProduct'])->name('products.show');
@@ -213,10 +212,22 @@ Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () 
 
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
+
+    Route::get('/contacts', function () {
+        return view('admin.pages.contacts');
+        return view('admin.pages.contacts');
+    });
+
+    Route::get('/contacts', [ContactController::class, 'show'])->name('contacts.show');
+    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{id}', [ContactController::class, 'showDetail'])->name('contacts.showDetail');
+    Route::get('/contacts/update-status/{id}', [ContactController::class, 'updateStatus'])->name('contacts.updateStatus');
 });
 
 // End Prefix Admin
 
+Route::get('/contact', [ContactController::class, 'showForm']);
+Route::post('/contact', [ContactController::class, 'store']);
 
 // Category Management
 Route::get('/categories', [CategoryController::class, 'index2'])->name('category.management');
