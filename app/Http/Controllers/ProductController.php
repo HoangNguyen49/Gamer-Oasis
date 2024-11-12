@@ -69,7 +69,6 @@ class ProductController extends Controller
             'product_description' => 'required|string',
             'price' => 'required|numeric',
             'stock_quantity' => 'required|integer',
-            'colors' => 'array',
             'specifications' => 'array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Giới hạn kích thước hình ảnh
         ]);
@@ -85,15 +84,6 @@ class ProductController extends Controller
             // Tự động tạo slug từ product_name
             'Slug' => Str::slug($request->product_name),
         ]);
-
-        // Thêm màu sắc
-        if ($request->has('colors') && !empty($request->colors)) {
-            foreach ($request->colors as $color) {
-                if (!empty($color)) {
-                    $product->colors()->create(['Color_name' => $color]);
-                }
-            }
-        }
 
         // Thêm đặc điểm
         if ($request->specifications) {
@@ -119,7 +109,7 @@ class ProductController extends Controller
     public function editProduct(string $id)
     {
         // Lấy thông tin sản phẩm dựa trên ID
-        $product = Product::findOrFail($id);
+        $product = Product::with('specifications')->findOrFail($id);
 
         // Lấy danh sách danh mục và thương hiệu để hiển thị trong dropdown
         $categories = Category::all();
@@ -174,6 +164,16 @@ class ProductController extends Controller
             }
         }
 
+        // Xóa các bản ghi specifications cũ trong cơ sở dữ liệu
+        $product->specifications()->delete();
+
+        // Thêm thông số kỹ thuật mới
+        if ($request->specifications) {
+            foreach ($request->specifications as $spec) {
+                $product->specifications()->create(['Spec_name' => $spec]);
+            }
+        }
+
         // Chuyển hướng với thông báo thành công
         return redirect()->route('products.indexAdmin')->with('success', 'Product updated successfully.');
     }
@@ -182,7 +182,7 @@ class ProductController extends Controller
     //show chi tiết sản phẩm trong admin
     public function showProduct($id)
     {
-        $product = Product::with('category', 'brand', 'images', 'colors')->findOrFail($id);
+        $product = Product::with('category', 'brand', 'images')->findOrFail($id);
 
         return view('admin.pages.admin-product-detail', compact('product'));
     }
@@ -214,17 +214,62 @@ class ProductController extends Controller
         return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
     }
 
-    // Show Product by Category in Navbar
-    public function showByCategory($categoryId)
+    // Show Product by Category in Navbar with Sort By
+    public function showByCategory(Request $request, $categoryId)
     {
-        $products = Product::where('Category_id', $categoryId)->get();
-        return view('web.pages.shop-4-column', compact('products', 'categoryId'));
+        $sortBy = $request->input('sortBy'); // Get sorting option from request
+
+        // Set sorting criteria based on user selection
+        $products = Product::where('Category_id', $categoryId)
+            ->when($sortBy, function ($query, $sortBy) {
+                if ($sortBy == 'name_asc') {
+                    $query->orderBy('Product_name', 'asc');
+                } elseif ($sortBy == 'name_desc') {
+                    $query->orderBy('Product_name', 'desc');
+                } elseif ($sortBy == 'price_high_low') {
+                    $query->orderBy('Price', 'desc');
+                } elseif ($sortBy == 'price_low_high') {
+                    $query->orderBy('Price', 'asc');
+                }
+            })
+            ->paginate(8);
+
+        return view('web.pages.shop-4-column', compact('products', 'categoryId', 'sortBy'));
     }
 
-    // Show Product by Brand in Navbar
-    public function showByBrand($brandId)
+    // Show Product by Brand in Navbar with Sort By
+    public function showByBrand(Request $request, $brandId)
     {
-        $products = Product::where('Brand_id', $brandId)->get();
-        return view('web.pages.shop-4-column', compact('products', 'brandId'));
+        $sortBy = $request->input('sortBy'); // Get sorting option from request
+
+        // Set sorting criteria based on user selection
+        $products = Product::where('Brand_id', $brandId)
+            ->when($sortBy, function ($query, $sortBy) {
+                if ($sortBy == 'name_asc') {
+                    $query->orderBy('Product_name', 'asc');
+                } elseif ($sortBy == 'name_desc') {
+                    $query->orderBy('Product_name', 'desc');
+                } elseif ($sortBy == 'price_high_low') {
+                    $query->orderBy('Price', 'desc');
+                } elseif ($sortBy == 'price_low_high') {
+                    $query->orderBy('Price', 'asc');
+                }
+            })
+            ->paginate(8);
+
+        return view('web.pages.shop-4-column', compact('products', 'brandId', 'sortBy'));
+    }
+
+    public function searchProducts(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Fetch products based on the search query
+        $products = Product::where('Product_name', 'like', '%' . $query . '%')
+            ->limit(5)
+            ->get();
+
+        // Return results as JSON
+        return response()->json($products);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSpecification extends Model
 {
+    public $timestamps = false;
     protected $table = 'Product_Specifications';
     protected $primaryKey = 'Product_spec_id';
     protected $fillable = ['Product_id', 'Spec_name'];

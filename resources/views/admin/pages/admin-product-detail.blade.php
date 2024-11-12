@@ -74,17 +74,6 @@
                 <p><strong>Description:</strong> {{ $product->Product_description }}</p>
                 <p><strong>Price:</strong> ${{ number_format($product->Price, 2) }}</p>
                 <p><strong>Stock Total Quantity:</strong> {{ $product->Stock_Quantity }}</p>
-
-                <p><strong>Available Colors:</strong></p>
-                <div>
-                    @foreach ($product->colors as $color)
-                        <div style="margin-bottom: 5px;">
-                            <span
-                                style="display: inline-block; width: 20px; height: 20px; background-color: {{ $color->Color_name }}; border-radius: 50%;"></span>
-                            {{ $color->Color_name }} - Quantity: {{ $color->Quantity }}
-                        </div>
-                    @endforeach
-                </div>
             </div>
 
         </div>

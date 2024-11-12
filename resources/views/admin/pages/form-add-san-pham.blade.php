@@ -45,7 +45,8 @@
                                     <select class="form-control" name="category_id" required>
                                         <option value="">Choose Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->Category_id }}">{{ $category->Category_name }}</option>
+                                            <option value="{{ $category->Category_id }}">{{ $category->Category_name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -61,10 +62,6 @@
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Price</label>
                                     <input class="form-control" type="text" name="price" required>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label class="control-label">Product Color</label>
-                                    <input class="form-control" type="text" name="colors[]">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Images</label>
@@ -84,8 +81,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
+                                    <label class="control-label">Product Specifications</label>
+                                    <textarea class="form-control" name="specifications[]" placeholder="Enter product specifications" required></textarea>
+                                </div>                                
+                                <div class="form-group col-md-12">
                                     <label class="control-label">Product Descriptions</label>
-                                    <textarea class="form-control" name="product_description" id="mota" required></textarea>
+                                    <textarea class="form-control" name="product_description" id="mota" placeholder="Enter product Descriptions" required></textarea>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <button class="btn btn-save" type="submit">Save</button>

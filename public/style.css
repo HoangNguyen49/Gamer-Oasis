@@ -455,7 +455,7 @@ textarea:focus {
 .bg-1,
 .bg-2,
 .bg-3 {
-    background-image: url(asset/images/slider/ps5.jpg);
+    background-image: url(asset/images/slider/PS5.jpg);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -463,10 +463,10 @@ textarea:focus {
     width: 100%;
 }
 .bg-2 {
-    background-image: url(asset/images/slider/nintendo.jpg);
+    background-image: url(asset/images/slider/Nitendo.jpg);
 }
 .bg-3 {
-    background-image: url(asset/images/slider/laptop);
+    background-image: url(asset/images/slider/Acer.jpg);
 }
 
 /*----------------------------------------*/
@@ -2037,7 +2037,7 @@ textarea:focus {
 }
 .megamenu-static-holder .hb-megamenu,
 .megamenu-holder .hb-megamenu {
-    background-image: url(images/menu/li-bg-menu.jpg);
+    /* background-image: url(/asset/images/menu/li-bg-menu.jpg); */
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
@@ -2811,7 +2811,7 @@ textarea:focus {
 /*  2.7 Li's Static Home Banner
 /*----------------------------------------*/
 .li-static-home-image {
-    background-image: url(images/bg-banner/1.jpg);
+    background-image: url(asset/images/bg-banner/Gaming-Banner1.jpg);
     background-size: cover;
     height: 400px;
     background-repeat: no-repeat;
@@ -5135,7 +5135,7 @@ span.required {
     font-size: 14px;
     height: 30px;
     line-height: 30px;
-    width: 320px;
+    width: 170px;
     z-index: 999;
 }
 @media only screen and (max-width: 767px) {

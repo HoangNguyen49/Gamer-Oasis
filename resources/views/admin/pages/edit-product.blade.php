@@ -64,6 +64,14 @@
             </div>
 
             <div class="form-group">
+                <label for="product_specifications">Product Specifications</label>
+                <textarea name="specifications[]" id="product_specifications" class="form-control" rows="5">
+                    @foreach ($product->specifications as $spec)
+                        {{ $spec->Spec_name }}
+                    @endforeach
+                </textarea>
+            </div>
+            <div class="form-group">
                 <label for="price">Price</label>
                 <input type="number" name="price" id="price" class="form-control" value="{{ $product->Price }}" required>
             </div>

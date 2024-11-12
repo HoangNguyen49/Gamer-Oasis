@@ -46,10 +46,56 @@
     <!-- Modernizr js -->
     <script src="{{ asset('asset/js/vendor/modernizr-2.8.3.min.js') }}"></script>
 
-<body>
+
+    <style>
+        /* Đặt vị trí và căn chỉnh cho danh sách kết quả */
+        #search-results {
+            position: absolute;
+            top: 100%;
+            /* Đặt ngay dưới ô input */
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            /* Loại bỏ đường viền trên */
+            z-index: 1000;
+            max-height: 200px;
+            /* Giới hạn chiều cao */
+            overflow-y: auto;
+            /* Cuộn khi danh sách dài */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tạo khoảng cách và style cho từng mục */
+        #search-results .dropdown-item {
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            white-space: nowrap;
+            /* Không cho text xuống dòng */
+        }
+
+        #search-results .dropdown-item:hover {
+            background-color: #f0f0f0;
+            /* Màu nền khi hover */
+            color: #000;
+            /* Màu chữ khi hover */
+        }
+
+        /* Style khi không tìm thấy kết quả */
+        #search-results p.dropdown-item {
+            padding: 10px;
+            color: #999;
+            text-align: center;
+            cursor: default;
+        }
+    </style>
 
 
     </head>
+
+    <body>
     <!--[if lt IE 8]>
   <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
  <![endif]-->
@@ -128,17 +174,12 @@
                         <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                             <!-- Begin Header Middle Searchbox Area -->
                             <form action="#" class="hm-searchbox">
-                                {{-- <select class="nice-select select-search-category">
-                                    <option value="0">All</option>
-                                    <option value="1">Laptop Gaming</option>
-                                    <option value="2">Console</option>
-                                    <option value="3">Nintendo Switch</option>
-                                    <option value="4">Assesories</option>
-                                    <option value="5">Blog</option>
-                                </select> --}}
-                                <input type="text" placeholder="Enter your search ...">
+                                <input type="text" id="search-input" placeholder="Enter your search ...">
                                 <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                             </form>
+                            <div id="search-results" class="dropdown-search-results" style="display: none;">
+                                <!-- Search results will be displayed here -->
+                            </div>
                             <!-- Header Middle Searchbox Area End Here -->
                             <!-- Begin Header Middle Right Area -->
                             <div class="header-middle-right">
@@ -278,4 +319,45 @@
             </div>
             <!-- Mobile Menu Area End Here -->
         </header>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#search-input').on('input', function() {
+                    let query = $(this).val();
+
+                    if (query.length > 0) {
+                        $.ajax({
+                            url: "{{ route('products.search') }}",
+                            method: 'GET',
+                            data: {
+                                query: query
+                            },
+                            success: function(data) {
+                                let results = '';
+                                if (data.length > 0) {
+                                    data.forEach(products => {
+                                        results +=
+                                            `<a href="/products/${products.Slug}" class="dropdown-item">${products.Product_name}</a>`;
+                                    });
+                                } else {
+                                    results = '<p class="dropdown-item">No results found</p>';
+                                }
+
+                                $('#search-results').html(results).show();
+                            }
+                        });
+                    } else {
+                        $('#search-results').hide();
+                    }
+                });
+
+                // Hide results when clicking outside
+                $(document).click(function(e) {
+                    if (!$(e.target).closest('#search-input, #search-results').length) {
+                        $('#search-results').hide();
+                    }
+                });
+            });
+        </script>
 </body>

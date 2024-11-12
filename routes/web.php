@@ -232,6 +232,9 @@ Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.s
 Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_payment'])->name('vnpay.payment');
 Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');
 
+Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
+
+
 //google login
 Route::get('/auth/{provider}', [UserController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [UserController::class, 'handleGoogleCallback'])->name('google.callback');
@@ -264,5 +267,6 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 // Route để chặn tài khoản
 Route::post('/block', [UserController::class, 'blockUser']);
 Route::post('/unblock', [UserController::class, 'unblockUser']);
+
 
 
