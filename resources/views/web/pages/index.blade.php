@@ -117,6 +117,149 @@
         </div>
     </div>
     <!-- Li's Static Banner Area End Here -->
+    
+    <!-- Section PlayStation Switch -->
+    <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
+        <div class="container">
+            <div class="row">
+                <!-- Begin Li's Section Area -->
+                <div class="col-lg-12">
+                    <div class="li-section-title">
+                        <h2>
+                            <span id="playstation">PlayStation</span>
+                        </h2>
+
+                    </div>
+                    <div class="row">
+                        <div class="product-active owl-carousel">
+                            @foreach ($productsCategory123 as $product)
+                                <div class="col-lg-12">
+                                    <div class="single-product-wrap">
+                                        <div class="product-image">
+                                            <a href="{{ route('products.show', $product->Slug) }}">
+                                                @if ($product->images->isNotEmpty())
+                                                    <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}"
+                                                        alt="{{ $product->Product_name }}">
+                                                @else
+                                                    <img src="path/to/default-image.jpg" alt="No Image">
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="product_desc">
+                                            <div class="product_desc_info">
+                                                <div class="product-review">
+                                                    <h5 class="manufacturer">
+                                                        <a href="{{ route('products.show', $product->Slug) }}">
+                                                            {{ optional($product->brand)->Brand_name ?? 'No Brand' }}
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                                <h4>
+                                                    <a class="product_name"
+                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
+                                                </h4>
+                                                <div class="price-box">
+                                                    <span
+                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="add-actions">
+                                                <ul class="add-actions-link">
+                                                    <li class="add-cart active"><a href="#"
+                                                            class="add-to-cart-btn"
+                                                            data-product-id="{{ $product->Product_id }}">ADD TO
+                                                            CART</a></li>
+                                                    <li><a href="#" class="add-to-wishlist-btn"
+                                                            data-product-id="{{ $product->Product_id }}"><i
+                                                                class="fa fa-heart-o"></i></a></li>
+                                                    <li><a class="quick-view" data-toggle="modal"
+                                                            data-target="#exampleModalCenter" href="#"><i
+                                                                class="fa fa-eye"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <!-- Li's Section Area End Here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Nintendo Switch -->
+    <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
+        <div class="container">
+            <div class="row">
+                <!-- Begin Li's Section Area -->
+                <div class="col-lg-12">
+                    <div class="li-section-title">
+                        <h2>
+                            <span id="nintendo">Nintendo Switch</span>
+                        </h2>
+
+                    </div>
+                    <div class="row">
+                        <div class="product-active owl-carousel">
+                            @foreach ($productsCategory456 as $product)
+                                <div class="col-lg-12">
+                                    <div class="single-product-wrap">
+                                        <div class="product-image">
+                                            <a href="{{ route('products.show', $product->Slug) }}">
+                                                @if ($product->images->isNotEmpty())
+                                                    <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}"
+                                                        alt="{{ $product->Product_name }}">
+                                                @else
+                                                    <img src="path/to/default-image.jpg" alt="No Image">
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="product_desc">
+                                            <div class="product_desc_info">
+                                                <div class="product-review">
+                                                    <h5 class="manufacturer">
+                                                        <a href="product-details.html">
+                                                            {{ optional($product->brand)->Brand_name ?? 'No Brand' }}
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                                <h4>
+                                                    <a class="product_name"
+                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
+                                                </h4>
+                                                <div class="price-box">
+                                                    <span
+                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="add-actions">
+                                                <ul class="add-actions-link">
+                                                    <li class="add-cart active"><a href="#"
+                                                            class="add-to-cart-btn"
+                                                            data-product-id="{{ $product->Product_id }}">ADD TO
+                                                            CART</a></li>
+                                                    <li><a href="#" class="add-to-wishlist-btn"
+                                                            data-product-id="{{ $product->Product_id }}"><i
+                                                                class="fa fa-heart-o"></i></a></li>
+                                                    <li><a class="quick-view" data-toggle="modal"
+                                                            data-target="#exampleModalCenter" href="#"><i
+                                                                class="fa fa-eye"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <!-- Li's Section Area End Here -->
+            </div>
+        </div>
+    </section>
+
     <!-- Begin Li's Laptop Product Area -->
     <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
         <div class="container">
@@ -125,7 +268,7 @@
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>Laptop Gaming</span>
+                            <span id="laptop">Laptop Gaming</span>
                         </h2>
 
                     </div>
@@ -189,149 +332,6 @@
         </div>
     </section>
 
-    <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
-        <div class="container">
-            <div class="row">
-                <!-- Begin Li's Section Area -->
-                <div class="col-lg-12">
-                    <div class="li-section-title">
-                        <h2>
-                            <span>SONY</span>
-                        </h2>
-
-                    </div>
-                    <div class="row">
-                        <div class="product-active owl-carousel">
-                            @foreach ($productsCategory123 as $product)
-                                <div class="col-lg-12">
-                                    <div class="single-product-wrap">
-                                        <div class="product-image">
-                                            <a href="{{ route('products.show', $product->Slug) }}">
-                                                @if ($product->images->isNotEmpty())
-                                                    <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}"
-                                                        alt="{{ $product->Product_name }}">
-                                                @else
-                                                    <img src="path/to/default-image.jpg" alt="No Image">
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <div class="product_desc">
-                                            <div class="product_desc_info">
-                                                <div class="product-review">
-                                                    <h5 class="manufacturer">
-                                                        <a href="{{ route('products.show', $product->Slug) }}">
-                                                            {{ optional($product->brand)->Brand_name ?? 'No Brand' }}
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <h4>
-                                                    <a class="product_name"
-                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
-                                                </h4>
-                                                <div class="price-box">
-                                                    <span
-                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a href="#"
-                                                            class="add-to-cart-btn"
-                                                            data-product-id="{{ $product->Product_id }}">ADD TO
-                                                            CART</a></li>
-                                                    <li><a href="#" class="add-to-wishlist-btn"
-                                                            data-product-id="{{ $product->Product_id }}"><i
-                                                                class="fa fa-heart-o"></i></a></li>
-                                                    <li><a class="quick-view" data-toggle="modal"
-                                                            data-target="#exampleModalCenter" href="#"><i
-                                                                class="fa fa-eye"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <!-- Li's Section Area End Here -->
-            </div>
-        </div>
-    </section>
-    <!-- Li's Laptop Product Area End Here -->
-
-
-    <!-- Section Nintendo Switch -->
-    <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
-        <div class="container">
-            <div class="row">
-                <!-- Begin Li's Section Area -->
-                <div class="col-lg-12">
-                    <div class="li-section-title">
-                        <h2>
-                            <span>Nintendo Switch</span>
-                        </h2>
-
-                    </div>
-                    <div class="row">
-                        <div class="product-active owl-carousel">
-                            @foreach ($productsCategory456 as $product)
-                                <div class="col-lg-12">
-                                    <div class="single-product-wrap">
-                                        <div class="product-image">
-                                            <a href="{{ route('products.show', $product->Slug) }}">
-                                                @if ($product->images->isNotEmpty())
-                                                    <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}"
-                                                        alt="{{ $product->Product_name }}">
-                                                @else
-                                                    <img src="path/to/default-image.jpg" alt="No Image">
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <div class="product_desc">
-                                            <div class="product_desc_info">
-                                                <div class="product-review">
-                                                    <h5 class="manufacturer">
-                                                        <a href="product-details.html">
-                                                            {{ optional($product->brand)->Brand_name ?? 'No Brand' }}
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <h4>
-                                                    <a class="product_name"
-                                                        href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
-                                                </h4>
-                                                <div class="price-box">
-                                                    <span
-                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a href="#"
-                                                            class="add-to-cart-btn"
-                                                            data-product-id="{{ $product->Product_id }}">ADD TO
-                                                            CART</a></li>
-                                                    <li><a href="#" class="add-to-wishlist-btn"
-                                                            data-product-id="{{ $product->Product_id }}"><i
-                                                                class="fa fa-heart-o"></i></a></li>
-                                                    <li><a class="quick-view" data-toggle="modal"
-                                                            data-target="#exampleModalCenter" href="#"><i
-                                                                class="fa fa-eye"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <!-- Li's Section Area End Here -->
-            </div>
-        </div>
-    </section>
-    <!-- Li's TV & Audio Product Area End Here -->
     <!-- Begin Li's Static Home Area -->
     <div class="li-static-home">
         <div class="container">

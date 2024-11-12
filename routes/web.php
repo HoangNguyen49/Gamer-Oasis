@@ -11,6 +11,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VnpayOrderController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ContactController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index']); // Thay đổi thành phương thức trong controller
@@ -122,6 +123,17 @@ Route::prefix('admin')->group(function () {
         return view('admin.pages.form-add-blog');
     })->name('taobai');
 
+    Route::get('/contacts', function () {
+        return view('admin.pages.contacts');
+        return view('admin.pages.contacts');
+    });
+
+    Route::get('/contacts', [ContactController::class, 'show'])->name('contacts.show');
+    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{id}', [ContactController::class, 'showDetail'])->name('contacts.showDetail');
+    Route::get('/contacts/update-status/{id}', [ContactController::class, 'updateStatus'])->name('contacts.updateStatus');
+
+
     Route::get('/trans.verifi', function () {
         return view('admin.pages.trans.verifi');
         return view('admin.pages.trans.verifi');
@@ -205,3 +217,7 @@ Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name(
 
 
 Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
+
+Route::get('/contact', [ContactController::class, 'showForm']);
+Route::post('/contact', [ContactController::class, 'store']);
+

@@ -44,6 +44,8 @@
         <link rel="stylesheet" href="{{ asset('asset/css/responsive.css') }}">
         <!-- Modernizr js -->
         <script src="{{ asset('asset/js/vendor/modernizr-2.8.3.min.js') }}"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <body>
     
 
@@ -103,7 +105,7 @@
                             </div>
                             <div class="shipping-text">
                                 <h2>24/7 Help Center</h2>
-                                <p>Have a question? Call a Specialist or chat online.</p>
+                                <p>Have a question? Contact us via contact form.</p>
                             </div>
                         </div>
                     </div>
@@ -124,34 +126,38 @@
                         <div class="footer-logo">
                             <img src="{{ asset('asset/images/menu/logo/logo2.png') }}" alt="Footer Logo">
                             <p class="info">
-                                We are a team of designers and developers that create high quality HTML Template & Woocommerce, Shopify Theme.
+                                We provide high-quality tech products, from laptops to DualSense controllers and Nintendo consoles. Ensuring you always have the best experience with our products.
                             </p>
                         </div>
                         <ul class="des">
                             <li>
                                 <span>Address: </span>
-                                6688Princess Road, London, Greater London BAS 23JK, UK
+                                <a href="https://www.google.com/maps?q=10.78638265263099,106.66604740363539"
+                                    target="_blank">
+                                    590 Cách Mạng Tháng 8 Street, Ward 11, District 3, Ho Chi Minh City, Vietnam
+                                </a>
                             </li>
                             <li>
                                 <span>Phone: </span>
-                                <a href="#">(+123) 123 321 345</a>
+                                <a href="tel:+84931313229">(+84) 981 578 920</a>
                             </li>
                             <li>
                                 <span>Email: </span>
-                                <a href="mailto://info@yourdomain.com">info@yourdomain.com</a>
+                                <a href="mailto:aptech.fpt@fe.edu.vn">aptech.fpt@fe.edu.vn</a>
                             </li>
                         </ul>
                     </div>
+                    
                     <!-- Footer Logo Area End Here -->
                     <!-- Begin Footer Block Area -->
                     <div class="col-lg-2 col-md-3 col-sm-6">
                         <div class="footer-block">
                             <h3 class="footer-block-title">Product</h3>
                             <ul>
-                                <li><a href="#">Prices drop</a></li>
-                                <li><a href="#">New products</a></li>
-                                <li><a href="#">Best sales</a></li>
-                                <li><a href="#">Contact us</a></li>
+                                <li><a href="#playstation">PlayStation</a></li>
+                                <li><a href="#nintendo">Nintendo Switch</a></li>
+                                <li><a href="#laptop">Laptop Gaming</a></li>
+                                <li><a href="#laptop">Accessories</a></li>
                             </ul>
                         </div>
                     </div>
@@ -161,10 +167,10 @@
                         <div class="footer-block">
                             <h3 class="footer-block-title">Our company</h3>
                             <ul>
-                                <li><a href="#">Delivery</a></li>
-                                <li><a href="#">Legal Notice</a></li>
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Contact us</a></li>
+                                <li><a href="{{ url('/about-us') }}">About US</a></li>
+                                <li><a href="{{ url('/contact') }}">Contact US</a></li>
+                                <li><a href="{{ url('/buying-guide') }}">Purchase Instructions</a></li>
+                                <li><a href="{{ url('/payment-guide') }}">Payment Instructions</a></li>
                             </ul>
                         </div>
                     </div>
@@ -175,33 +181,23 @@
                             <h3 class="footer-block-title">Follow Us</h3>
                             <ul class="social-link">
                                 <li class="twitter">
-                                    <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li class="rss">
-                                    <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
-                                        <i class="fa fa-rss"></i>
-                                    </a>
-                                </li>
-                                <li class="google-plus">
-                                    <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google +">
-                                        <i class="fa fa-google-plus"></i>
+                                    <a href="https://x.com/fpt_aptech" data-toggle="tooltip" target="_blank" title="X">
+                                        <i class="fa-brands fa-x-twitter"></i>
                                     </a>
                                 </li>
                                 <li class="facebook">
-                                    <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+                                    <a href="https://www.facebook.com/aptech.fpt" data-toggle="tooltip" target="_blank" title="Facebook">
                                         <i class="fa fa-facebook"></i>
                                     </a>
                                 </li>
-                                <li class="youtube">
-                                    <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
-                                        <i class="fa fa-youtube"></i>
+                                <li class="instagram">
+                                    <a href="https://www.instagram.com/fptaptech1999" data-toggle="tooltip" target="_blank" title="Instagram">
+                                        <i class="fa-brands fa-instagram"></i>
                                     </a>
                                 </li>
-                                <li class="instagram">
-                                    <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
-                                        <i class="fa fa-instagram"></i>
+                                <li class="youtube">
+                                    <a href="https://www.youtube.com/@laptrinhfptaptech" data-toggle="tooltip" target="_blank" title="Youtube">
+                                        <i class="fa-brands fa-youtube"></i>
                                     </a>
                                 </li>
                             </ul>
@@ -230,43 +226,27 @@
     <div class="footer-static-bottom pt-55 pb-55">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <!-- Begin Footer Links Area -->
-                    <div class="footer-links">
-                        <ul>
-                            <li><a href="#">Online Shopping</a></li>
-                            <li><a href="#">Promotions</a></li>
-                            <li><a href="#">My Orders</a></li>
-                            <li><a href="#">Help</a></li>
-                            <li><a href="#">Customer Service</a></li>
-                            <li><a href="#">Support</a></li>
-                            <li><a href="#">Most Populars</a></li>
-                            <li><a href="#">New Arrivals</a></li>
-                            <li><a href="#">Special Products</a></li>
-                            <li><a href="#">Manufacturers</a></li>
-                            <li><a href="#">Our Stores</a></li>
-                            <li><a href="#">Shipping</a></li>
-                            <li><a href="#">Payments</a></li>
-                            <li><a href="#">Warantee</a></li>
-                            <li><a href="#">Refunds</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Discount</a></li>
-                            <li><a href="#">Refunds</a></li>
-                            <li><a href="#">Policy Shipping</a></li>
-                        </ul>
-                    </div>
-                    <!-- Footer Links Area End Here -->
+                <div class="col-lg-12">            
                     <!-- Begin Footer Payment Area -->
-                    <div class="copyright text-center">
-                        <a href="#">
-                            <img src="{{ asset('asset/images/payment/1.png') }}" alt="">
+                    <div class="footer-payment text-center">
+                        <p>Our Trusted Working Partner Brands</p>
+                        <a>
+                            <img src="{{ asset('asset/images/payment/1.png') }}" alt="Payment Methods">
                         </a>
                     </div>
                     <!-- Footer Payment Area End Here -->
-                    <!-- Begin Copyright Area -->
                     
+                    <!-- Begin Copyright Area -->
+                    <div class="text-center mt-3" style="font-size: 13px;">
+                        <p><b>&copy; 
+                            <script type="text/javascript">
+                                document.write(new Date().getFullYear());
+                            </script> Gamer Oasis</b>. All rights reserved. High-quality products designed to fit your needs, with a focus on performance and durability.
+                        </p>
+                    </div>
                     <!-- Copyright Area End Here -->
                 </div>
+                
             </div>
         </div>
     </div>
