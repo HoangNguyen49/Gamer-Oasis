@@ -12,6 +12,79 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
 
 </head>
+<style>
+    /* Tiêu đề phần Specifications */
+    .specifications-title {
+        font-size: 26px;
+        /* Đặt kích thước chữ lớn hơn một chút */
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    /* Danh sách các thông số */
+    .specifications-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        /* Khoảng cách giữa các mục */
+        padding: 0;
+        list-style: none;
+    }
+
+    /* Mỗi item trong specifications */
+    .spec-item {
+        font-size: 18px;
+        /* Tăng kích thước chữ cho các thông số */
+        color: #555;
+        /* Màu chữ tối nhưng không quá đậm */
+        line-height: 1.6;
+        /* Tăng chiều cao dòng để dễ đọc */
+    }
+
+    .spec-item strong {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    /* Định dạng khi không có thông số */
+    .no-specs-message {
+        font-size: 20px;
+        color: #e74c3c;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .single-add-to-cart button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 10px;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .add-to-cart-btn {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .add-to-wishlist-btn {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .single-add-to-cart button:hover {
+        opacity: 0.8;
+    }
+
+    .single-add-to-cart button:focus {
+        outline: none;
+    }
+</style>
 
 <body>
     @include('web.layouts.header')
@@ -30,7 +103,7 @@
     <!-- content-wraper start -->
     <div class="content-wraper">
         <div class="container">
-            <div class="row single-product-area">
+            <div class="row single-product-area" style="display:flex;align-items: stretch">
                 <div class="col-lg-5 col-md-6">
                     <!-- Product Details Left -->
                     <div class="product-details-left">
@@ -59,88 +132,36 @@
                     <!--// Product Details Left -->
                 </div>
 
-                <div class="col-lg-7 col-md-6">
-                    <div class="product-details-view-content pt-60">
+                <div class="col-lg-5 col-md-6">
+                    <div class="product-details-view-content pt-90" style="padding-left: 60px">
                         <div class="product-info">
                             <h2>{{ $product->Product_name }}</h2> <!-- Tên sản phẩm -->
-                            <span class="product-details-ref">Reference: {{ $product->Product_id }}</span>
+                            <span class="product-details-ref">
+                                Brand: {{ $product->brand->Brand_name }}
+                            </span>
+
                             <!-- Reference hoặc ID sản phẩm -->
-                            <div class="rating-box pt-20">
-                                <ul class="rating rating-with-review-item">
-                                    <!-- Có thể thêm logic cho đánh giá -->
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                    <li class="review-item"><a href="#">Read Review</a></li>
-                                    <li class="review-item"><a href="#">Write Review</a></li>
-                                </ul>
-                            </div>
                             <div class="price-box pt-20">
                                 <span class="new-price new-price-2">${{ number_format($product->Price, 2) }}</span>
                                 <!-- Giá sản phẩm -->
                             </div>
-                            <div class="product-desc">
-                                <p>{{ $product->Product_description }}</p> <!-- Mô tả sản phẩm -->
-                            </div>
-                            <div class="product-variants">
-                                <div class="product-variants-size">
-                                    <label>Product Color</label>
-                                    <select class="nice-select">
-                                        @foreach ($product->colors as $color)
-                                            <!-- Hiển thị màu sắc -->
-                                            <option value="{{ $color->Product_Colors_id }}">{{ $color->Color_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                             <div class="single-add-to-cart">
-                                <form action="#" class="cart-quantity">
-                                    <div class="quantity">
-                                        <label>Quantity</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                        </div>
-                                    </div>
-                                    <button class="add-cart active"><a href="#" class="add-to-cart-btn"
-                                            data-product-id="{{ $product->Product_id }}">ADD TO CART</a></button>
-                                </form>
-                            </div>
-                            <div class="product-additional-info pt-25">
-                                <a href="#" class="add-to-wishlist-btn"
-                                    data-product-id="{{ $product->Product_id }}"><i class="fa fa-heart-o"></i></a>
-                            </div>
-                            <div class="block-reassurance">
-                                <ul>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-check-square-o"></i>
-                                            </div>
-                                            <p>Security policy (edit with Customer reassurance module)</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-truck"></i>
-                                            </div>
-                                            <p>Delivery policy (edit with Customer reassurance module)</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="reassurance-item">
-                                            <div class="reassurance-icon">
-                                                <i class="fa fa-exchange"></i>
-                                            </div>
-                                            <p>Return policy (edit with Customer reassurance module)</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <div class="quantity" style="padding-bottom:15px; width:65px">
+                                    <label for="product-quantity">Quantity:</label>
+                                    <input style="padding-left:20px" type="number" id="product-quantity"
+                                        name="quantity" value="1" min="1"
+                                        max="{{ $product->Stock_Quantity }}">
+                                </div>
+                                <button class="add-to-cart-btn btn btn-primary"
+                                    style="padding: 7px 10px; font-size:13px"
+                                    data-product-id="{{ $product->Product_id }}">
+                                    ADD TO CART
+                                </button>
+                                <button class="add-to-wishlist-btn btn btn-danger"
+                                    style="padding: 7px 10px; font-size:13px"
+                                    data-product-id="{{ $product->Product_id }}">
+                                    ADD TO WISHLIST
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -160,7 +181,8 @@
                         <ul class="nav li-product-menu">
                             <li><a class="active" data-toggle="tab" href="#description"><span>Description</span></a>
                             </li>
-                            <li><a data-toggle="tab" href="#product-details"><span>Product Details</span></a></li>
+                            <li><a data-toggle="tab" href="#product-details"><span>Product Specifications</span></a>
+                            </li>
                             <li><a data-toggle="tab" href="#reviews"><span>Reviews</span></a></li>
                         </ul>
                     </div>
@@ -170,20 +192,45 @@
             <div class="tab-content">
                 <div id="description" class="tab-pane active show" role="tabpanel">
                     <div class="product-description">
-                        <span>The best is yet to come! Give your walls a voice with a framed poster. This aesthethic,
-                            optimistic poster will look great in your desk or in an open-space office. Painted wooden
-                            frame with passe-partout for more depth.</span>
+                        <!-- Kiểm tra nếu sản phẩm có description -->
+                        @if ($product->Product_description)
+                            <span>{{ $product->Product_description }}</span> <!-- Mô tả sản phẩm -->
+                        @else
+                            <!-- Thông báo nếu không có description -->
+                            <p class="no-description-message">Dữ liệu descriptions chưa được nhập</p>
+                        @endif
                     </div>
                 </div>
+
                 <div id="product-details" class="tab-pane" role="tabpanel">
                     <div class="product-details-manufacturer">
-                        <a href="#">
-                            <img src="images/product-details/1.jpg" alt="Product Manufacturer Image">
-                        </a>
-                        <p><span>Reference</span> demo_7</p>
-                        <p><span>Reference</span> demo_7</p>
+                        <!-- Kiểm tra nếu sản phẩm có specifications -->
+                        @if ($product->specifications && $product->specifications->isNotEmpty())
+                            <h4 class="specifications-title">Specifications:</h4>
+                            <div class="specifications-list">
+                                <ul>
+                                    @php
+                                        // Tách chuỗi Spec_name theo dấu phân cách '|' hoặc bất kỳ dấu phân cách nào
+                                        $specifications = explode('|', $product->specifications->first()->Spec_name);
+                                    @endphp
+                                    @foreach ($specifications as $specification)
+                                        <li class="spec-item">
+                                            <!-- Hiển thị mỗi thông số trên một dòng riêng biệt -->
+                                            {{ trim($specification) }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @else
+                            <!-- Thông báo nếu không có specifications -->
+                            <p class="no-specs-message">Sản phẩm chưa được nhập spec</p>
+                        @endif
                     </div>
                 </div>
+
+
+
+
                 <div id="reviews" class="tab-pane" role="tabpanel">
                     <div class="product-reviews">
                         <div class="product-details-comment-block">
@@ -207,7 +254,8 @@
                             </div>
                             <div class="review-btn">
                                 <a class="review-links" href="#" data-toggle="modal"
-                                    data-target="#mymodal">Write Your Review!</a>
+                                    data-target="#mymodal">Write
+                                    Your Review!</a>
                             </div>
                             <!-- Begin Quick View | Modal Area -->
                             <div class="modal fade modal-wrapper" id="mymodal">
@@ -303,439 +351,11 @@
     </div>
     <!-- Product Area End Here -->
     <!-- Begin Li's Laptop Product Area -->
-    <section class="product-area li-laptop-product pt-30 pb-50">
-        <div class="container">
-            <div class="row">
-                <!-- Begin Li's Section Area -->
-                <div class="col-lg-12">
-                    <div class="li-section-title">
-                        <h2>
-                            <span>15 other products in the same category:</span>
-                        </h2>
-                    </div>
-                    <div class="row">
-                        <div class="product-active owl-carousel">
-                            <div class="col-lg-12">
-                                <!-- single-product-wrap start -->
-                                <div class="single-product-wrap">
-                                    <div class="product-image">
-                                        <a href="single-product.html">
-                                            <img src="images/product/large-size/1.jpg" alt="Li's Product Image">
-                                        </a>
-                                        <span class="sticker">New</span>
-                                    </div>
-                                    <div class="product_desc">
-                                        <div class="product_desc_info">
-                                            <div class="product-review">
-                                                <h5 class="manufacturer">
-                                                    <a href="product-details.html">Graphic Corner</a>
-                                                </h5>
-                                                <div class="rating-box">
-                                                    <ul class="rating">
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <h4><a class="product_name" href="single-product.html">Accusantium
-                                                    dolorem1</a></h4>
-                                            <div class="price-box">
-                                                <span class="new-price">$46.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="add-actions">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                <li><a href="#" title="quick view" class="quick-view-btn"
-                                                        data-toggle="modal" data-target="#exampleModalCenter"><i
-                                                            class="fa fa-eye"></i></a></li>
-                                                <li><a class="links-details" href="wishlist.html"><i
-                                                            class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- single-product-wrap end -->
-                            </div>
-                            <div class="col-lg-12">
-                                <!-- single-product-wrap start -->
-                                <div class="single-product-wrap">
-                                    <div class="product-image">
-                                        <a href="single-product.html">
-                                            <img src="images/product/large-size/2.jpg" alt="Li's Product Image">
-                                        </a>
-                                        <span class="sticker">New</span>
-                                    </div>
-                                    <div class="product_desc">
-                                        <div class="product_desc_info">
-                                            <div class="product-review">
-                                                <h5 class="manufacturer">
-                                                    <a href="product-details.html">Studio Design</a>
-                                                </h5>
-                                                <div class="rating-box">
-                                                    <ul class="rating">
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <h4><a class="product_name" href="single-product.html">Mug Today is a good
-                                                    day</a></h4>
-                                            <div class="price-box">
-                                                <span class="new-price new-price-2">$71.80</span>
-                                                <span class="old-price">$77.22</span>
-                                                <span class="discount-percentage">-7%</span>
-                                            </div>
-                                        </div>
-                                        <div class="add-actions">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                <li><a href="#" title="quick view" class="quick-view-btn"
-                                                        data-toggle="modal" data-target="#exampleModalCenter"><i
-                                                            class="fa fa-eye"></i></a></li>
-                                                <li><a class="links-details" href="wishlist.html"><i
-                                                            class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- single-product-wrap end -->
-                            </div>
-                            <div class="col-lg-12">
-                                <!-- single-product-wrap start -->
-                                <div class="single-product-wrap">
-                                    <div class="product-image">
-                                        <a href="single-product.html">
-                                            <img src="images/product/large-size/3.jpg" alt="Li's Product Image">
-                                        </a>
-                                        <span class="sticker">New</span>
-                                    </div>
-                                    <div class="product_desc">
-                                        <div class="product_desc_info">
-                                            <div class="product-review">
-                                                <h5 class="manufacturer">
-                                                    <a href="product-details.html">Graphic Corner</a>
-                                                </h5>
-                                                <div class="rating-box">
-                                                    <ul class="rating">
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <h4><a class="product_name" href="single-product.html">Accusantium
-                                                    dolorem1</a></h4>
-                                            <div class="price-box">
-                                                <span class="new-price">$46.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="add-actions">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                <li><a href="#" title="quick view" class="quick-view-btn"
-                                                        data-toggle="modal" data-target="#exampleModalCenter"><i
-                                                            class="fa fa-eye"></i></a></li>
-                                                <li><a class="links-details" href="wishlist.html"><i
-                                                            class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- single-product-wrap end -->
-                            </div>
-                            <div class="col-lg-12">
-                                <!-- single-product-wrap start -->
-                                <div class="single-product-wrap">
-                                    <div class="product-image">
-                                        <a href="single-product.html">
-                                            <img src="images/product/large-size/4.jpg" alt="Li's Product Image">
-                                        </a>
-                                        <span class="sticker">New</span>
-                                    </div>
-                                    <div class="product_desc">
-                                        <div class="product_desc_info">
-                                            <div class="product-review">
-                                                <h5 class="manufacturer">
-                                                    <a href="product-details.html">Studio Design</a>
-                                                </h5>
-                                                <div class="rating-box">
-                                                    <ul class="rating">
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <h4><a class="product_name" href="single-product.html">Mug Today is a good
-                                                    day</a></h4>
-                                            <div class="price-box">
-                                                <span class="new-price new-price-2">$71.80</span>
-                                                <span class="old-price">$77.22</span>
-                                                <span class="discount-percentage">-7%</span>
-                                            </div>
-                                        </div>
-                                        <div class="add-actions">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                <li><a href="#" title="quick view" class="quick-view-btn"
-                                                        data-toggle="modal" data-target="#exampleModalCenter"><i
-                                                            class="fa fa-eye"></i></a></li>
-                                                <li><a class="links-details" href="wishlist.html"><i
-                                                            class="fa fa-heart-o"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- single-product-wrap end -->
-                            </div>
-                            <div class="col-lg-12">
-                                <!-- single-product-wrap start -->
-                                <div class="single-product-wrap">
-                                    <div class="product-image">
-                                        <a href="single-product.html">
-                                            <img src="images/product/large-size/5.jpg" alt="Li's Product Image">
-                                        </a>
-                                        <span class="sticker">New</span>
-                                    </div>
-                                    <div class="product_desc">
-                                        <div class="product_desc_info">
-                                            <div class="product-review">
-                                                <h5 class="manufacturer">
-                                                    <a href="product-details.html">Graphic Corner</a>
-                                                </h5>
-                                                <div class="rating-box">
-                                                    <ul class="rating">
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <h4><a class="product_name" href="single-product.html">Accusantium
-                                                    dolorem1</a></h4>
-                                            <div class="price-box">
-                                                <span class="new-price">$46.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="add-actions">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="#" class="add-to-cart-btn"
-                                                        data-product-id="{{ $product->Product_id }}">ADD TO CART</a>
-                                                </li>
-                                                <li><a href="#" class="add-to-wishlist-btn"
-                                                        data-product-id="{{ $product->Product_id }}"><i
-                                                            class="fa fa-heart-o"></i></a></li>
-                                                <li><a class="quick-view" data-toggle="modal"
-                                                        data-target="#exampleModalCenter" href="#"><i
-                                                            class="fa fa-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- single-product-wrap end -->
-                            </div>
-                            <div class="col-lg-12">
-                                <!-- single-product-wrap start -->
-                                <div class="single-product-wrap">
-                                    <div class="product-image">
-                                        <a href="single-product.html">
-                                            <img src="images/product/large-size/6.jpg" alt="Li's Product Image">
-                                        </a>
-                                        <span class="sticker">New</span>
-                                    </div>
-                                    <div class="product_desc">
-                                        <div class="product_desc_info">
-                                            <div class="product-review">
-                                                <h5 class="manufacturer">
-                                                    <a href="product-details.html">Studio Design</a>
-                                                </h5>
-                                                <div class="rating-box">
-                                                    <ul class="rating">
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <h4><a class="product_name" href="single-product.html">Mug Today is a good
-                                                    day</a></h4>
-                                            <div class="price-box">
-                                                <span class="new-price new-price-2">$71.80</span>
-                                                <span class="old-price">$77.22</span>
-                                                <span class="discount-percentage">-7%</span>
-                                            </div>
-                                        </div>
-                                        <div class="add-actions">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a class="add-cart active"><a
-                                                            href="#" class="add-to-cart-btn"
-                                                            data-product-id="{{ $product->Product_id }}">ADD TO
-                                                            CART</a></li>
-                                                <li><a href="#" class="add-to-wishlist-btn"
-                                                        data-product-id="{{ $product->Product_id }}"><i
-                                                            class="fa fa-heart-o"></i></a></li>
-                                                <li><a class="quick-view" data-toggle="modal"
-                                                        data-target="#exampleModalCenter" href="#"><i
-                                                            class="fa fa-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- single-product-wrap end -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Li's Section Area End Here -->
-            </div>
-        </div>
-    </section>
+
     <!-- Li's Laptop Product Area End Here -->
     <!-- Begin Footer Area -->
     @include('web.layouts.footer')
     <!-- Footer Area End Here -->
-    <!-- Begin Quick View | Modal Area -->
-    <div class="modal fade modal-wrapper" id="exampleModalCenter">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="modal-inner-area row">
-                        <div class="col-lg-5 col-md-6 col-sm-6">
-                            <!-- Product Details Left -->
-                            <div class="product-details-left">
-                                <div class="product-details-images slider-navigation-1">
-                                    <div class="lg-image">
-                                        <img src="images/product/large-size/1.jpg" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="images/product/large-size/2.jpg" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="images/product/large-size/3.jpg" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="images/product/large-size/4.jpg" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="images/product/large-size/5.jpg" alt="product image">
-                                    </div>
-                                    <div class="lg-image">
-                                        <img src="images/product/large-size/6.jpg" alt="product image">
-                                    </div>
-                                </div>
-                                <div class="product-details-thumbs slider-thumbs-1">
-                                    <div class="sm-image"><img src="images/product/small-size/1.jpg"
-                                            alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="images/product/small-size/2.jpg"
-                                            alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="images/product/small-size/3.jpg"
-                                            alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="images/product/small-size/4.jpg"
-                                            alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="images/product/small-size/5.jpg"
-                                            alt="product image thumb"></div>
-                                    <div class="sm-image"><img src="images/product/small-size/6.jpg"
-                                            alt="product image thumb"></div>
-                                </div>
-                            </div>
-                            <!--// Product Details Left -->
-                        </div>
-
-                        <div class="col-lg-7 col-md-6 col-sm-6">
-                            <div class="product-details-view-content pt-60">
-                                <div class="product-info">
-                                    <h2>Today is a good day Framed poster</h2>
-                                    <span class="product-details-ref">Reference: demo_15</span>
-                                    <div class="rating-box pt-20">
-                                        <ul class="rating rating-with-review-item">
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="review-item"><a href="#">Read Review</a></li>
-                                            <li class="review-item"><a href="#">Write Review</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="price-box pt-20">
-                                        <span class="new-price new-price-2">$57.98</span>
-                                    </div>
-                                    <div class="product-desc">
-                                        <p>
-                                            <span>100% cotton double printed dress. Black and white striped top and
-                                                orange high waisted skater skirt bottom. Lorem ipsum dolor sit amet,
-                                                consectetur adipisicing elit. quibusdam corporis, earum facilis et
-                                                nostrum dolorum accusamus similique eveniet quia pariatur.
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="product-variants">
-                                        <div class="produt-variants-size">
-                                            <label>Dimension</label>
-                                            <select class="nice-select">
-                                                <option value="1" title="S" selected="selected">40x60cm
-                                                </option>
-                                                <option value="2" title="M">60x90cm</option>
-                                                <option value="3" title="L">80x120cm</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="single-add-to-cart">
-                                        <form action="#" class="cart-quantity">
-                                            <div class="quantity">
-                                                <label>Quantity</label>
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="1" type="text">
-                                                    <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                    <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                                </div>
-                                            </div>
-                                            <button class="add-to-cart" type="submit">Add to cart</button>
-                                        </form>
-                                    </div>
-                                    <div class="product-additional-info pt-25">
-                                        <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Add
-                                            to wishlist</a>
-                                        <div class="product-social-sharing pt-25">
-                                            <ul>
-                                                <li class="facebook"><a href="#"><i
-                                                            class="fa fa-facebook"></i>Facebook</a></li>
-                                                <li class="twitter"><a href="#"><i
-                                                            class="fa fa-twitter"></i>Twitter</a></li>
-                                                <li class="google-plus"><a href="#"><i
-                                                            class="fa fa-google-plus"></i>Google +</a></li>
-                                                <li class="instagram"><a href="#"><i
-                                                            class="fa fa-instagram"></i>Instagram</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Quick View | Modal Area End Here -->
     </div>
     <!-- Body Wrapper End Here -->
     @include('web.layouts.css-script')
@@ -755,7 +375,10 @@
             document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
+
                     const productId = this.getAttribute('data-product-id');
+                    const quantity = document.querySelector('#product-quantity') ? document
+                        .querySelector('#product-quantity').value : 1;
 
                     fetch('{{ route('cart.add') }}', {
                             method: 'POST',
@@ -764,7 +387,8 @@
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
-                                product_id: productId
+                                product_id: productId,
+                                quantity: quantity
                             })
                         })
                         .then(response => response.json())
@@ -775,33 +399,32 @@
                                 .querySelector('i');
 
                             if (data.success) {
-                                message.textContent = data
-                                .success; // Thiết lập thông điệp thành công
+                                message.textContent = data.success;
                                 notification.style.backgroundColor =
-                                '#4CAF50'; // Màu xanh cho thành công
+                                    '#4CAF50'; // Màu xanh cho thành công
                                 icon.className = 'fa fa-check-circle'; // Icon thành công
                             } else {
                                 message.textContent = data.error ||
-                                'Cannot add to cart'; // Thiết lập thông điệp lỗi
+                                    'Không thể thêm vào giỏ hàng';
                                 notification.style.backgroundColor =
-                                '#f44336'; // Màu đỏ cho lỗi
+                                    '#f44336'; // Màu đỏ cho lỗi
                                 icon.className = 'fa fa-times'; // Icon lỗi
                             }
 
                             notification.style.display = 'block'; // Hiện thông báo
 
-                            // Tải lại trang sau 1.2 giây rồi hiển thị thông báo
                             setTimeout(() => {
                                 notification.style.display = 'none'; // Ẩn thông báo
                                 location.reload(); // Tải lại trang
                             }, 1200);
                         })
-                        .catch(error => console.error('Error:', error));
+                        .catch(error => console.error('Lỗi:', error));
                 });
             });
         });
     </script>
     <!-- Add To Cart END -->
+
 </body>
 
 </html>

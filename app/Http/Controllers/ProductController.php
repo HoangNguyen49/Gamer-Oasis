@@ -214,17 +214,62 @@ class ProductController extends Controller
         return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
     }
 
-    // Show Product by Category in Navbar
-    public function showByCategory($categoryId)
+    // Show Product by Category in Navbar with Sort By
+    public function showByCategory(Request $request, $categoryId)
     {
-        $products = Product::where('Category_id', $categoryId)->get();
-        return view('web.pages.shop-4-column', compact('products', 'categoryId'));
+        $sortBy = $request->input('sortBy'); // Get sorting option from request
+
+        // Set sorting criteria based on user selection
+        $products = Product::where('Category_id', $categoryId)
+            ->when($sortBy, function ($query, $sortBy) {
+                if ($sortBy == 'name_asc') {
+                    $query->orderBy('Product_name', 'asc');
+                } elseif ($sortBy == 'name_desc') {
+                    $query->orderBy('Product_name', 'desc');
+                } elseif ($sortBy == 'price_high_low') {
+                    $query->orderBy('Price', 'desc');
+                } elseif ($sortBy == 'price_low_high') {
+                    $query->orderBy('Price', 'asc');
+                }
+            })
+            ->paginate(8);
+
+        return view('web.pages.shop-4-column', compact('products', 'categoryId', 'sortBy'));
     }
 
-    // Show Product by Brand in Navbar
-    public function showByBrand($brandId)
+    // Show Product by Brand in Navbar with Sort By
+    public function showByBrand(Request $request, $brandId)
     {
-        $products = Product::where('Brand_id', $brandId)->get();
-        return view('web.pages.shop-4-column', compact('products', 'brandId'));
+        $sortBy = $request->input('sortBy'); // Get sorting option from request
+
+        // Set sorting criteria based on user selection
+        $products = Product::where('Brand_id', $brandId)
+            ->when($sortBy, function ($query, $sortBy) {
+                if ($sortBy == 'name_asc') {
+                    $query->orderBy('Product_name', 'asc');
+                } elseif ($sortBy == 'name_desc') {
+                    $query->orderBy('Product_name', 'desc');
+                } elseif ($sortBy == 'price_high_low') {
+                    $query->orderBy('Price', 'desc');
+                } elseif ($sortBy == 'price_low_high') {
+                    $query->orderBy('Price', 'asc');
+                }
+            })
+            ->paginate(8);
+
+        return view('web.pages.shop-4-column', compact('products', 'brandId', 'sortBy'));
+    }
+
+    public function searchProducts(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Fetch products based on the search query
+        $products = Product::where('Product_name', 'like', '%' . $query . '%')
+            ->limit(5)
+            ->get();
+
+        // Return results as JSON
+        return response()->json($products);
     }
 }

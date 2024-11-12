@@ -202,3 +202,6 @@ Route::get('/brands/search', [BrandController::class, 'search'])->name('brands.s
 
 Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_payment'])->name('vnpay.payment');
 Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');
+
+
+Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
