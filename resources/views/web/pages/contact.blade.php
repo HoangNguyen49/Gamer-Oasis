@@ -52,8 +52,8 @@
                         </div>
                         <div class="single-contact-block">
                             <h4><i class="fa fa-phone"></i> Phone</h4>
-                            <p>Mobile: <a href="tel:+84931313229">(+84) 931 313 329</a></p>
-                            <p>Hotline: <a href="tel:+84911789450">(+84) 911 789 450</a> (for urgent inquiries)</p>
+                            <p>Mobile: <a href="tel:+84931313229">(+84) 981 578 920</a></p>
+                            <p>Hotline: <a href="tel:+84911789450">(+84) 931 313 329</a> (for urgent inquiries)</p>
                         </div>
                         <div class="single-contact-block last-child">
                             <h4><i class="fa fa-envelope-o"></i> Email</h4>

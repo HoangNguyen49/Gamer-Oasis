@@ -111,7 +111,7 @@
                         <div class="col-lg-3 col-md-4">
                             <div class="header-top-left">
                                 <ul class="phone-wrap">
-                                    <li><span>Telephone Enquiry:</span><a href="#">(+123) 123 321 345</a></li>
+                                    <li><span>Hotline: </span><a href="tel:+84911789450">(+84) 931 313 329</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -295,8 +295,8 @@
 
                                         <li class="megamenu-static-holder"><a href="">Guide</a>
                                             <ul class="hb-dropdown">
-                                                <li><a href="/buying-guide">Purchase instructions</a></li>
-                                                <li><a href="/payment-guide">Payment instructions</a></li>
+                                                <li><a href="/buying-guide">Purchase Instructions</a></li>
+                                                <li><a href="/payment-guide">Payment Instructions</a></li>
                                             </ul>
                                         </li>
                                     </ul>
