@@ -125,6 +125,7 @@
         </main>
 
         @include('admin.layout.footer')
+        
     </div>
 
     <script>
