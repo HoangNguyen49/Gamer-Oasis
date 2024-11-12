@@ -206,14 +206,40 @@
                         <div class="footer-newsletter">
                             <h4>Sign up to newsletter</h4>
                             <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
-                               <div id="mc_embed_signup_scroll">
-                                  <div id="mc-form" class="mc-form subscribe-form form-group" >
-                                    <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
-                                    <button  class="btn" id="mc-submit">Subscribe</button>
-                                  </div>
-                               </div>
-                            </form>
+                                <div id="mc_embed_signup_scroll">
+                                   <div id="mc-form" class="mc-form subscribe-form form-group">
+                                      <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" required />
+                                      <button type="submit" class="btn" id="mc-submit">Subscribe</button>
+                                      <!-- Thêm phần tử này để hiển thị thông báo -->
+                                      <div id="message" style="margin-top: 10px; font-size: 14px;"></div>
+                                   </div>
+                                </div>
+                             </form>
+                             
                         </div>
+
+                        <script>
+                            document.getElementById("mc-embedded-subscribe-form").addEventListener("submit", function(event) {
+                                event.preventDefault(); // Ngừng việc gửi form đi
+                        
+                                var email = document.getElementById("mc-email").value; // Lấy giá trị email từ input
+                                var messageDiv = document.getElementById("message"); // Lấy phần tử thông báo trong form
+                        
+                                // Kiểm tra xem email có chứa "@gmail.com" hay không
+                                if (email && email.endsWith("@gmail.com")) {
+                                    // Hiển thị thông báo thành công trong form
+                                    messageDiv.style.color = "green";
+                                    messageDiv.innerHTML = "Your email has been sent successfully!";
+                                    
+                                    // Xóa thông tin trong ô input
+                                    document.getElementById("mc-email").value = '';
+                                } else {
+                                    // Nếu email không chứa "@gmail.com", hiển thị thông báo lỗi trong form
+                                    messageDiv.style.color = "red";
+                                    messageDiv.innerHTML = "Please enter a valid Gmail address.";
+                                }
+                            });
+                        </script>
                         <!-- Footer Newsletter Area End Here -->
                     </div>
                     <!-- Footer Block Area End Here -->
