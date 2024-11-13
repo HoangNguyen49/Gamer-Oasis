@@ -71,11 +71,13 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Your Name <span class="required">*</span></label>
-                                    <input type="text" name="customerName" id="customername" required>
+                                    <input type="text" name="customerName" id="customername" required
+                                    value="{{ auth()->check() ? auth()->user()->Name : '' }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Your Email <span class="required">*</span></label>
-                                    <input type="email" name="customerEmail" id="customerEmail" required>
+                                    <input type="email" name="customerEmail" id="customerEmail" required
+                                    value="{{ auth()->check() ? auth()->user()->Email : '' }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Subject</label>

@@ -1,232 +1,128 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
-    
-<!-- blog-list31:56-->
-<head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Blog List</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
-    </head>
-    <body>
-    <!--[if lt IE 8]>
-		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
-        <!-- Begin Body Wrapper -->
-        <div class="body-wrapper">
-            <!-- Begin Header Area -->
-           @include('web.layouts.header')
-            <!-- Header Area End Here -->
-            <!-- Begin Li's Breadcrumb Area -->
-            <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="{{ url('/') }}">Home</a></li>
-                            <li class="active">Blog List</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
-            <!-- Begin Li's Main Blog Page Area -->
-            <div class="li-main-blog-page pt-60 pb-55">
-                <div class="container">
-                    <div class="row">
-                        <!-- Begin Li's Main Content Area -->
-                        <div class="col-lg-12">
-                            <div class="row li-main-content">
-                                <div class="col-lg-12">
-                                    <div class="li-blog-single-item pb-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-banner">
-                                                    <a href="blog-details-left-sidebar.html"><img class="img-full" src="images/blog-banner/2.jpg" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-content">
-                                                    <div class="li-blog-details">
-                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25"><a href="blog-details-left-sidebar.html">blog image post</a></h3>
-                                                        <div class="li-blog-meta">
-                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> 3 comment</a>
-                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> 25 nov 2018</a>
-                                                        </div>
-                                                        <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Cras pretium arcu ex.</p>
-                                                        <a class="read-more" href="blog-details-left-sidebar.html">Read More...</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="li-blog-single-item pb-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-gallery-slider slick-dot-style">
-                                                    <div class="li-blog-banner">
-                                                        <a href="blog-details-left-sidebar.html"><img class="img-full" src="images/blog-banner/1.jpg" alt=""></a>
-                                                    </div>
-                                                    <div class="li-blog-banner">
-                                                        <a href="blog-details-left-sidebar.html"><img class="img-full" src="images/blog-banner/2.jpg" alt=""></a>
-                                                    </div>
-                                                    <div class="li-blog-banner">
-                                                        <a href="blog-details-left-sidebar.html"><img class="img-full" src="images/blog-banner/3.jpg" alt=""></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-content">
-                                                    <div class="li-blog-details">
-                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25"><a href="blog-details-left-sidebar.html">blog gallery post</a></h3>
-                                                        <div class="li-blog-meta">
-                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> 3 comment</a>
-                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> 25 nov 2018</a>
-                                                        </div>
-                                                        <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Cras pretium arcu ex.</p>
-                                                        <a class="read-more" href="blog-details-left-sidebar.html">Read More...</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="li-blog-single-item pb-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-banner embed-responsive embed-responsive-16by9">
-                                                    <iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/300107209&amp;color=%23ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true"></iframe>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-content">
-                                                    <div class="li-blog-details">
-                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25"><a href="blog-details-left-sidebar.html">blog audio post</a></h3>
-                                                        <div class="li-blog-meta">
-                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> 3 comment</a>
-                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> 25 nov 2018</a>
-                                                        </div>
-                                                        <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Cras pretium arcu ex.</p>
-                                                        <a class="read-more" href="blog-details-left-sidebar.html">Read More...</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="li-blog-single-item pb-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-banner embed-responsive embed-responsive-16by9">
-                                                    <iframe src="https://www.youtube.com/embed/DR2c266yWEA" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-content">
-                                                    <div class="li-blog-details">
-                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25"><a href="blog-details-left-sidebar.html">blog video post</a></h3>
-                                                        <div class="li-blog-meta">
-                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> 3 comment</a>
-                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> 25 nov 2018</a>
-                                                        </div>
-                                                        <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Cras pretium arcu ex.</p>
-                                                        <a class="read-more" href="blog-details-left-sidebar.html">Read More...</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="li-blog-single-item pb-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-banner">
-                                                    <a href="blog-details-left-sidebar.html"><img class="img-full" src="images/blog-banner/5.jpg" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-content">
-                                                    <div class="li-blog-details">
-                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25"><a href="blog-details-left-sidebar.html">blog fifth post</a></h3>
-                                                        <div class="li-blog-meta">
-                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> 3 comment</a>
-                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> 25 nov 2018</a>
-                                                        </div>
-                                                        <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Cras pretium arcu ex.</p>
-                                                        <a class="read-more" href="blog-details-left-sidebar.html">Read More...</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="li-blog-single-item mb-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-banner">
-                                                    <a href="blog-details-left-sidebar.html"><img class="img-full" src="images/blog-banner/6.jpg" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="li-blog-content">
-                                                    <div class="li-blog-details">
-                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25"><a href="blog-details-left-sidebar.html">blog second post</a></h3>
-                                                        <div class="li-blog-meta">
-                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> 3 comment</a>
-                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> 25 nov 2018</a>
-                                                        </div>
-                                                        <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Cras pretium arcu ex.</p>
-                                                        <a class="read-more" href="blog-details-left-sidebar.html">Read More...</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Begin Li's Pagination Area -->
-                                <div class="col-lg-12">
-                                    <div class="li-paginatoin-area text-center pt-25">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <ul class="li-pagination-box">
-                                                    <li><a class="Previous" href="#">Previous</a></li>
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li><a class="Next" href="#">Next</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Li's Pagination End Here Area -->
-                            </div>
-                        </div>
-                        <!-- Li's Main Content Area End Here -->
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Main Blog Page Area End Here -->
-            <!-- Begin Footer Area -->
-            @include('web.layouts.footer')
-            <!-- Footer Area End Here -->
-        </div>
-        <!-- Body Wrapper End Here -->
-       @include('web.layouts.css-script')
-    </body>
 
 <!-- blog-list31:56-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Blog List</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+ <![endif]-->
+    <!-- Begin Body Wrapper -->
+    <div class="body-wrapper">
+        <!-- Begin Header Area -->
+        @include('web.layouts.header')
+        <!-- Header Area End Here -->
+        <!-- Begin Li's Breadcrumb Area -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="breadcrumb-content">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">Blog List</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Li's Breadcrumb Area End Here -->
+        <!-- Begin Li's Main Blog Page Area -->
+        <div class="li-main-blog-page pt-60 pb-55">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row li-main-content">
+                            @php
+                            $currentPage = request()->get('page', 1);
+                            $perPage = 10;
+                            $sortedBlogs = $blogs->sortByDesc('created_at');
+                            $blogsPaginated = $sortedBlogs->slice(($currentPage - 1) * $perPage, $perPage);
+                            $totalPages = ceil($blogs->count() / $perPage);
+                        @endphp
+
+                            @foreach ($blogsPaginated as $blog)
+                                <div class="col-lg-12">
+                                    <div class="li-blog-single-item pb-30">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="li-blog-banner">
+                                                    <a href="{{ route('show', $blog->slug) }}">
+                                                        @php
+                                                            $firstImage = $blog->images->first();
+                                                        @endphp
+                                                        @if ($firstImage)
+                                                            <img class="img-full" src="{{ asset($firstImage->img) }}" alt="Ảnh đầu tiên hiển thị">
+                                                        @else
+                                                            <p>Không hiển thị được hình ảnh</p>
+                                                        @endif
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="li-blog-content">
+                                                    <div class="li-blog-details">
+                                                        <h3 class="li-blog-heading pt-xs-25 pt-sm-25">
+                                                            <a href="{{ route('show', $blog->slug) }}">{{ $blog->title }}</a>
+                                                        </h3>
+                                                        <div class="li-blog-meta">
+                                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
+                                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i> {{ $blog->comments->count() }} comments</a>
+                                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i> {{ $blog->created_at->format('d M Y') }}</a>
+                                                        </div>
+                                                        <p>{!! Str::limit(strip_tags($blog->description), 300, '...') !!}</p>
+                                                        <a class="read-more" href="{{ route('show', $blog->slug) }}">Read More...</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <!-- Phân trang -->
+                            <div class="col-lg-12">
+                                <div class="li-paginatoin-area text-center pt-25">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <ul class="li-pagination-box">
+                                                @if ($currentPage > 1)
+                                                    <li><a href="?page={{ $currentPage - 1 }}">Previous</a></li>
+                                                @endif
+                                                @for ($i = 1; $i <= $totalPages; $i++)
+                                                    <li class="{{ $i == $currentPage ? 'active' : '' }}">
+                                                        <a href="?page={{ $i }}">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                                @if ($currentPage < $totalPages)
+                                                    <li><a href="?page={{ $currentPage + 1 }}">Next</a></li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Kết thúc phân trang -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Li's Main Blog Page Area End Here -->
+        <!-- Begin Footer Area -->
+        @include('web.layouts.footer')
+        <!-- Footer Area End Here -->
+    </div>
+    <!-- Body Wrapper End Here -->
+    @include('web.layouts.css-script')
+</body>
+
+<!-- blog-list31:56-->
+
 </html>

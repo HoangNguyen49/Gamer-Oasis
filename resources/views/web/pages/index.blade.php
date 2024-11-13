@@ -77,7 +77,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="static-top-content mt-sm-30" style="font-size: 20px; font-weight: bold; color: yellow ">
+                    <div class="static-top-content mt-sm-30" style="font-size: 18px; font-weight: bold; ">
                         Gamer Oasis: Your Ultimate Gaming Destination
                     </div>
                 </div>

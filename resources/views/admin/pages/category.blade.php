@@ -167,6 +167,29 @@
         });
     </script>
 
+<script>
+    $(document).ready(function() {
+    $('#saveCategoryBtn').click(function() {
+        var formData = $('#categoryForm').serialize();
+
+        $.ajax({
+            url: '{{ route('categories.store') }}',
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    $('#addCategoryModal').modal('hide'); 
+                    alert('Category added successfully!');
+                    location.reload(); 
+                } else if (response.error) {
+                    alert('Category name already exists. Please enter a different name.');
+                }
+            },
+        });
+    });
+});
+
+</script>
 
 
 </body>

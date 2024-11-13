@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BlogController;
 
 // Trang chính
 Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
@@ -23,10 +24,6 @@ Route::view('/about-us', 'web.pages.about-us');
 Route::view('/contact', 'web.pages.contact');
 Route::view('/payment-guide', 'web.pages.payment-guide');
 Route::view('/buying-guide', 'web.pages.buying-guide');
-
-// Route cho trang Blog
-Route::view('/blog', 'web.pages.blog');
-Route::view('/blog-detail', 'web.pages.blog-detail');
 
 // Route cho trang Checkout
 Route::view('/checkout', 'web.pages.checkout');
@@ -280,4 +277,42 @@ Route::post('/block', [UserController::class, 'blockUser']);
 Route::post('/unblock', [UserController::class, 'unblockUser']);
 
 
+// Route cho trang Blog
+Route::get('/blogs', function () {
+    $blogs = \App\Models\Blog::all(); // Lấy tất cả blog từ cơ sở dữ liệu
+    return view('web.pages.blog', compact('blogs')); // Trả về view danh sách blog
+});
+
+// Route cho trang blog-detail
+Route::get('/web/blogs/{slug}', [BlogController::class, 'show'])->name('show');
+
+// Route cho danh sách blog
+Route::get('/admin/quanliblog', [BlogController::class, 'index'])->name('index');
+
+// Route cho tạo blog
+Route::get('/admin/quanliblog/taobai', [BlogController::class, 'create'])->name('create');
+
+// Route cho lưu sau khi tạo blog
+Route::post('/admin/quanliblog/taobai', [BlogController::class, 'store'])->name('post');
+
+// Route cho chỉnh sửa blog
+Route::get('/admin/quanliblog/edit/{id}', [BlogController::class, 'edit'])->name('edit');
+
+// Route cho cập nhật sau khi sửa blog
+Route::put('/admin/quanliblog/update/{id}', [BlogController::class, 'update'])->name('update');
+
+// Route cho xóa blog
+Route::delete('/admin/quanliblog/destroy/{id}', [BlogController::class, 'destroy'])->name('destroy');
+
+// Route cho lưu bình luận
+Route::post('/web/blogs/{slug}/comments', [BlogController::class, 'storeComment'])->name('comments.store');
+
+// Route cho việc xem bình luận của một blog
+Route::get('/admin/quanliblog/comments/{id}', [BlogController::class, 'viewComments'])->name('comments.view');
+
+// Route cho việc xóa bình luận của một blog
+Route::delete('/admin/comments/{id}', [BlogController::class, 'deleteComment'])->name('comments.delete');
+
+//Route cho việc trả lời của một bình luận
+Route::post('/comments/reply', [BlogController::class, 'reply'])->name('comments.reply');
 

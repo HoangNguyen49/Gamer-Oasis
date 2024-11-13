@@ -160,6 +160,29 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#saveBrandBtn').click(function() {
+                var formData = $('#brandForm').serialize();
+
+                $.ajax({
+                    url: '{{ route('brands.store') }}',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#addBrandModal').modal('hide');
+                            alert('Brand added successfully!');
+                            location.reload();
+                        } else if (response.error) {
+                            alert(response.error);
+                        }
+                    },
+                });
+            });
+        });
+    </script>
+
 
 
 </body>

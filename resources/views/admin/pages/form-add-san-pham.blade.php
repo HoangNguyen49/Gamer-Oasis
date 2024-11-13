@@ -34,7 +34,10 @@
                                 @csrf
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Product Name</label>
-                                    <input class="form-control" type="text" name="product_name" required>
+                                    <input class="form-control" type="text" name="product_name" required value="{{ old('product_name') }}">
+                                    @if ($errors->has('product_name'))
+                                        <span class="text-danger">{{ $errors->first('product_name') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Quantity</label>

@@ -36,7 +36,7 @@
                         <!-- Login Form -->
                         <form action="{{ route('login') }}" method="POST" class="row equal-height-form">
                             @csrf
-                            <div class="login-form">
+                            <div class="login-form" style="margin-top: 50px">
                                 <h4 class="login-title">Login</h4>
                                 <div class="row">
                                     <div class="col-md-12 col-12 mb-20">
@@ -59,8 +59,8 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary w-100" type="submit">Login</button>
-                                        <button class="btn btn-primary w-100 mt-2" onclick="location.href='{{ route('auth.google') }}'">
+                                        <button class="btn btn-primary w-100" type="submit" style="background:#293a6c">Login</button>
+                                        <button style="background:#293a6c" class="btn btn-primary w-100 mt-2" onclick="location.href='{{ route('auth.google') }}'">
                                             Login with Google
                                         </button>
                                         <a href="#registerModal" class="btn btn-link" data-toggle="modal" data-target="#registerModal">Don't have an account? Please register</a>

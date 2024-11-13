@@ -39,21 +39,27 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Xác thực dữ liệu đầu vào
-        $request->validate([
-            'Category_name' => 'required|string|max:255',
-        ]);
+{
+    $request->validate([
+        'Category_name' => 'required|string|max:255',
+    ]);
 
-        // Tạo mới category và lưu vào cơ sở dữ liệu
-        $category = Category::create([
-            'Category_name' => $request->input('Category_name'),
-            'CreatedAt' => now()
-        ]);
-
-        // Trả về phản hồi JSON với Category_id
-        return response()->json(['success' => true, 'category_id' => $category->Category_id]);
+    // Check if the category name already exists
+    if (Category::where('Category_name', $request->input('Category_name'))->exists()) {
+        // Use dd() to confirm this block is executing as expected
+        return response()->json(['success' => false, 'error' => 'Category name already exists.'], 409);
     }
+
+    $category = Category::create([
+        'Category_name' => $request->input('Category_name'),
+        'CreatedAt' => now()
+    ]);
+
+    return response()->json(['success' => true, 'category_id' => $category->Category_id]);
+}
+
+
+
 
     public function search(Request $request)
     {
