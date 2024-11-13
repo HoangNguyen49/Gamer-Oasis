@@ -199,20 +199,41 @@ class ProductController extends Controller
 
 
     public function deleteProduct($id)
-    {
-        $product = Product::find($id);
+{
+    // Tìm sản phẩm theo ID
+    $product = Product::find($id);
 
-        if ($product) {
-            // Xóa tất cả các hình ảnh liên quan trước
-            $product->images()->delete(); // Xóa các hình ảnh liên quan
-
-            // Sau đó xóa sản phẩm
-            $product->delete();
-            return redirect()->route('products.indexAdmin')->with('success', 'Product deleted successfully.');
+    if ($product) {
+        // Kiểm tra xem sản phẩm còn trong kho (ví dụ: số lượng còn lại > 0)
+        if ($product->stock_quantity > 0) {
+            // Nếu còn hàng, không cho phép xóa sản phẩm
+            return redirect()->route('products.indexAdmin')->with('error', 'Không thể xóa sản phẩm vì sản phẩm còn trong kho.');
         }
 
-        return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
+        // Kiểm tra xem sản phẩm đã có trong đơn hàng hay chưa
+        $orderCount = Order::whereHas('products', function($query) use ($id) {
+            $query->where('product_id', $id); // Kiểm tra đơn hàng có sản phẩm này
+        })->count();
+
+        if ($orderCount > 0) {
+            // Nếu sản phẩm đã có trong đơn hàng, không cho phép xóa
+            return redirect()->route('products.indexAdmin')->with('error', 'Không thể xóa sản phẩm vì đã có trong các đơn hàng.');
+        }
+
+        // Xóa tất cả các hình ảnh liên quan trước
+        $product->images()->delete(); // Xóa các hình ảnh liên quan
+
+        // Sau đó xóa sản phẩm
+        $product->delete();
+
+        // Trả về thông báo thành công
+        return redirect()->route('products.indexAdmin')->with('success', 'Product deleted successfully.');
     }
+
+    // Nếu không tìm thấy sản phẩm, trả về thông báo lỗi
+    return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
+}
+
 
     // Show Product by Category in Navbar with Sort By
     public function showByCategory(Request $request, $categoryId)
