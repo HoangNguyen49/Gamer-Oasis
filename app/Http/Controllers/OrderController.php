@@ -66,31 +66,9 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Xác thực dữ liệu
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:50',
-            'address' => 'required|string|max:255',
-            'email_address' => 'required|email|max:50',
-            'product_id' => 'required|integer',
-            'quantity' => 'required|integer|min:1', // Thêm xác thực cho số lượng
-            'subtotal' => 'required|numeric|min:0', // Đảm bảo subtotal không âm
-            'status' => 'required|in:pending,processed,shipped,delivered,canceled',
-        ]);
-
-        // Cập nhật đơn hàng
         $order = Order::findOrFail($id);
-        $order->full_name = $request->full_name;
-        $order->phone = $request->phone;
-        $order->address = $request->address;
-        $order->email_address = $request->email_address;
-        $order->product_id = $request->product_id; // Lấy Product ID mới từ request
-        $order->quantity = $request->quantity;
-        $order->subtotal = $request->subtotal; // Đảm bảo chỉ có một dòng cho subtotal, xóa dòng trùng lặp
-        $order->status = $request->status;
-        $order->save();
-
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully');
+        $order->update($request->only(['full_name', 'phone', 'email_address', 'address', 'status', 'quantity', 'subtotal']));
+        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 
     public function destroy($id)

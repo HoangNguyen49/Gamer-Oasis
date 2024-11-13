@@ -60,14 +60,9 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', $order->quantity) }}" required oninput="updateSubtotal()">
-                                    <small>
-                                        Stock: {{ old('stock_quantity', $stockQuantity) }}
-                                        <span id="stock-warning" class="text-danger" style="display: none;">(Not enough stock)</span>
-                                    </small>
+                                    <input type="number" class="form-control" id="quantity" name="quantity"
+                                        value="{{ old('quantity', $order->quantity) }}" readonly>
                                 </div>
-                            
-                                
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Total Price ($)</label>
                                     <input type="number" class="form-control" id="subtotal" name="subtotal"
@@ -130,104 +125,77 @@
             const time = now.toLocaleTimeString();
             document.getElementById('clock').innerHTML = time;
         }
-    
+
         // Gọi hàm updateClock khi trang tải
         window.onload = function() {
             updateClock();
             setInterval(updateClock, 1000);
         }
-    
+
         // Giả định rằng giá sản phẩm đã được truyền từ Controller vào view dưới dạng biến
         var pricePerUnit = {{ $order->subtotal / $order->quantity }}; // Giá mỗi sản phẩm
-    
-        // Cập nhật Subtotal khi quantity thay đổi
+
         document.getElementById('quantity').addEventListener('input', function() {
-            var quantity = Number(this.value); // Chuyển thành số (sử dụng Number thay vì parseInt)
-            
-            // Kiểm tra giá trị hợp lệ
-            if (isNaN(quantity) || quantity < 1) {
-                quantity = 1; // Đảm bảo số lượng phải là một số hợp lệ và lớn hơn 0
-            }
-    
+            var quantity = this.value;
             var totalPrice = quantity * pricePerUnit;
             document.getElementById('subtotal').value = totalPrice.toFixed(2); // Cập nhật tổng giá trị
-    
-            // Kiểm tra stock khi nhập quantity
-            const stockQuantity = {{ $stockQuantity }};
-            if (quantity > stockQuantity) {
-                document.getElementById('stock-warning').style.display = 'inline';
-            } else {
-                document.getElementById('stock-warning').style.display = 'none';
-            }
         });
-    
+
         // Xử lý sự kiện khi biểu mẫu được gửi
         document.getElementById('order-form').onsubmit = function(e) {
             e.preventDefault(); // Ngăn chặn hành động mặc định của biểu mẫu
-    
+
             // Lấy giá trị quantity và stockQuantity từ input
-            const quantity = Number(document.getElementById('quantity').value); // Đảm bảo là số hợp lệ
-            const stockQuantity = Number('{{ $stockQuantity }}'); // Chuyển sang kiểu số
-    
-            // Kiểm tra xem quantity có vượt quá stockQuantity hay không
-            if (isNaN(quantity) || quantity < 1) {
-                alert('Please enter a valid quantity.');
-                return; // Ngừng thực hiện nếu quantity không hợp lệ
-            }
-    
-            if (quantity > stockQuantity) {
-                alert('Quantity cannot exceed quantity in stock (Stock: ' + stockQuantity + ').');
-                return; // Ngừng thực hiện nếu vượt quá
-            }
-    
+            const quantity = parseInt(document.getElementById('quantity').value);
+
             // Gửi yêu cầu AJAX
             fetch(this.action, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(Object.fromEntries(new FormData(this))) // Chuyển form thành JSON
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Hiện overlay và dialog thành công
-                    document.getElementById('overlay').style.display = 'block';
-                    document.getElementById('confirmDialog').style.display = 'block';
-    
-                    // Chuyển hướng sau khi nhấn OK
-                    document.getElementById('confirmOkButton').onclick = function() {
-                        window.location.href = '{{ route('orders.index') }}'; // Chuyển hướng về trang quản lý đơn hàng
-                    };
-                } else {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(new FormData(this)))
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Hiện overlay và dialog thành công
+                        document.getElementById('overlay').style.display = 'block';
+                        document.getElementById('confirmDialog').style.display = 'block';
+
+                        // Chuyển hướng sau khi nhấn OK
+                        document.getElementById('confirmOkButton').onclick = function() {
+                            window.location.href =
+                                '{{ route('orders.index') }}'; // Chuyển hướng về trang quản lý đơn hàng
+                        };
+                    } else {
+                        alert('Có lỗi xảy ra khi cập nhật đơn hàng.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     alert('Có lỗi xảy ra khi cập nhật đơn hàng.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi cập nhật đơn hàng.');
-            });
+                });
         };
-    
+
         // Để đóng dialog và overlay nếu người dùng nhấn vào overlay
         document.getElementById('overlay').onclick = function() {
             this.style.display = 'none';
             document.getElementById('confirmDialog').style.display = 'none';
         };
-    
-        // Cập nhật trạng thái các lựa chọn trong dropdown dựa trên trạng thái đơn hàng
+    </script>
+
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const statusSelect = document.getElementById("status");
             const currentStatus = "{{ $order->status }}";
-    
+
             function updateStatusOptions() {
-                const options = statusSelect.options;
-                
-                // Mở khóa tất cả các tùy chọn trước
-                Array.from(options).forEach(option => option.disabled = false);
-    
+                Array.from(statusSelect.options).forEach(option => option.disabled = false);
+
                 switch (currentStatus) {
                     case 'pending':
+                        // Không có hạn chế nào khi chuyển từ trạng thái "Pending"
                         break;
                     case 'processed':
                         statusSelect.querySelector('option[value="pending"]').disabled = true;
@@ -237,18 +205,18 @@
                         statusSelect.querySelector('option[value="processed"]').disabled = true;
                         break;
                     case 'delivered':
-                        Array.from(options).forEach(option => option.disabled = true);
+                        Array.from(statusSelect.options).forEach(option => option.disabled = true);
                         statusSelect.querySelector('option[value="delivered"]').disabled = false;
                         break;
                     case 'canceled':
+                        // Không có hạn chế nào khi chuyển từ trạng thái "Canceled"
                         break;
                 }
             }
-    
+
             updateStatusOptions();
         });
     </script>
-    
 
 
 </body>
