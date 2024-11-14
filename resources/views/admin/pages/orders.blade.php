@@ -188,7 +188,7 @@
     <!-- Custom Confirm Dialog -->
     <div id="confirmDialog"
         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-        <h5 style="margin-bottom: 15px;">Are you sure you want to delete this coupon?</h5>
+        <h5 style="margin-bottom: 15px;">Are you sure you want to delete this order?</h5>
         <div style="display: flex; justify-content: space-evenly;">
             <button id="confirmYes" class="btn btn-danger" style="width: 80px;">Yes</button>
             <button id="confirmNo" class="btn btn-secondary" style="width: 80px;">No</button>

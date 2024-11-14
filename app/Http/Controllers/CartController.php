@@ -39,6 +39,9 @@ class CartController extends Controller
 
         Session::put('cart', $cart);
 
+        // Xóa mã giảm giá khỏi session
+        Session::forget('coupon');
+
         return response()->json(['success' => 'Product added to cart successfully !!!', 'cart' => $cart]);
     }
 
