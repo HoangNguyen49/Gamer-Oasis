@@ -11,7 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
 </head>
-
+<style>
+    
+</style>
 <body>
     <!--[if lt IE 8]>
   <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -83,15 +85,17 @@
                                                                 <img src="{{ asset('storage/' . $product->images->first()->Image_path) }}"
                                                                     alt="{{ $product->Product_name }}">
                                                             </a>
-                                                            <span class="sticker">New</span>
-                                                            <!-- Bạn có thể thêm điều kiện để hiển thị "New" nếu sản phẩm là mới -->
+                        
+                                                            <!-- Hiển thị sticker "Out of stock" hoặc "New" -->
+                                                            <span class="sticker {{ $product->Stock_Quantity == 0 ? 'out-of-stock' : 'new' }}">
+                                                                {{ $product->Stock_Quantity == 0 ? 'Out of stock' : 'New' }}
+                                                            </span>
                                                         </div>
                                                         <div class="product_desc">
                                                             <div class="product_desc_info">
                                                                 <div class="product-review">
                                                                     <h5 class="manufacturer">
-                                                                        <a
-                                                                            href="{{ route('products.show', $product->Slug) }}">
+                                                                        <a href="{{ route('products.show', $product->Slug) }}">
                                                                             {{ optional($product->brand)->Brand_name ?? 'No Brand' }}
                                                                         </a>
                                                                         <!-- Hiển thị tên thương hiệu nếu có -->
@@ -101,34 +105,26 @@
                                                                             <li><i class="fa fa-star"></i></li>
                                                                             <li><i class="fa fa-star"></i></li>
                                                                             <li><i class="fa fa-star"></i></li>
-                                                                            <li class="no-star"><i
-                                                                                    class="fa fa-star"></i></li>
-                                                                            <li class="no-star"><i
-                                                                                    class="fa fa-star"></i></li>
+                                                                            <li class="no-star"><i class="fa fa-star"></i></li>
+                                                                            <li class="no-star"><i class="fa fa-star"></i></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                                 <h4>
-                                                                    <a class="product_name"
-                                                                        href="{{ route('products.show', $product->Slug) }}">
+                                                                    <a class="product_name" href="{{ route('products.show', $product->Slug) }}">
                                                                         {{ $product->Product_name }}
                                                                     </a>
                                                                 </h4>
                                                                 <div class="price-box">
-                                                                    <span
-                                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                                    <span class="new-price">${{ number_format($product->Price, 2) }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="add-actions">
                                                                 <ul class="add-actions-link">
                                                                     <li class="add-cart active"><a href="#"
-                                                                            class="add-to-cart-btn"
-                                                                            data-product-id="{{ $product->Product_id }}">ADD
-                                                                            TO CART</a></li>
-                                                                    <li><a href="#" class="add-to-wishlist-btn"
-                                                                            data-product-id="{{ $product->Product_id }}"><i
-                                                                                class="fa fa-heart-o"></i></a></li>
-
+                                                                            class="add-to-cart-btn" data-product-id="{{ $product->Product_id }}">ADD TO CART</a></li>
+                                                                    <li><a href="#" class="add-to-wishlist-btn" data-product-id="{{ $product->Product_id }}"><i
+                                                                            class="fa fa-heart-o"></i></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -137,52 +133,43 @@
                                                 </div>
                                             @endforeach
                                         </div>
-
+                        
                                         <div class="paginatoin-area">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6">
-                                                    <p>Showing {{ $products->firstItem() }} -
-                                                        {{ $products->lastItem() }} of {{ $products->total() }}
-                                                        item(s)</p>
+                                                    <p>Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of {{ $products->total() }} item(s)</p>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6">
                                                     <ul class="pagination-box">
                                                         <!-- Phần này sẽ tự động tạo các liên kết phân trang -->
                                                         @if ($products->onFirstPage())
-                                                            <li class="disabled"><span><i
-                                                                        class="fa fa-chevron-left"></i> Previous</span>
-                                                            </li>
+                                                            <li class="disabled"><span><i class="fa fa-chevron-left"></i> Previous</span></li>
                                                         @else
-                                                            <li><a href="{{ $products->previousPageUrl() }}"
-                                                                    class="Previous"><i class="fa fa-chevron-left"></i>
-                                                                    Previous</a></li>
+                                                            <li><a href="{{ $products->previousPageUrl() }}" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a></li>
                                                         @endif
-
+                        
                                                         @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
-                                                            <li
-                                                                class="{{ $page == $products->currentPage() ? 'active' : '' }}">
+                                                            <li class="{{ $page == $products->currentPage() ? 'active' : '' }}">
                                                                 <a href="{{ $url }}">{{ $page }}</a>
                                                             </li>
                                                         @endforeach
-
+                        
                                                         @if ($products->hasMorePages())
-                                                            <li><a href="{{ $products->nextPageUrl() }}"
-                                                                    class="Next"> Next <i
-                                                                        class="fa fa-chevron-right"></i></a></li>
+                                                            <li><a href="{{ $products->nextPageUrl() }}" class="Next"> Next <i class="fa fa-chevron-right"></i></a></li>
                                                         @else
-                                                            <li class="disabled"><span>Next <i
-                                                                        class="fa fa-chevron-right"></i></span></li>
+                                                            <li class="disabled"><span>Next <i class="fa fa-chevron-right"></i></span></li>
                                                         @endif
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-
+                        
                                     </div>
                                 </div>
                                 <!-- shop-products-wrapper end -->
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- Content Wraper Area End Here -->

@@ -97,9 +97,17 @@ class CartController extends Controller
             if ($coupon->discount_type === 'percentage') {
                 // Tính toán giảm giá theo phần trăm
                 $discount = ($coupon->discount_value / 100) * $subtotal;
-            } else {
+            } elseif ($coupon->discount_type === 'fixed') {
                 // Nếu là giảm giá cố định
-                $discount = $coupon->discount_value;
+                $discount = $coupon->discount_value; // Giảm giá cố định là một giá trị cụ thể
+            } else {
+                // Loại giảm giá không hợp lệ
+                return redirect()->back()->with('error', "Invalid discount type in coupon.");
+            }
+
+            // Kiểm tra nếu giảm giá lớn hơn tổng giá trị giỏ hàng (không thể giảm giá vượt quá tổng giá trị)
+            if ($discount > $subtotal) {
+                $discount = $subtotal; // Giới hạn giảm giá không vượt quá tổng giỏ hàng
             }
 
             // Tính tổng giá trị sau khi giảm giá

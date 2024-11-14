@@ -32,13 +32,15 @@
                                 <form class="row">
                                     <div class="form-group col-md-6">
                                         <label class="control-label" required for="code">Coupon Code</label>
-                                        <input class="form-control" type="text" id="code" name="code">
+                                        <input class="form-control" type="text" id="code" name="code" maxlength="50">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="discount_type">Discount Type</label>
-                                        <input class="form-control" required type="text" id="discount_type"
-                                            name="discount_type">
-                                    </div>
+                                        <select class="form-control" id="discount_type" name="discount_type" required>
+                                            <option value="percentage" {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Percentage</option>
+                                            <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Fixed</option>
+                                        </select>
+                                    </div>                                    
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="discount_value">Discount Value</label>
                                         <input class="form-control" required type="number" id="discount_value"
@@ -46,8 +48,8 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="expiration_date">Expiration Date</label>
-                                        <input class="form-control" required type="date" id="expiration_date"
-                                            name="expiration_date">
+                                        <input class="form-control" required type="date" id="expiration_date" name="expiration_date" 
+                                               min="{{ date('Y-m-d') }}">
                                     </div>
                             </div>
                             <div class="button-group" style="display:flex;justify-content:flex-end;padding-right:15px">

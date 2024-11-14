@@ -34,14 +34,16 @@
                                 @csrf
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Product Name</label>
-                                    <input class="form-control" type="text" name="product_name" required value="{{ old('product_name') }}">
+                                    <input class="form-control" type="text" name="product_name" required
+                                        value="{{ old('product_name') }}">
                                     @if ($errors->has('product_name'))
                                         <span class="text-danger">{{ $errors->first('product_name') }}</span>
                                     @endif
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Quantity</label>
-                                    <input class="form-control" type="number" name="stock_quantity" min="0" required>
+                                    <input class="form-control" type="number" name="stock_quantity" min="0"
+                                        max="100" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Category</label>
@@ -64,8 +66,9 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Price</label>
-                                    <input class="form-control" type="text" name="price" min="0" step="0.01" required>
+                                    <input class="form-control" type="text" name="price" id="price" required>
                                 </div>
+
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Images</label>
                                     <div id="myfileupload">
@@ -86,10 +89,11 @@
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Specifications</label>
                                     <textarea class="form-control" name="specifications[]" placeholder="Enter product specifications" required></textarea>
-                                </div>                                
+                                </div>
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Descriptions</label>
-                                    <textarea class="form-control" name="product_description" id="mota" placeholder="Enter product Descriptions" required></textarea>
+                                    <textarea class="form-control" name="product_description" id="mota" placeholder="Enter product Descriptions"
+                                        required></textarea>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <button class="btn btn-save" type="submit">Save</button>
@@ -103,6 +107,28 @@
         </main>
     </div>
     @include('admin.layout.footer')
+
+    <script>
+        document.getElementById('price').addEventListener('input', function(e) {
+            const input = e.target;
+            let value = input.value;
+
+            // Loại bỏ ký tự không phải số và dấu thập phân
+            value = value.replace(/[^0-9.]/g, '');
+
+            // Kiểm tra nếu số chữ số vượt quá 10 (bao gồm phần thập phân)
+            if (value.length > 10) {
+                alert("Price can be a maximum of 10 digits.");
+                input.value = value.substring(0, 10); // Giới hạn số chữ số
+            } else if (parseFloat(value) > 99999999.99) {
+                // Kiểm tra giá trị không vượt quá 99999999.99
+                alert("Price cannot exceed 99999999.99.");
+                input.value = '99999999.99'; // Giới hạn giá trị
+            } else {
+                input.value = value; // Cập nhật giá trị hợp lệ
+            }
+        });
+    </script>
 </body>
 
 </html>

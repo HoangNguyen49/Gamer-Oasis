@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -127,10 +128,10 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:Category,Category_id',
             'brand_id' => 'required|exists:Brand,Brand_id',
-            'product_name' => 'required|string|max:255',
-            'product_description' => 'required|string',
-            'price' => 'required|numeric',
-            'stock_quantity' => 'required|integer',
+            'product_description' => 'required|string', // Nội dung HTML từ Quill
+            'specifications' => 'required|array', // Chấp nhận mảng dữ liệu
+            'price' => 'required|numeric|min:0|max:10000',
+            'stock_quantity' => 'required|integer|min:0|max:100',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -184,7 +185,6 @@ class ProductController extends Controller
     public function showProduct($id)
     {
         $product = Product::with('category', 'brand', 'images')->findOrFail($id);
-
         return view('admin.pages.admin-product-detail', compact('product'));
     }
 
@@ -192,49 +192,11 @@ class ProductController extends Controller
     {
         // Tìm sản phẩm theo ID, bao gồm các mối quan hệ cần thiết
         $product = Product::where('Slug', $slug)->firstOrFail();
+        
 
         // Trả về view với dữ liệu sản phẩm
         return view('web.pages.single-product', compact('product'));
     }
-
-
-
-    public function deleteProduct($id)
-{
-    // Tìm sản phẩm theo ID
-    $product = Product::find($id);
-
-    if ($product) {
-        // Kiểm tra xem sản phẩm còn trong kho (ví dụ: số lượng còn lại > 0)
-        if ($product->stock_quantity > 0) {
-            // Nếu còn hàng, không cho phép xóa sản phẩm
-            return redirect()->route('products.indexAdmin')->with('error', 'Không thể xóa sản phẩm vì sản phẩm còn trong kho.');
-        }
-
-        // Kiểm tra xem sản phẩm đã có trong đơn hàng hay chưa
-        $orderCount = Order::whereHas('products', function($query) use ($id) {
-            $query->where('product_id', $id); // Kiểm tra đơn hàng có sản phẩm này
-        })->count();
-
-        if ($orderCount > 0) {
-            // Nếu sản phẩm đã có trong đơn hàng, không cho phép xóa
-            return redirect()->route('products.indexAdmin')->with('error', 'Không thể xóa sản phẩm vì đã có trong các đơn hàng.');
-        }
-
-        // Xóa tất cả các hình ảnh liên quan trước
-        $product->images()->delete(); // Xóa các hình ảnh liên quan
-
-        // Sau đó xóa sản phẩm
-        $product->delete();
-
-        // Trả về thông báo thành công
-        return redirect()->route('products.indexAdmin')->with('success', 'Product deleted successfully.');
-    }
-
-    // Nếu không tìm thấy sản phẩm, trả về thông báo lỗi
-    return redirect()->route('products.indexAdmin')->with('error', 'Product not found.');
-}
-
 
     // Show Product by Category in Navbar with Sort By
     public function showByCategory(Request $request, $categoryId)

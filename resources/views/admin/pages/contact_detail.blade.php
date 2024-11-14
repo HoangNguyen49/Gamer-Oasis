@@ -5,6 +5,7 @@
     <!-- Include necessary head elements -->
     @include('admin.layout.head')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
 <body>
@@ -66,7 +67,11 @@
                             </table>
                         </div>
                         <a href="{{ route('contacts.index') }}" class="btn btn-primary mt-3"
-                            style="padding: 0.500rem">Back to Contacts List</a>
+                            style="padding: 0.500rem; margin-right:120px">Back to Contacts List</a>
+                        <a href="mailto:{{ $contact->customer_email }}?subject=Response [{{ $contact->contact_subject }}]&body=Hello, {{ $contact->customer_name }},%0D%0A%0D%0A"
+                            class="btn btn-success mt-3 ml-2" style="padding: -0.500rem">Reply Customer</a>
+                        <a href="{{ route('contacts.updateStatus', $contact->id) }}"
+                            style="padding: -0.500rem" class="btn btn-info mt-3 ml-2" title="Change Status">Change Status</a>
                     </div>
                 </div>
             </div>

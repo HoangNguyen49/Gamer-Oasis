@@ -2327,20 +2327,32 @@ textarea:focus {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 .product-image > span.sticker {
-    background: #0363cd;
-    border-radius: 100%;
-    color: #fff;
-    right: 15px;
     position: absolute;
     top: 20px;
+    right: 15px;
     z-index: 99;
-    height: 40px;
-    width: 40px;
-    line-height: 40px;
+    height: auto;
+    width: auto;
+    line-height: 20px; /* Điều chỉnh dòng chữ cho vừa với kích thước */
+    padding: 5px 10px; /* Thêm padding để có không gian cho chữ dài hơn */
     text-align: center;
     text-transform: uppercase;
-    font-size: 11px;
+    font-size: 12px; /* Điều chỉnh font-size nếu cần */
+    border-radius: 50px; /* Đảm bảo vẫn giữ hình tròn */
 }
+
+/* Khi sản phẩm hết hàng */
+.out-of-stock {
+    background-color: #808080; /* Màu nền xám */
+    color: #fff; /* Màu chữ trắng */
+}
+
+/* Khi sản phẩm là "New" */
+.new {
+    background-color: #0363cd; /* Màu nền mặc định */
+    color: #fff; /* Màu chữ trắng */
+}
+
 .product-review {
     border-bottom: 1px solid #ebebeb;
 }

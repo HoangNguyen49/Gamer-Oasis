@@ -21,6 +21,17 @@
                 </ul>
                 <div id="clock"></div>
             </div>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
@@ -88,17 +99,6 @@
                                                     onclick="window.location.href='{{ route('edit-product', $product->Product_id) }}'">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-
-                                                <form
-                                                    action="{{ route('products.deleteProduct', $product->Product_id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-primary btn-sm trash" type="submit"
-                                                        onclick="return confirm('Are you sure you want to delete this product?');">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
                                             </td>
 
                                         </tr>

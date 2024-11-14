@@ -30,22 +30,22 @@
                                 @method('PUT') <!-- Phương thức PUT để cập nhật -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Customer Name</label>
-                                    <input type="text" class="form-control" id="full_name" name="full_name"
+                                    <input type="text" class="form-control" id="full_name" name="full_name" maxlength="150"
                                         value="{{ old('full_name', $order->full_name) }}" required>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Phone</label>
-                                    <input type="text" class="form-control" id="phone" name="phone"
+                                    <input type="text" class="form-control" id="phone" name="phone" maxlength="11"
                                         value="{{ old('phone', $order->phone) }}" required>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Email</label>
-                                    <input type="email" class="form-control" id="email_address" name="email_address"
+                                    <input type="email" class="form-control" id="email_address" name="email_address" maxlength="255"
                                         value="{{ old('email_address', $order->email_address) }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="control-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address"
+                                    <input type="text" class="form-control" id="address" name="address" maxlength="255"
                                         value="{{ old('address', $order->address) }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -56,7 +56,8 @@
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Product ID</label>
                                     <input type="text" class="form-control" id="product_id" name="product_id"
-                                        value="{{ old('product_id', $order->Product_id) }}" readonly>
+                                        value="{{ $productIds ? $productIds : 'N/A' }}" readonly>
+                                    <td></td>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Quantity</label>
@@ -87,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="button-group" style="display:flex;justify-content:flex-end;padding-right:15px">
-                                <button class="btn btn-save" type="submit"
+                                <button class="btn btn-save" type="submit" id="saveButton"
                                     style="width:80px;margin-right:5px;">Save</button>
                                 <a class="btn btn-cancel" href="{{ route('orders.index') }}"
                                     style="width:80px;">Cancel</a>
@@ -109,12 +110,23 @@
     <!-- Custom Confirm Dialog -->
     <div id="confirmDialog"
         style="width: 40%; display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-        <h5 class="modal-title" style="font-size: 20px;">Update successfully !!!</h5>
-        <div id="dialogMessage" style="font-size: 16px">The order has been updated successfully, please check
-            carefully
-            as it may affect customers if there is a mistake.</div>
-        <div style="margin-top: 20px; text-align: center;">
-            <button id="confirmOkButton" class="btn btn-primary" style="font-size: 20px; width: 200px;">OK</button>
+        <h5 class="modal-title" style="font-size: 20px; color:red;padding:20px 0 10px 0">WARNING !!!</h5>
+        <div id="dialogMessage" style="font-size: 16px;">The order <b style="color: red">will be saved</b>, please check carefully as it may
+            <b style="color: red">affect customer</b> if there is any mistake. Please make sure the changes have been <b style="color: red">checked carefully</b>.</div>
+        <div style="margin-top: 20px; display:flex; justify-content:space-around; padding:20px;">
+            <button id="confirmYesButton" class="btn btn-primary" style="font-size: 20px; width: 200px;">Yes</button>
+            <button id="confirmNoButton" class="btn btn-secondary" style="font-size: 20px; width: 200px;">No</button>
+        </div>
+    </div>
+
+    <div id="errorMessage"
+        style="display: none; width: 40%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+        <h5 class="modal-title" style="font-size: 20px; color: red; padding:20px 0 10px 0">ERROR !!!</h5>
+        <div id="errorMessageText" style="font-size: 16px;">You <b style="color:red">cannot edit</b> this order because it <b style="color:red">has
+            been delivered</b>.</div>
+        <div style="margin-top: 20px; text-align: center; padding:20px">
+            <button id="closeErrorButton" class="btn btn-danger"
+                style="font-size: 20px; width: 200px;">Close</button>
         </div>
     </div>
 
@@ -145,28 +157,31 @@
         document.getElementById('order-form').onsubmit = function(e) {
             e.preventDefault(); // Ngăn chặn hành động mặc định của biểu mẫu
 
-            // Lấy giá trị quantity và stockQuantity từ input
-            const quantity = parseInt(document.getElementById('quantity').value);
-
-            // Gửi yêu cầu AJAX
+            const formData = new FormData(this); // Lấy toàn bộ dữ liệu từ biểu mẫu
             fetch(this.action, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(Object.fromEntries(new FormData(this)))
+                    body: formData
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Hiện overlay và dialog thành công
+                        // Hiển thị thông báo thành công
                         document.getElementById('overlay').style.display = 'block';
                         document.getElementById('confirmDialog').style.display = 'block';
 
-                        // Chuyển hướng sau khi nhấn OK
-                        document.getElementById('confirmOkButton').onclick = function() {
-                            window.location.href =
-                                '{{ route('orders.index') }}'; // Chuyển hướng về trang quản lý đơn hàng
+                        // Xử lý hành động khi người dùng nhấn Yes
+                        document.getElementById('confirmYesButton').onclick = function() {
+                            // Lưu đơn hàng và chuyển hướng về trang orders
+                            window.location.href = '{{ route('orders.index') }}';
+                        };
+
+                        // Xử lý hành động khi người dùng nhấn No
+                        document.getElementById('confirmNoButton').onclick = function() {
+                            // Đóng dialog mà không thực hiện hành động gì
+                            document.getElementById('confirmDialog').style.display = 'none';
+                            document.getElementById('overlay').style.display = 'none';
                         };
                     } else {
                         alert('Có lỗi xảy ra khi cập nhật đơn hàng.');
@@ -188,6 +203,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const statusSelect = document.getElementById("status");
+            const saveButton = document.getElementById("saveButton");
             const currentStatus = "{{ $order->status }}";
 
             function updateStatusOptions() {
@@ -195,7 +211,6 @@
 
                 switch (currentStatus) {
                     case 'pending':
-                        // Không có hạn chế nào khi chuyển từ trạng thái "Pending"
                         break;
                     case 'processed':
                         statusSelect.querySelector('option[value="pending"]').disabled = true;
@@ -209,15 +224,29 @@
                         statusSelect.querySelector('option[value="delivered"]').disabled = false;
                         break;
                     case 'canceled':
-                        // Không có hạn chế nào khi chuyển từ trạng thái "Canceled"
                         break;
                 }
             }
 
             updateStatusOptions();
+
+            // Xử lý khi nhấn nút Save
+            saveButton.addEventListener("click", function(event) {
+                // Kiểm tra trạng thái hiện tại khi nhấn Save
+                if (currentStatus === 'delivered') {
+                    // Hiển thị thông báo lỗi khi trạng thái là "delivered"
+                    document.getElementById('overlay').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('closeErrorButton').onclick = function() {
+                        // Đóng thông báo và không làm gì thêm
+                        document.getElementById('errorMessage').style.display = 'none';
+                        document.getElementById('overlay').style.display = 'none';
+                    };
+                    event.preventDefault(); // Ngừng hành động save nếu trạng thái là delivered
+                }
+            });
         });
     </script>
-
 
 </body>
 

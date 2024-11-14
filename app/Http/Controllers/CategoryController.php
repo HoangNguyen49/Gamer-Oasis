@@ -23,61 +23,50 @@ class CategoryController extends Controller
     }
 
     public function deleteCategory($id)
-{
-    // Tìm category theo ID
-    $category = Category::find($id);
+    {
+        // Find category by ID
+        $category = Category::find($id);
 
-    // Kiểm tra nếu category tồn tại
-    if ($category) {
-        // Kiểm tra xem có sản phẩm nào liên quan đến category này không
-        $productCount = Product::where('category_id', $id)->count();
+        // Check if the category exists
+        if ($category) {
+            // Check if there are any products related to this category
+            $productCount = Product::where('category_id', $id)->count();
 
-        if ($productCount > 0) {
-            // Nếu có sản phẩm liên quan đến category, trả về thông báo lỗi
-            return redirect()->route('category.management')->with('error', 'Can not delete this Brand because there is still Products and Orders instock.');
+            if ($productCount > 0) {
+                // Return error if products are associated with this category
+                return redirect()->route('category.management')->with('error', 'Cannot delete the category because there are products associated with it.');
+            }
+
+            // Delete the category if no products are associated
+            $category->delete();
+
+            // Return success message
+            return redirect()->route('category.management')->with('success', 'Category deleted successfully.');
         }
 
-        // Kiểm tra xem category_id có tồn tại trong bảng orders không
-        $orderCount = Order::whereHas('products', function($query) use ($id) {
-            $query->where('category_id', $id); // Kiểm tra sản phẩm trong order có category_id trùng với ID của category
-        })->count();
-
-        if ($orderCount > 0) {
-            // Nếu có đơn hàng liên quan đến category này, trả về thông báo lỗi
-            return redirect()->route('category.management')->with('error', 'Không thể xóa category vì đã có trong các đơn hàng.');
-        }
-
-        // Xóa category nếu không có sản phẩm hay đơn hàng liên quan
-        $category->delete();
-
-        // Redirect hoặc trả về thông báo thành công
-        return redirect()->route('category.management')->with('success', 'Category deleted successfully.');
+        // If category not found, return error message
+        return redirect()->route('category.management')->with('error', 'Category not found.');
     }
-
-    // Nếu không tìm thấy category, có thể redirect hoặc thông báo lỗi
-    return redirect()->route('category.management')->with('error', 'Category not found.');
-}
-
 
     public function store(Request $request)
-{
-    $request->validate([
-        'Category_name' => 'required|string|max:255',
-    ]);
+    {
+        $request->validate([
+            'Category_name' => 'required|string|max:255',
+        ]);
 
-    // Check if the category name already exists
-    if (Category::where('Category_name', $request->input('Category_name'))->exists()) {
-        // Use dd() to confirm this block is executing as expected
-        return response()->json(['success' => false, 'error' => 'Category name already exists.'], 409);
+        // Check if the category name already exists
+        if (Category::where('Category_name', $request->input('Category_name'))->exists()) {
+            // Use dd() to confirm this block is executing as expected
+            return response()->json(['success' => false, 'error' => 'Category name already exists.'], 409);
+        }
+
+        $category = Category::create([
+            'Category_name' => $request->input('Category_name'),
+            'CreatedAt' => now()
+        ]);
+
+        return response()->json(['success' => true, 'category_id' => $category->Category_id]);
     }
-
-    $category = Category::create([
-        'Category_name' => $request->input('Category_name'),
-        'CreatedAt' => now()
-    ]);
-
-    return response()->json(['success' => true, 'category_id' => $category->Category_id]);
-}
 
 
 

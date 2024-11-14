@@ -84,6 +84,38 @@
     .single-add-to-cart button:focus {
         outline: none;
     }
+    .product-details-images .lg-image {
+    position: relative;
+}
+
+.product-details-images .sticker {
+    position: absolute;
+    top: 20px; /* Bạn có thể điều chỉnh vị trí này để sticker không bị che khuất */
+    right: 20px; /* Đưa sticker sang bên phải */
+    z-index: 99;
+    height: auto;
+    width: auto;
+    line-height: 20px; /* Điều chỉnh chiều cao của dòng chữ */
+    padding: 5px 10px; /* Thêm khoảng cách xung quanh chữ */
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 12px; /* Điều chỉnh kích thước chữ */
+    font-weight: bold;
+    border-radius: 50px; /* Vẫn giữ dạng tròn */
+}
+
+/* Khi sản phẩm hết hàng */
+.out-of-stock {
+    background-color: #808080; /* Màu nền xám */
+    color: #fff; /* Màu chữ trắng */
+}
+
+/* Khi sản phẩm là "New" */
+.new {
+    background-color: #0363cd; /* Màu nền mặc định */
+    color: #fff; /* Màu chữ trắng */
+}
+
 </style>
 
 <body>
@@ -111,6 +143,10 @@
                             @foreach ($product->images as $image)
                                 <!-- Hiển thị hình ảnh sản phẩm -->
                                 <div class="lg-image">
+                                    <!-- Hiển thị sticker "Out of stock" hoặc "New" -->
+                                    <span class="sticker {{ $product->Stock_Quantity == 0 ? 'out-of-stock' : 'new' }}">
+                                        {{ $product->Stock_Quantity == 0 ? 'Out of stock' : 'New' }}
+                                    </span>
                                     <a class="popup-img venobox vbox-item"
                                         href="{{ asset('storage/' . $image->Image_path) }}" data-gall="myGallery">
                                         <img src="{{ asset('storage/' . $image->Image_path) }}"
@@ -126,8 +162,10 @@
                                     <img src="{{ asset('storage/' . $image->Image_path) }}"
                                         alt="{{ $product->Product_name }} thumbnail">
                                 </div>
+                                
                             @endforeach
                         </div>
+                        
                     </div>
                     <!--// Product Details Left -->
                 </div>
