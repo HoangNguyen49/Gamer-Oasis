@@ -114,6 +114,8 @@
 
     @include('web.layouts.footer')
     <link rel="stylesheet" href="{{ asset('asset/css/font-awesome.min.css') }}">
+    <script src="{{ asset('asset/js/jquery.meanmenu.min.js') }}"></script>
+    <script src="{{ asset('asset/js/main.js') }}"></script>
 
     <!-- Thêm Bootstrap JS và Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
