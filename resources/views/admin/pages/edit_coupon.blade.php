@@ -32,24 +32,26 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="control-label">Coupon Code</label>
-                                    <input class="form-control" type="text" required id="code"
+                                    <input class="form-control" type="text" required id="code" maxlength="50"
                                         value="{{ $coupon->code }}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Discount Type</label>
-                                    <input class="form-control" type="text" required id="discount_type"
+                                    <input class="form-control" type="text" readonly id="discount_type"
                                         value="{{ $coupon->discount_type }}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Discount Value</label>
                                     <input class="form-control" type="number" required id="discount_value"
-                                        value="{{ $coupon->discount_value }}">
+                                        value="{{ $coupon->discount_value }}" min="1">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Expiration Date</label>
                                     <input class="form-control" type="date" required id="expiration_date"
-                                        value="{{ \Carbon\Carbon::parse($coupon->expiration_date)->format('Y-m-d') }}">
+                                        value="{{ \Carbon\Carbon::parse($coupon->expiration_date)->format('Y-m-d') }}"
+                                        min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 </div>
+
                             </div>
                             <div class="button-group" style="display:flex;justify-content:flex-end;padding-right:15px">
                                 <button class="btn btn-save" type="button" onclick="updateCoupon()"

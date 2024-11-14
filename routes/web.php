@@ -175,6 +175,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('orders', OrderController::class);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Route delete
     Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order_id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
 
     // Route cho Category
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -219,5 +221,5 @@ Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name(
 Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
 
 Route::get('/contact', [ContactController::class, 'showForm']);
-Route::post('/contact', [ContactController::class, 'store']);
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 

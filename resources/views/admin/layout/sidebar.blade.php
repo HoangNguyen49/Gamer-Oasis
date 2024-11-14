@@ -29,7 +29,7 @@
         <li><a class="app-menu__item {{ Request::is('admin/orders') ? 'active' : '' }}" href="/admin/orders"><i class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Order Management</span></a></li>
         
         <!-- Transaction Verification -->
-        <li><a class="app-menu__item {{ Request::is('admin/trans_verifi') ? 'active' : '' }}" href="/admin/trans_verifi"><i class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Transaction Verification</span></a></li>
+        <li><a class="app-menu__item {{ Request::is('admin/trans_verifi') ? 'active' : '' }}" href="/admin/trans_verifi"><i class='app-menu__icon bx bx-receipt'></i><span class="app-menu__label">Transaction Verification</span></a></li>
 
         <!-- Coupon Management -->
         <li><a class="app-menu__item {{ Request::is('admin/quanlimagiamgia') ? 'active' : '' }}" href="/admin/quanlimagiamgia"><i class='app-menu__icon bx bxs-coupon'></i><span class="app-menu__label">Coupon Management</span></a></li>

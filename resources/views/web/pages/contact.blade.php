@@ -75,12 +75,12 @@
                                     <input type="email" name="customerEmail" id="customerEmail" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Subject</label>
-                                    <input type="text" name="contactSubject" id="contactSubject">
+                                    <label>Subject <span class="required">*</span></label>
+                                    <input type="text" name="contactSubject" id="contactSubject" required>
                                 </div>
                                 <div class="form-group mb-30">
-                                    <label>Your Message</label>
-                                    <textarea name="contactMessage" id="contactMessage"></textarea>
+                                    <label>Your Message <span class="required">*</span></label>
+                                    <textarea name="contactMessage" id="contactMessage" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" value="submit" id="submit" class="li-btn-3"
@@ -113,8 +113,7 @@
     </div>
 
     @include('web.layouts.footer')
-
-    @include('web.layouts.css-script')
+    <link rel="stylesheet" href="{{ asset('asset/css/font-awesome.min.css') }}">
 
     <!-- Thêm Bootstrap JS và Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

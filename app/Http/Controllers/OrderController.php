@@ -60,38 +60,41 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $product = Product::find($order->Product_id); // Lấy sản phẩm dựa trên Product_id
         $stockQuantity = $product ? $product->Stock_Quantity : 0; // Lấy Stock_Quantity
+        $productIds = [];
 
-        return view('admin.pages.edit_order', compact('order', 'stockQuantity')); // Điều hướng đến trang chỉnh sửa
+        // Duyệt qua từng tên sản phẩm trong đơn hàng
+        foreach (explode(', ', $order->product_name) as $productName) {
+            $product = Product::where('product_name', $productName)->first();
+            if ($product) {
+                $productIds[] = $product->Product_id; // Thêm Product_id vào mảng
+            }
+        }
+
+        // Điều hướng đến trang chỉnh sửa
+        return view('admin.pages.edit_order', compact('order', 'stockQuantity'))->with('productIds', implode(', ', $productIds));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $orderId)
     {
-        // Xác thực dữ liệu
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:50',
-            'address' => 'required|string|max:255',
-            'email_address' => 'required|email|max:50',
-            'product_id' => 'required|integer',
-            'quantity' => 'required|integer|min:1', // Thêm xác thực cho số lượng
-            'subtotal' => 'required|numeric|min:0', // Đảm bảo subtotal không âm
-            'status' => 'required|in:pending,processed,shipped,delivered,canceled',
-        ]);
+        $order = Order::findOrFail($orderId);
 
-        // Cập nhật đơn hàng
-        $order = Order::findOrFail($id);
-        $order->full_name = $request->full_name;
-        $order->phone = $request->phone;
-        $order->address = $request->address;
-        $order->email_address = $request->email_address;
-        $order->product_id = $request->product_id; // Lấy Product ID mới từ request
-        $order->quantity = $request->quantity;
-        $order->subtotal = $request->subtotal; // Đảm bảo chỉ có một dòng cho subtotal, xóa dòng trùng lặp
-        $order->status = $request->status;
+        if ($order->status === 'delivered') {
+            return redirect()->route('orders.index')->with('error', 'Không thể chỉnh sửa đơn hàng đã giao.');
+        }
+
+        // Cập nhật các trường với dữ liệu từ request
+        $order->full_name = $request->input('full_name');
+        $order->phone = $request->input('phone');
+        $order->email_address = $request->input('email_address');
+        $order->address = $request->input('address');
+        $order->status = $request->input('status');
+
+        // Lưu các thay đổi
         $order->save();
 
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully');
+        return response()->json(['success' => true]);
     }
+
 
     public function destroy($id)
     {
@@ -105,72 +108,71 @@ class OrderController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Xác thực dữ liệu
-    $request->validate([
-        'full_name' => 'required|string|max:255',
-        'phone' => 'required|string|max:50',
-        'address' => 'required|string|max:255',
-        'email_address' => 'required|email|max:50',
-        'product_id' => 'required|array',
-        'payment_method' => 'required|string|in:COD,VNPay',
-    ]);
+    {
+        // Xác thực dữ liệu
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:50',
+            'address' => 'required|string|max:255',
+            'email_address' => 'required|email|max:50',
+            'product_id' => 'required|array',
+            'payment_method' => 'required|string|in:COD,VNPay',
+        ]);
 
-    // Lấy thông tin từ session giỏ hàng
-    $cartItems = session('cart');
+        // Lấy thông tin từ session giỏ hàng
+        $cartItems = session('cart');
 
-    if (empty($cartItems)) {
-        return redirect()->back()->with('error', 'Your cart is empty.');
-    }
-
-    // Khởi tạo mảng để lưu tên sản phẩm và tổng giá trị đơn hàng
-    $productNames = [];
-    $totalPrice = 0;
-
-    // Duyệt qua từng item trong giỏ hàng để lấy tên sản phẩm và tính toán tổng
-    foreach ($cartItems as $item) {
-        if (!isset($item['product_id']) || !isset($item['product_name']) || !isset($item['quantity']) || !isset($item['price'])) {
-            return redirect()->back()->with('error', 'Invalid product data in cart.');
+        if (empty($cartItems)) {
+            return redirect()->back()->with('error', 'Your cart is empty.');
         }
 
-        $productNames[] = $item['product_name'];
-        $totalPrice += $item['price'] * $item['quantity'];
+        // Khởi tạo mảng để lưu tên sản phẩm và tổng giá trị đơn hàng
+        $productNames = [];
+        $totalPrice = 0;
+
+        // Duyệt qua từng item trong giỏ hàng để lấy tên sản phẩm và tính toán tổng
+        foreach ($cartItems as $item) {
+            if (!isset($item['product_id']) || !isset($item['product_name']) || !isset($item['quantity']) || !isset($item['price'])) {
+                return redirect()->back()->with('error', 'Invalid product data in cart.');
+            }
+
+            $productNames[] = $item['product_name'];
+            $totalPrice += $item['price'] * $item['quantity'];
+        }
+
+        // Kiểm tra xem có mã giảm giá và totalAfterDiscount trong session không
+        $totalAfterDiscount = session()->has('coupon.totalAfterDiscount')
+            ? session('coupon.totalAfterDiscount')
+            : $totalPrice;
+
+        // Tạo một đơn hàng duy nhất cho toàn bộ giỏ hàng
+        $order = new Order();
+        $order->full_name = $request->full_name;
+        $order->phone = $request->phone;
+        $order->address = $request->address;
+        $order->email_address = $request->email_address;
+        $order->product_name = implode(', ', $productNames);
+        $order->quantity = count($request->product_id);
+        $order->subtotal = $totalAfterDiscount; // Tổng giá trị đơn hàng sau giảm giá
+        $order->status = 'pending';
+        $order->user_id = null;
+        $order->created_at = now();
+        $order->payment_method = $request->payment_method;
+
+        // Lưu đơn hàng
+        $order->save();
+
+        // Kiểm tra nếu thanh toán bằng VNPay
+        if ($request->payment_method == 'VNPay') {
+            $vnpayPaymentUrl = route('vnpay.payment', ['order_id' => $order->order_id]);
+            return redirect($vnpayPaymentUrl);
+        }
+
+        // Xóa giỏ hàng và thông tin giảm giá sau khi đặt hàng
+        session()->forget('cart');
+        session()->forget('coupon');
+        session()->forget('totalAfterDiscount');
+
+        return redirect()->route('checkout')->with('success', 'Your order has been placed successfully!');
     }
-
-    // Kiểm tra xem có mã giảm giá và totalAfterDiscount trong session không
-    $totalAfterDiscount = session()->has('coupon.totalAfterDiscount')
-        ? session('coupon.totalAfterDiscount')
-        : $totalPrice;
-
-    // Tạo một đơn hàng duy nhất cho toàn bộ giỏ hàng
-    $order = new Order();
-    $order->full_name = $request->full_name;
-    $order->phone = $request->phone;
-    $order->address = $request->address;
-    $order->email_address = $request->email_address;
-    $order->product_name = implode(', ', $productNames);
-    $order->quantity = count($request->product_id);
-    $order->subtotal = $totalAfterDiscount; // Tổng giá trị đơn hàng sau giảm giá
-    $order->status = 'pending';
-    $order->user_id = null;
-    $order->created_at = now();
-    $order->payment_method = $request->payment_method;
-
-    // Lưu đơn hàng
-    $order->save();
-
-    // Kiểm tra nếu thanh toán bằng VNPay
-    if ($request->payment_method == 'VNPay') {
-        $vnpayPaymentUrl = route('vnpay.payment', ['order_id' => $order->order_id]);
-        return redirect($vnpayPaymentUrl);
-    }
-    
-    // Xóa giỏ hàng và thông tin giảm giá sau khi đặt hàng
-    session()->forget('cart');
-    session()->forget('coupon');
-    session()->forget('totalAfterDiscount');
-
-    return redirect()->route('checkout')->with('success', 'Your order has been placed successfully!');
-}
-
 }
