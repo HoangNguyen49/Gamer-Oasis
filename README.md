@@ -18,9 +18,9 @@ Before starting, ensure you have the following installed:
 
 PHP >= 8.2.12
 
-Composer
+XAMPP
 
-MySQL (or any other database supported by Laravel)
+MySQL
 
 Git
 
@@ -39,34 +39,31 @@ Follow these steps to set up the project:
   https://drive.google.com/drive/folders/1E-MKF3pbH_19O1gXcuCAqKq0mZ6zzQdR?usp=sharing
 
  + copy .env file into Gamer-Oasis 
- + copy folder "product" into public/asset/images
+
+ + in folder storage/app/public -> create new folder asset/images
+
+ + copy folder "product" into storage/app/public/asset/images
+
+ + php artisan storage:link
 
 3. System Requirements:
 
  + XAMPP (downloadable from [Apache Friends](https://www.apachefriends.org/))
  + Start module Apache and MySQL (Apache port: 80, 443 / MySQL port 3306)
 
-4. Install Dependencies
+4. Database:
 
- + composer install
+ + Download database gamer_oasis from drive link in section 2 
 
- + npm install
+ + Open XAMPP after start modules Apache and MySQL, Click "Admin" at MySQL 
 
- + php artisan storage:link
- 
- => If the products images not show, copy and paste everything inside folder product from public/asset/images/product into storage/app/public/asset/images/product
+ + This url will show after you click "Admin" http://localhost/phpmyadmin/
 
-5. Generate Application Key
+ + Click "Import" to import file "gameroasis.sql" 
 
- + php artisan key:generate
+5. Install Dependencies
 
-6. Run Database Migrations
-
- + php artisan migrate --seed
-
-7. Build Frontend Assets
-
- + npm run dev
+ + cd Gamer-Oasis run composer install
 
 ### Starting the Application
 
@@ -75,7 +72,6 @@ Follow these steps to set up the project:
  + php artisan serve
 
 2. Access the Application Open your browser and visit: http://127.0.0.1:8000
-
 
 ## Seeded Data
 
@@ -88,7 +84,6 @@ Email: admin@gmail.com
 Password: 12345678
 
 Test Products: A collection of gaming products for demonstration.
-
 
 ## Additional Commands
 
