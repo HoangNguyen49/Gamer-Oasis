@@ -129,24 +129,23 @@
                                         <div class="setting ht-setting">
                                             <ul class="ht-setting-list">
                                                 @if (Auth::check())
-                                                    <li><a href="{{ route('user.account') }}" class="account-link">My
-                                                            Account</a></li>
-                                                    <li><a href="{{ url('/order-history') }}" class="order-link">Order
-                                                            History</a></li>
-
+                                                    <li><a href="{{ route('user.account') }}" class="account-link">My Account</a></li>
+                                                    <li><a href="{{ url('/order-history') }}" class="order-link">Order History</a></li>
+                                                    @if (Auth::user()->Role === 'admin') <!-- Kiểm tra role của user -->
+                                                        <li><a href="{{ url('/admin') }}">Dashboard</a></li>
+                                                    @endif
                                                     <li><a href="{{ route('logout') }}" class="logout-link"
                                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                                     </li>
-                                                    <form id="logout-form" action="{{ route('logout') }}"
-                                                        method="POST" style="display: none;">
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                         @csrf
                                                     </form>
                                                 @else
-                                                    <li><a href="{{ url('/login-register') }}" class="login-link">Sign
-                                                            In</a></li>
+                                                    <li><a href="{{ url('/login-register') }}" class="login-link">Sign In</a></li>
                                                 @endif
                                             </ul>
                                         </div>
+                                        
                                     </li>
                                 </ul>
                             </div>
