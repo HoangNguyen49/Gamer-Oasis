@@ -99,6 +99,14 @@
                                                     onclick="window.location.href='{{ route('edit-product', $product->Product_id) }}'">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
+                                                <form action="{{ route('products.deleteProduct', $product->Product_id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-primary btn-sm trash" type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this product?');">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
                                             </td>
 
                                         </tr>

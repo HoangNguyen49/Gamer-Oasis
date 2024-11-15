@@ -202,6 +202,8 @@ Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () 
     Route::get('/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
     Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
     Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
+    Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+
     
     //Route show chi tiết sản phẩm bên web
     Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
@@ -213,6 +215,7 @@ Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () 
         Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
         Route::get('/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
         Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
+        
 
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');

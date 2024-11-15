@@ -256,4 +256,22 @@ class ProductController extends Controller
         // Return results as JSON
         return response()->json($products);
     }
+
+    public function deleteProduct($productId)
+{
+    // Tìm sản phẩm theo productId
+    $product = Product::find($productId);
+
+    // Kiểm tra xem sản phẩm có tồn tại và Stock_Quantity có bằng 0 không
+    if ($product && $product->Stock_Quantity == 0) {
+        $product->images()->delete();
+        $product->specifications()->delete();
+        // Xóa sản phẩm
+        $product->delete();
+        return redirect()->back()->with('success', 'Product deleted successfully.');
+    } else {
+        // Nếu không thỏa mãn điều kiện, trả về thông báo lỗi
+        return redirect()->back()->with('error', 'Product cannot be deleted. The stock must be cleared or the quantity must be zero before it can be deleted.');
+    }
+}
 }
