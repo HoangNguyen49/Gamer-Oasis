@@ -67,7 +67,7 @@
                                 </tr>
                                 <tr>
                                     <th>User ID</th>
-                                    <td>{{ $order->user_id ? $order->user_id : 'Guest' }}</td>
+                                    <td>{{ $order->User_id ? $order->User_id : 'Guest' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Customer Name</th>

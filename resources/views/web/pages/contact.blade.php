@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
-
+    
     <style>
         /* Đảm bảo modal được hiển thị ở giữa màn hình */
         .modal-dialog {
@@ -100,7 +100,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     Your message has been sent successfully! We will get back to you soon.
@@ -116,7 +115,6 @@
     <link rel="stylesheet" href="{{ asset('asset/css/font-awesome.min.css') }}">
     <script src="{{ asset('asset/js/jquery.meanmenu.min.js') }}"></script>
     <script src="{{ asset('asset/js/main.js') }}"></script>
-
     <!-- Thêm Bootstrap JS và Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -127,7 +125,7 @@
             myModal.show();
         @endif
     </script>
-
+    
 </body>
 
 </html>

@@ -171,8 +171,7 @@
                                                     <li><a href="#" class="add-to-wishlist-btn"
                                                             data-product-id="{{ $product->Product_id }}"><i
                                                                 class="fa fa-heart-o"></i></a></li>
-                                                    <li><a class="quick-view" data-toggle="modal"
-                                                            data-target="#exampleModalCenter" href="#"><i
+                                                    <li><a href="{{ route('products.show', $product->Slug) }}"><i
                                                                 class="fa fa-eye"></i></a></li>
                                                 </ul>
                                             </div>
@@ -244,8 +243,7 @@
                                                     <li><a href="#" class="add-to-wishlist-btn"
                                                             data-product-id="{{ $product->Product_id }}"><i
                                                                 class="fa fa-heart-o"></i></a></li>
-                                                    <li><a class="quick-view" data-toggle="modal"
-                                                            data-target="#exampleModalCenter" href="#"><i
+                                                    <li><a href="{{ route('products.show', $product->Slug) }}"><i
                                                                 class="fa fa-eye"></i></a></li>
                                                 </ul>
                                             </div>
@@ -314,8 +312,7 @@
                                                     <li><a href="#" class="add-to-wishlist-btn"
                                                             data-product-id="{{ $product->Product_id }}"><i
                                                                 class="fa fa-heart-o"></i></a></li>
-                                                    <li><a class="quick-view" data-toggle="modal"
-                                                            data-target="#exampleModalCenter" href="#"><i
+                                                    <li><a href="{{ route('products.show', $product->Slug) }}"><i
                                                                 class="fa fa-eye"></i></a></li>
                                                 </ul>
                                             </div>

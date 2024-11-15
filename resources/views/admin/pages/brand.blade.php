@@ -21,6 +21,16 @@
                 </ul>
                 <div id="clock"></div>
             </div>
+            @if (session('error'))
+                <div class="alert alert-danger mt-2" style="background-color: #f7c3c2; color: red ; font-weight: bold">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success mt-2">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
@@ -40,17 +50,6 @@
                                         <button type="submit" class="btn btn-primary"
                                             style="height:32px;">Search</button>
                                     </form>
-
-                                    @if (session('error'))
-                                        <div class="alert alert-danger mt-2">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
-                                    @if (session('success'))
-                                        <div class="alert alert-success mt-2">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
                                 </div>
 
                             </div>
@@ -92,32 +91,36 @@
         </main>
 
         {{-- Modal for Create Brand --}}
-        <div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog" aria-labelledby="addBrandModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addBrandModalLabel">Add New Brand</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="brandForm">
-                            @csrf
-                            <div class="form-group">
-                                <label for="brand_name">Brand Name</label>
-                                <input type="text" class="form-control" id="brand_name" name="Brand_name" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="saveBrandBtn">Save Brand</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
+<div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog" aria-labelledby="addBrandModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addBrandModalLabel">Add New Brand</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        <div class="modal-body">
+            <!-- Thông báo lỗi (ẩn mặc định) -->
+            <div id="error-message" class="alert alert-danger" style="display: none; background-color: #f7c3c2; color: red ; font-weight: bold"></div>
+
+            <form id="brandForm">
+                @csrf
+                <div class="form-group">
+                    <label for="brand_name">Brand Name</label>
+                    <input type="text" class="form-control" id="brand_name" name="Brand_name" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="saveBrandBtn">Save Brand</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+
 
         @include('admin.layout.footer')
     </div>
@@ -143,53 +146,30 @@
             // Xử lý sự kiện khi bấm nút Save Brand
             $('#saveBrandBtn').click(function() {
                 var formData = $('#brandForm').serialize(); // Lấy dữ liệu từ form
-
+    
                 $.ajax({
                     url: '{{ route('brands.store') }}', // Đường dẫn tới route store cho Brand
                     method: 'POST',
                     data: formData,
                     success: function(response) {
                         if (response.success) {
-                            $('#addBrandModal').modal(
-                                'hide'); // Đóng modal sau khi lưu thành công
+                            $('#addBrandModal').modal('hide'); // Đóng modal sau khi lưu thành công
                             alert('Brand added successfully!');
                             location.reload(); // Tải lại trang để cập nhật danh sách nếu cần
+                        } else {
+                            // Hiển thị thông báo lỗi trong modal
+                            $('#error-message').text(response.message).show();
                         }
                     },
-                    error: function(error) {
+                    error: function(xhr, status, error) {
                         console.log(error);
-                        alert('An error occurred while adding the brand.');
+                        $('#error-message').text('An error occurred while adding the brand.').show();
                     }
                 });
             });
         });
     </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#saveBrandBtn').click(function() {
-                var formData = $('#brandForm').serialize();
-
-                $.ajax({
-                    url: '{{ route('brands.store') }}',
-                    method: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        if (response.success) {
-                            $('#addBrandModal').modal('hide');
-                            alert('Brand added successfully!');
-                            location.reload();
-                        } else if (response.error) {
-                            alert(response.error);
-                        }
-                    },
-                });
-            });
-        });
-    </script>
-
-
-
+    
 </body>
 
 </html>

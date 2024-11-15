@@ -21,6 +21,16 @@
                 </ul>
                 <div id="clock"></div>
             </div>
+            @if (session('error'))
+                <div class="alert alert-danger mt-2" style="background-color: #f7c3c2; color: red ; font-weight: bold">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success mt-2">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
@@ -42,16 +52,7 @@
                                             style="height:32px;">Search</button>
                                     </form>
 
-                                    @if (session('error'))
-                                        <div class="alert alert-danger mt-2">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
-                                    @if (session('success'))
-                                        <div class="alert alert-success mt-2">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
+
                                 </div>
 
                             </div>
@@ -109,6 +110,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <!-- Thông báo lỗi (ẩn mặc định) -->
+                        <div id="error-message" class="alert alert-danger"
+                            style="display:none; background-color: #f7c3c2; color: red ; font-weight: bold"></div>
+
                         <form id="categoryForm">
                             @csrf
                             <div class="form-group">
@@ -125,6 +130,7 @@
                 </div>
             </div>
         </div>
+
 
         @include('admin.layout.footer')
     </div>
@@ -144,7 +150,6 @@
         };
     </script>
 
-    {{-- Script for Create Category --}}
     <script>
         $(document).ready(function() {
             // Xử lý sự kiện khi bấm nút Save Category
@@ -158,44 +163,23 @@
                     success: function(response) {
                         if (response.success) {
                             $('#addCategoryModal').modal(
-                                'hide'); // Đóng modal sau khi lưu thành công
+                            'hide'); // Đóng modal sau khi lưu thành công
                             alert('Category added successfully!');
                             location.reload(); // Tải lại trang để cập nhật danh sách nếu cần
                         }
                     },
-                    error: function(error) {
+                    error: function(xhr, status, error) {
                         console.log(error);
-                        alert('An error occurred while adding the category.');
+
+                        // Hiển thị thông báo lỗi trong modal
+                        var errorMessage = xhr.responseJSON ? xhr.responseJSON.error :
+                            'An error occurred while adding the category.';
+                        $('#error-message').text(errorMessage).show();
                     }
                 });
             });
         });
     </script>
-
-<script>
-    $(document).ready(function() {
-    $('#saveCategoryBtn').click(function() {
-        var formData = $('#categoryForm').serialize();
-
-        $.ajax({
-            url: '{{ route('categories.store') }}',
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                if (response.success) {
-                    $('#addCategoryModal').modal('hide'); 
-                    alert('Category added successfully!');
-                    location.reload(); 
-                } else if (response.error) {
-                    alert('Category name already exists. Please enter a different name.');
-                }
-            },
-        });
-    });
-});
-
-</script>
-
 
 </body>
 

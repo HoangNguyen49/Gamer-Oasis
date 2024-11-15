@@ -58,8 +58,8 @@
             <div class="container">
                 <div class="breadcrumb-content">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active">Blogs</li>
+                        <li><a href="{{ url('/') }}">Home</a></li>
+                        <li><a href="{{ url('/blogs') }}">Blogs</a></li>
                         <li class="active">Detail</li>
                     </ul>
                 </div>
@@ -199,17 +199,21 @@
                                     <ul class="li-pagination-box" style="padding: 0; margin: 0; list-style: none;">
                                         @if ($currentCommentPage > 1)
                                             <li style="border: none; display: inline; margin-right: -10px;">
-                                                <a href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage - 1 }}">Previous</a>
+                                                <a
+                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage - 1 }}">Previous</a>
                                             </li>
                                         @endif
                                         @for ($i = 1; $i <= $totalCommentPages; $i++)
-                                            <li class="{{ $i == $currentCommentPage ? 'active' : '' }}" style="border: none; display: inline; margin-right: -10px;">
-                                                <a href="?page={{ request()->get('page', 1) }}&comment_page={{ $i }}">{{ $i }}</a>
+                                            <li class="{{ $i == $currentCommentPage ? 'active' : '' }}"
+                                                style="border: none; display: inline; margin-right: -10px;">
+                                                <a
+                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $i }}">{{ $i }}</a>
                                             </li>
                                         @endfor
                                         @if ($currentCommentPage < $totalCommentPages)
                                             <li style="border: none; display: inline; margin-right: -10px;">
-                                                <a href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage + 1 }}">Next</a>
+                                                <a
+                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage + 1 }}">Next</a>
                                             </li>
                                         @endif
                                     </ul>
@@ -328,6 +332,9 @@
 
         <!-- Footer Area -->
         @include('web.layouts.footer')
+        <link rel="stylesheet" href="{{ asset('asset/css/font-awesome.min.css') }}">
+        <script src="{{ asset('asset/js/jquery.meanmenu.min.js') }}"></script>
+        <script src="{{ asset('asset/js/main.js') }}"></script>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -392,6 +399,10 @@
                             '<span class="fa fa-star" data-value="0"></span> Select Rating'; // Reset lại hiển thị cho nút dropdown
                         ratingInput.value = ""; // Reset giá trị rating ẩn về trống
 
+                        // Tự động tải lại trang sau 0,5 giây
+                        setTimeout(function() {
+                            location.reload(); // Tải lại trang
+                        }, 500); // 500ms = 0,5 giây
                     })
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
@@ -481,7 +492,11 @@
                         // Ẩn form reply
                         document.getElementById('replyFormContainer').style.display = 'none';
 
-                        // Nếu cần, bạn có thể cập nhật lại danh sách các bình luận tại đây mà không cần tải lại trang
+                        // tải lại trang sau khi reply
+                        // Tự động tải lại trang sau 0,5 giây
+                        setTimeout(function() {
+                            location.reload(); // Tải lại trang
+                        }, 500); // 500ms = 0,5 giây
                     })
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
@@ -489,6 +504,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

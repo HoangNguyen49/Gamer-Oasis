@@ -125,6 +125,8 @@
                                                                             class="add-to-cart-btn" data-product-id="{{ $product->Product_id }}">ADD TO CART</a></li>
                                                                     <li><a href="#" class="add-to-wishlist-btn" data-product-id="{{ $product->Product_id }}"><i
                                                                             class="fa fa-heart-o"></i></a></li>
+                                                                            <li><a href="{{ route('products.show', $product->Slug) }}"><i
+                                                                                class="fa fa-eye"></i></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

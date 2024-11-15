@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 
 class OrderController extends Controller
@@ -155,7 +156,7 @@ class OrderController extends Controller
         $order->quantity = count($request->product_id);
         $order->subtotal = $totalAfterDiscount; // Tổng giá trị đơn hàng sau giảm giá
         $order->status = 'pending';
-        $order->user_id = null;
+        $order->user_id = Auth::id();
         $order->created_at = now();
         $order->payment_method = $request->payment_method;
 

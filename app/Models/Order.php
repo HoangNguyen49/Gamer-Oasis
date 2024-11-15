@@ -29,4 +29,8 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'Product_id'); // 'product_id' là khóa ngoại trong bảng orders
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'User_id'); // 'User_id' là khóa ngoại trong bảng orders và 'user_id' là khóa chính trong bảng users
+    }
 }

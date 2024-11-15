@@ -50,21 +50,30 @@ class BrandController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Thực hiện xác thực dữ liệu
-        $request->validate([
-            'Brand_name' => 'required|string|max:255', // Xác thực tên thương hiệu
-        ]);
+{
+    // Thực hiện xác thực dữ liệu
+    $request->validate([
+        'Brand_name' => 'required|string|max:255', // Xác thực tên thương hiệu
+    ]);
 
-        // Tạo thương hiệu mới với thời gian tạo tự động
-        $brand = Brand::create([
-            'Brand_name' => $request->input('Brand_name'), // Sử dụng 'Brand_name' để lấy dữ liệu
-            'CreatedAt' => now(), // Tự động thêm thời gian tạo
-        ]);
+    // Kiểm tra xem thương hiệu đã tồn tại chưa
+    $existingBrand = Brand::where('Brand_name', $request->input('Brand_name'))->first();
 
-        // Trả về phản hồi JSON
-        return response()->json(['success' => true, 'brand_id' => $brand->Brand_id]);
+    if ($existingBrand) {
+        // Nếu có thương hiệu trùng tên, trả về thông báo lỗi
+        return response()->json(['success' => false, 'message' => 'Brand name already exists']);
     }
+
+    // Tạo thương hiệu mới với thời gian tạo tự động
+    $brand = Brand::create([
+        'Brand_name' => $request->input('Brand_name'), // Sử dụng 'Brand_name' để lấy dữ liệu
+        'CreatedAt' => now(), // Tự động thêm thời gian tạo
+    ]);
+
+    // Trả về phản hồi JSON
+    return response()->json(['success' => true, 'brand_id' => $brand->Brand_id]);
+}
+
 
     // Search Function
     public function search(Request $request)

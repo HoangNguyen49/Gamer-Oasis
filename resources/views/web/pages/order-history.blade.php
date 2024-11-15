@@ -54,7 +54,8 @@
                                             <td class="text-center">{{ $order->subtotal }}</td>
                                             <td class="text-center">{{ $order->full_name }}</td>
                                             <td class="text-center">{{ $order->payment_method}}</td>
-                                            <td class="text-center">{{ $vnpayOrders[$order->order_id] ?? 'N/A' }}</td>                                           
+                                            <td class="text-center">{{ $vnpayOrders[$order->order_id] ?? 'N/A' }}    
+                                            </td>                                           
                                         </tr>
                                     @endforeach
                                 </tbody>
