@@ -34,50 +34,34 @@ Follow these steps to set up the project:
 
 + cd Gamer-Oasis
 
-2. Install Dependencies
+2. Access this link to download env file and product images:
+
+  https://drive.google.com/drive/folders/1E-MKF3pbH_19O1gXcuCAqKq0mZ6zzQdR?usp=sharing
+
+  + copy .env file into Gamer-Oasis 
+  + copy folder "product" into public/asset/images
+
+3. Install Dependencies
 
 + composer install
 
 + npm install
 
-3. Create Environment File
++ php artisan storage:link
+ 
+=> If the products images not show, copy and paste everything inside folder product from public/asset/images/product into storage/app/public/asset/images/product
 
-+ cp .env.example .env
-
-4. Set Up Environment Variables Open the .env file and configure the following:
-
-Database settings:
-
-DB_CONNECTION=mysql
-
-DB_HOST=127.0.0.1
-
-DB_PORT=3306
-
-DB_DATABASE=gamer_oasis
-
-DB_USERNAME=your_username
-
-DB_PASSWORD=your_password
-
-5. Generate Application Key
+4. Generate Application Key
 
 + php artisan key:generate
 
-6. Run Database Migrations
+5. Run Database Migrations
 
 + php artisan migrate --seed
 
-7. Create Storage Link To make uploaded files (like images) accessible from the public folder:
-
-+ php artisan storage:link
-
- => If the products images not show, copy and paste everything inside folder product from public/asset/images/product into storage/app/public/asset/images/product
-
-8. Build Frontend Assets
+6. Build Frontend Assets
 
 + npm run dev
-
 
 ### Starting the Application
 
@@ -85,7 +69,7 @@ DB_PASSWORD=your_password
 
 + php artisan serve
 
-2. Access the Application Open your browser and visit: http://localhost:8000
+2. Access the Application Open your browser and visit: http://127.0.0.1:8000
 
 
 ## Seeded Data
