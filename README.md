@@ -30,16 +30,21 @@ Follow these steps to set up the project:
 
 1. Clone the Repository
 
-+ git clone https://github.com/HoangNguyen49/Gamer-Oasis.git
+ + git clone https://github.com/HoangNguyen49/Gamer-Oasis.git
 
-+ cd Gamer-Oasis
+ + cd Gamer-Oasis
 
 2. Access this link to download env file and product images:
 
   https://drive.google.com/drive/folders/1E-MKF3pbH_19O1gXcuCAqKq0mZ6zzQdR?usp=sharing
 
-  + copy .env file into Gamer-Oasis 
-  + copy folder "product" into public/asset/images
+ + copy .env file into Gamer-Oasis 
+ + copy folder "product" into public/asset/images
+
+3. System Requirements:
+
+ + XAMPP (downloadable from [Apache Friends](https://www.apachefriends.org/))
+ + Start module Apache and MySQL (Apache port: 80, 443 / MySQL port 3306)
 
 3. Install Dependencies
 
