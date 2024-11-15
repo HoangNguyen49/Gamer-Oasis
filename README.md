@@ -1,3 +1,4 @@
+![Gamer Oasis Logo](public/asset/images/menu/logo/logo.png)
 
 
 ## Gamer Oasis
@@ -15,7 +16,7 @@ Gamer Oasis is a Laravel-based e-commerce platform tailored for gaming enthusias
 ## Prerequisites
 Before starting, ensure you have the following installed:
 
-PHP >= 8.1
+PHP >= 8.2.12
 Composer
 MySQL (or any other database supported by Laravel)
 Node.js & npm
