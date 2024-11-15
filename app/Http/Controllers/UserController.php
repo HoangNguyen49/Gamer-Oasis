@@ -17,16 +17,17 @@ use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 
-
-
-
 class UserController extends Controller
 {
     public function index()
     {
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        if (!Auth::check()) {
+            return redirect()->route('login.register')->with('message', 'You need to log in to access the admin page.'); // Redirect to the login page
+        }
+
         // Lấy danh sách người dùng từ bảng users
         $users = User::all();
-
 
         return view('admin.pages.quanlikhachhang', compact('users'));
     }
@@ -103,6 +104,11 @@ class UserController extends Controller
         $authUser = User::where('Email', $user->getEmail())->first();
 
         if ($authUser) {
+            // Kiểm tra xem người dùng có bị chặn không
+            if ($authUser->is_blocked) {
+                return redirect()->route('login.register')->with('message', 'Your account has been blocked. Please contact the administrator.'); // Chuyển hướng đến trang đăng nhập với thông báo
+            }
+
             // Đăng nhập người dùng đã tồn tại
             Auth::login($authUser, true);
         } else {

@@ -32,24 +32,38 @@
                                 <form class="row">
                                     <div class="form-group col-md-6">
                                         <label class="control-label" required for="code">Coupon Code</label>
-                                        <input class="form-control" type="text" id="code" name="code" maxlength="50">
+                                        <input class="form-control" type="text" id="code" name="code"
+                                            maxlength="50">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="discount_type">Discount Type</label>
-                                        <select class="form-control" id="discount_type" name="discount_type" required>
-                                            <option value="percentage" {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Percentage</option>
-                                            <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Fixed</option>
+                                        <select class="form-control" id="discount_type" name="discount_type" required
+                                            onchange="updateDiscountInfo()">
+                                            <option value="percentage"
+                                                {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Percentage
+                                            </option>
+                                            <option value="fixed"
+                                                {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Fixed</option>
                                         </select>
-                                    </div>                                    
+                                        <small id="discountInfo">
+                                            @if (old('discount_type') == 'percentage')
+                                                * Percentage discount on total order value
+                                            @elseif(old('discount_type') == 'fixed')
+                                                * Fixed discount, directly deducted from total order value
+                                            @else
+                                                * Please select a discount type
+                                            @endif
+                                        </small>
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="discount_value">Discount Value</label>
                                         <input class="form-control" required type="number" id="discount_value"
-                                            name="discount_value">
+                                            min="0.01" step="0.01" min="1" name="discount_value">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="expiration_date">Expiration Date</label>
-                                        <input class="form-control" required type="date" id="expiration_date" name="expiration_date" 
-                                               min="{{ date('Y-m-d') }}">
+                                        <input class="form-control" required type="date" id="expiration_date"
+                                            name="expiration_date" min="{{ date('Y-m-d') }}">
                                     </div>
                             </div>
                             <div class="button-group" style="display:flex;justify-content:flex-end;padding-right:15px">
@@ -84,6 +98,15 @@
             <span id="errorMessage-message"></span>
     </div>
 
+    <!-- Popup thông báo lỗi khi discount value không hợp lệ -->
+    <div id="discountValueError"
+        style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #f44336; color: white; padding: 15px; border-radius: 5px;">
+        <span id="discountValueError-icon" style="margin-right: 10px;">
+            <i class="fa fa-times" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i> Discount
+            Value must be greater than 0 !!!
+        </span>
+    </div>
+
     <script>
         // Hàm cập nhật đồng hồ
         function updateClock() {
@@ -105,6 +128,16 @@
             const discountType = document.getElementById("discount_type").value;
             const discountValue = document.getElementById("discount_value").value;
             const expirationDate = document.getElementById("expiration_date").value;
+
+            // Kiểm tra discount value phải lớn hơn 0
+            if (discountValue <= 0) {
+                const discountValueError = document.getElementById("discountValueError");
+                discountValueError.style.display = "flex"; // Hiển thị popup lỗi
+                setTimeout(() => {
+                    discountValueError.style.display = "none"; // Ẩn popup sau 3 giây
+                }, 2000);
+                return; // Dừng hàm nếu discountValue không hợp lệ
+            }
 
             fetch('/admin/coupons', {
                     method: 'POST',
@@ -144,6 +177,21 @@
                     console.error('There was a problem with your fetch operation:', error);
                 });
         }
+    </script>
+
+    <script>
+        function updateDiscountInfo() {
+            const discountType = document.getElementById("discount_type").value;
+            const discountInfo = document.getElementById("discountInfo");
+
+            if (discountType === "percentage") {
+                discountInfo.textContent = "* Percentage discount on total order value";
+            } else if (discountType === "fixed") {
+                discountInfo.textContent = "* Fixed discount, directly deducted from total order value";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", updateDiscountInfo);
     </script>
 </body>
 

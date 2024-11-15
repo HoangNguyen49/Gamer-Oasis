@@ -37,6 +37,8 @@
                                         <th scope="col" class="text-center">Address</th>
                                         <th scope="col" class="text-center">Total Price</th>
                                         <th scope="col" class="text-center">Buyer Name</th>
+                                        <th scope="col" class="text-center">Payment Method</th>
+                                        <th scope="col" class="text-center">VNPAY Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +53,8 @@
                                             <td class="text-center">{{ $order->address }}</td>
                                             <td class="text-center">{{ $order->subtotal }}</td>
                                             <td class="text-center">{{ $order->full_name }}</td>
+                                            <td class="text-center">{{ $order->payment_method}}</td>
+                                            <td class="text-center">{{ $vnpayOrders[$order->order_id] ?? 'N/A' }}</td>                                           
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -9,9 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('asset/images/favicon.png') }}">
 
-    <!-- Thêm Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         /* Đảm bảo modal được hiển thị ở giữa màn hình */
         .modal-dialog {
@@ -71,21 +68,19 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Your Name <span class="required">*</span></label>
-                                    <input type="text" name="customerName" id="customername" required
-                                    value="{{ auth()->check() ? auth()->user()->Name : '' }}">
+                                    <input type="text" name="customerName" id="customername" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Your Email <span class="required">*</span></label>
-                                    <input type="email" name="customerEmail" id="customerEmail" required
-                                    value="{{ auth()->check() ? auth()->user()->Email : '' }}">
+                                    <input type="email" name="customerEmail" id="customerEmail" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Subject</label>
-                                    <input type="text" name="contactSubject" id="contactSubject">
+                                    <label>Subject <span class="required">*</span></label>
+                                    <input type="text" name="contactSubject" id="contactSubject" required>
                                 </div>
                                 <div class="form-group mb-30">
-                                    <label>Your Message</label>
-                                    <textarea name="contactMessage" id="contactMessage"></textarea>
+                                    <label>Your Message <span class="required">*</span></label>
+                                    <textarea name="contactMessage" id="contactMessage" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" value="submit" id="submit" class="li-btn-3"
@@ -118,7 +113,9 @@
     </div>
 
     @include('web.layouts.footer')
-    @include('web.layouts.css-script')
+    <link rel="stylesheet" href="{{ asset('asset/css/font-awesome.min.css') }}">
+    <script src="{{ asset('asset/js/jquery.meanmenu.min.js') }}"></script>
+    <script src="{{ asset('asset/js/main.js') }}"></script>
 
     <!-- Thêm Bootstrap JS và Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -132,4 +129,5 @@
     </script>
 
 </body>
+
 </html>

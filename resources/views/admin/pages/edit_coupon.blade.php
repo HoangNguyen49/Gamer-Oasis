@@ -39,11 +39,16 @@
                                     <label class="control-label">Discount Type</label>
                                     <input class="form-control" type="text" readonly id="discount_type"
                                         value="{{ $coupon->discount_type }}">
+                                    @if ($coupon->discount_type === 'percentage')
+                                        <small>* Percentage discount on total order value</small>
+                                    @elseif ($coupon->discount_type === 'fixed')
+                                        <small>* Fixed discount, directly deducted from total order value</small>
+                                    @endif
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Discount Value</label>
                                     <input class="form-control" type="number" required id="discount_value"
-                                        value="{{ $coupon->discount_value }}">
+                                        min="0.01" step="0.01" value="{{ $coupon->discount_value }}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Expiration Date</label>
@@ -94,13 +99,41 @@
             <span id="stillNotEdit-message"></span>
     </div>
 
+    <!-- Popup thông báo lỗi khi discount value không hợp lệ -->
+    <div id="discountValueError"
+        style="display: none; position: fixed; top: 70px; right: 20px; z-index: 1000; background-color: #f44336; color: white; padding: 15px; border-radius: 5px;">
+        <span id="discountValueError-icon" style="margin-right: 10px;">
+            <i class="fa fa-times" style="border: 2px solid white; border-radius: 50%; padding: 5px;"></i> Discount
+            Value must be greater than 0 !!!
+        </span>
+    </div>
+
     <script>
+        function validateDiscountValue() {
+            const discountValue = document.getElementById("discount_value");
+            if (parseFloat(discountValue.value) <= 0) {
+                discountValue.setCustomValidity("Discount Value must be greater than 0");
+            } else {
+                discountValue.setCustomValidity("");
+            }
+        }
+
         function updateCoupon() {
             const id = document.getElementById("coupon_id").value;
             const code = document.getElementById("code").value;
             const discountType = document.getElementById("discount_type").value;
             const discountValue = document.getElementById("discount_value").value;
             const expirationDate = document.getElementById("expiration_date").value;
+
+            // Kiểm tra discount value phải lớn hơn 0
+            if (discountValue <= 0) {
+                const discountValueError = document.getElementById("discountValueError");
+                discountValueError.style.display = "flex"; // Hiển thị popup lỗi
+                setTimeout(() => {
+                    discountValueError.style.display = "none"; // Ẩn popup sau 3 giây
+                }, 2000);
+                return; // Dừng hàm nếu discountValue không hợp lệ
+            }
 
             // Lưu trữ các giá trị ban đầu
             const initialCode = document.querySelector("#code").defaultValue;

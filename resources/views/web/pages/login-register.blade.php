@@ -28,7 +28,11 @@
                 </div>
             </div>
         </div>
-
+        @if(session('message'))
+            <div class="alert alert-warning" style="display: flex ; justify-content: center" >
+                {{ session('message') }}
+            </div>
+        @endif
         <div class="page-section mb-60">
             <div class="container">
                 <div class="row justify-content-center">

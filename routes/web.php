@@ -80,6 +80,14 @@ Route::get('/login-register', function () {
     return view('web.pages.login-register');
 })->name('login.register');
 
+// Route cho đăng nhập (chỉ hỗ trợ POST)
+Route::post('/login', [UserController::class, 'login'])->name('login');
+
+// Route cho trang đăng nhập (GET)
+Route::get('/login', function () {
+    return redirect()->route('login.register')->with('message', 'You need to log in to access this page.');
+})->name('login.form');
+
 // Route cho đăng ký
 Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
