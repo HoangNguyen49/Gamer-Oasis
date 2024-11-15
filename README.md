@@ -46,33 +46,33 @@ Follow these steps to set up the project:
  + XAMPP (downloadable from [Apache Friends](https://www.apachefriends.org/))
  + Start module Apache and MySQL (Apache port: 80, 443 / MySQL port 3306)
 
-3. Install Dependencies
+4. Install Dependencies
 
-+ composer install
+ + composer install
 
-+ npm install
+ + npm install
 
-+ php artisan storage:link
+ + php artisan storage:link
  
-=> If the products images not show, copy and paste everything inside folder product from public/asset/images/product into storage/app/public/asset/images/product
+ => If the products images not show, copy and paste everything inside folder product from public/asset/images/product into storage/app/public/asset/images/product
 
-4. Generate Application Key
+5. Generate Application Key
 
-+ php artisan key:generate
+ + php artisan key:generate
 
-5. Run Database Migrations
+6. Run Database Migrations
 
-+ php artisan migrate --seed
+ + php artisan migrate --seed
 
-6. Build Frontend Assets
+7. Build Frontend Assets
 
-+ npm run dev
+ + npm run dev
 
 ### Starting the Application
 
 1. Run the Development Server
 
-+ php artisan serve
+ + php artisan serve
 
 2. Access the Application Open your browser and visit: http://127.0.0.1:8000
 
