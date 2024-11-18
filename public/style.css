@@ -3722,6 +3722,7 @@ li.right-menu .cat-mega-menu-2 > li {
     text-transform: capitalize;
 }
 .table-content table td.li-product-stock-status span.out-of-stock {
+    background-color: white;
     color: orange;
     font-size: 14px;
     font-weight: 500;

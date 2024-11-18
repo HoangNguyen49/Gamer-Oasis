@@ -48,6 +48,11 @@
                                         @endphp
                                         @if (isset($wishlist) && is_array($wishlist) && count($wishlist) > 0)
                                             @foreach ($wishlist as $item)
+                                                @php
+                                                    // Truy vấn Stock_Quantity mới nhất từ database
+                                                    $product = \App\Models\Product::find($item['product_id']);
+                                                    $stock_quantity = $product ? $product->Stock_Quantity : 0;
+                                                @endphp
                                                 <tr>
                                                     <td class="li-product-remove">
                                                         <a href="#" class="remove-from-wishlist"
@@ -57,8 +62,7 @@
                                                     </td>
                                                     <td class="li-product-thumbnail">
                                                         <img src="{{ asset('storage/' . $item['image']) }}"
-                                                            style="width: 100px" class="card-img-top"
-                                                            alt="{{ $item['product_name'] }}">
+                                                            style="width: 100px" alt="{{ $item['product_name'] }}">
                                                     </td>
                                                     <td class="li-product-name"><a
                                                             href="#">{{ $item['product_name'] }}</a></td>
@@ -66,19 +70,29 @@
                                                             class="amount">${{ number_format($item['price'], 2, '.', ',') }}</span>
                                                     </td>
                                                     <td class="li-product-stock-status">
-                                                        <span class="{{ isset($item['stock_quantity']) && $item['stock_quantity'] > 0 ? 'in-stock' : 'out-of-stock' }}">
-                                                            {{ isset($item['stock_quantity']) && $item['stock_quantity'] > 0 ? 'In Stock' : 'Out of Stock'}}
+                                                        <span
+                                                            class="{{ $stock_quantity > 0 ? 'in-stock' : 'out-of-stock' }}">
+                                                            {{ $stock_quantity > 0 ? 'In Stock' : 'Out of Stock' }}
                                                         </span>
-                                                    </td>                                                                                                       
+                                                    </td>
                                                     <td class="li-product-add-cart">
-                                                        <a href="#" class="add-to-cart-btn"
-                                                            data-product-id="{{ $item['product_id'] }}">ADD TO CART</a>
+                                                        @if ($stock_quantity > 0)
+                                                            <a href="#" class="add-to-cart-btn"
+                                                                data-product-id="{{ $item['product_id'] }}">ADD TO
+                                                                CART</a>
+                                                        @else
+                                                            <a href="#" class="add-to-cart-btn"
+                                                                data-product-id="{{ $item['product_id'] }}">Unavailable
+                                                            </a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="6" style="text-align:center; font-size: 16px; font-weight: bold; color: red;">NO PRODUCTS IN WISHLIST</td>
+                                                <td colspan="6"
+                                                    style="text-align:center; font-size: 16px; font-weight: bold; color: red;">
+                                                    NO PRODUCTS IN WISHLIST</td>
                                             </tr>
                                         @endif
                                     </tbody>
@@ -103,7 +117,7 @@
         <span id="notification-message"></span>
     </div>
     <!-- Notification HTML END -->
-    
+
     <!-- Add To Cart From Wishlist START -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -113,42 +127,49 @@
                     const productId = this.getAttribute('data-product-id');
 
                     fetch('{{ route('cart.add') }}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ product_id: productId })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const notification = document.getElementById('notification');
-                        const message = document.getElementById('notification-message');
-                        const icon = document.getElementById('notification-icon').querySelector('i');
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                product_id: productId
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const notification = document.getElementById('notification');
+                            const message = document.getElementById('notification-message');
+                            const icon = document.getElementById('notification-icon')
+                                .querySelector('i');
 
-                        if (data.success) {
-                            message.textContent = data.success; // Thiết lập thông điệp thành công
-                            notification.style.backgroundColor = '#4CAF50'; // Màu xanh cho thành công
-                            icon.className = 'fa fa-check-circle'; // Icon thành công
-                        } else {
-                            message.textContent = data.error || 'Cannot add to cart'; // Thiết lập thông điệp lỗi
-                            notification.style.backgroundColor = '#f44336'; // Màu đỏ cho lỗi
-                            icon.className = 'fa fa-times'; // Icon lỗi
-                        }
+                            if (data.success) {
+                                message.textContent = data
+                                .success; // Thiết lập thông điệp thành công
+                                notification.style.backgroundColor =
+                                '#4CAF50'; // Màu xanh cho thành công
+                                icon.className = 'fa fa-check-circle'; // Icon thành công
+                            } else {
+                                message.textContent = data.error ||
+                                'Cannot add to cart'; // Thiết lập thông điệp lỗi
+                                notification.style.backgroundColor =
+                                '#f44336'; // Màu đỏ cho lỗi
+                                icon.className = 'fa fa-times'; // Icon lỗi
+                            }
 
-                        notification.style.display = 'block'; // Hiện thông báo
+                            notification.style.display = 'block'; // Hiện thông báo
 
-                        // Tải lại trang sau 1.2 giây rồi hiển thị thông báo
-                        setTimeout(() => {
-                            notification.style.display = 'none'; // Ẩn thông báo
-                            location.reload(); // Tải lại trang
-                        }, 1200);
-                    })
-                    .catch(error => console.error('Error:', error));
+                            // Tải lại trang sau 1.2 giây rồi hiển thị thông báo
+                            setTimeout(() => {
+                                notification.style.display = 'none'; // Ẩn thông báo
+                                location.reload(); // Tải lại trang
+                            }, 1200);
+                        })
+                        .catch(error => console.error('Error:', error));
                 });
             });
         });
-    </script>        
+    </script>
     <!-- Add To Cart From Wishlist END -->
 
     <!-- Remove Product Form Wishlist START -->
@@ -177,14 +198,14 @@
                             if (data.success) {
                                 // Hiện thông báo thành công
                                 message.textContent = data
-                                .success; // Thiết lập thông điệp thành công
+                                    .success; // Thiết lập thông điệp thành công
                                 notification.style.backgroundColor =
-                                '#4CAF50'; // Màu xanh cho thông báo thành công
+                                    '#4CAF50'; // Màu xanh cho thông báo thành công
                             } else {
                                 // Hiện thông báo lỗi
                                 message.textContent = data.error; // Thiết lập thông điệp lỗi
                                 notification.style.backgroundColor =
-                                '#f44336'; // Màu đỏ cho thông báo lỗi
+                                    '#f44336'; // Màu đỏ cho thông báo lỗi
                             }
 
                             notification.style.display = 'block'; // Hiện thông báo
