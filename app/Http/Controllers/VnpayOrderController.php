@@ -177,10 +177,8 @@ class VnpayOrderController extends Controller
             $order->save(); // Lưu lại vào bảng orders
         }
 
-        // Kiểm tra trạng thái thanh toán thành công để xóa giỏ hàng và mã giảm giá khỏi session
-        if ($vnpayOrder->status === 'success') {
-            session()->forget(['cart', 'coupon']); // Xóa giỏ hàng và mã giảm giá khỏi session
-        }
+        // Xóa giỏ hàng và mã giảm giá khỏi session bất kể trạng thái giao dịch
+        session()->forget(['cart', 'coupon']);
 
         // Truyền dữ liệu vào view
         return view('web.pages.vnpay_return', [
