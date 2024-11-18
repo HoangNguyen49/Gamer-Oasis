@@ -68,11 +68,11 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Your Name <span class="required">*</span></label>
-                                    <input type="text" name="customerName" id="customername" required>
+                                    <input type="text" name="customerName" id="customername" value="{{ auth()->check() ? auth()->user()->Name : '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Your Email <span class="required">*</span></label>
-                                    <input type="email" name="customerEmail" id="customerEmail" required>
+                                    <input type="email" name="customerEmail" id="customerEmail" value="{{ auth()->check() ? auth()->user()->Email : '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Subject <span class="required">*</span></label>

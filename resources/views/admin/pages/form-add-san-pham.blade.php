@@ -88,11 +88,12 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Specifications</label>
-                                    <textarea class="form-control" name="specifications[]" placeholder="Enter product specifications" required></textarea>
+                                    <textarea class="form-control" name="specifications[]" id="ckeditor1" placeholder="Enter product specifications"
+                                        required></textarea>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Descriptions</label>
-                                    <textarea class="form-control" name="product_description" id="mota" placeholder="Enter product Descriptions"
+                                    <textarea class="form-control" name="product_description" id="ckeditor2" placeholder="Enter product Descriptions"
                                         required></textarea>
                                 </div>
                                 <div class="form-group col-md-12">
@@ -129,6 +130,11 @@
             }
         });
     </script>
+    <script src="{{ asset('admin-asset/ckeditor/ckeditor.js') }}"></script>
+    <script>
+      CKEDITOR.replace('ckeditor1');
+      CKEDITOR.replace('ckeditor2');
+  </script>
 </body>
 
 </html>

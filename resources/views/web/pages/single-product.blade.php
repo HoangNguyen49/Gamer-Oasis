@@ -13,46 +13,11 @@
 
 </head>
 <style>
-    /* Tiêu đề phần Specifications */
-    .specifications-title {
-        font-size: 26px;
-        /* Đặt kích thước chữ lớn hơn một chút */
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 15px;
-    }
-
-    /* Danh sách các thông số */
-    .specifications-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        /* Khoảng cách giữa các mục */
-        padding: 0;
-        list-style: none;
-    }
-
-    /* Mỗi item trong specifications */
-    .spec-item {
-        font-size: 18px;
-        /* Tăng kích thước chữ cho các thông số */
-        color: #555;
-        /* Màu chữ tối nhưng không quá đậm */
-        line-height: 1.6;
-        /* Tăng chiều cao dòng để dễ đọc */
-    }
-
-    .spec-item strong {
-        font-weight: bold;
-        color: #2c3e50;
-    }
-
-    /* Định dạng khi không có thông số */
-    .no-specs-message {
-        font-size: 20px;
-        color: #e74c3c;
-        text-align: center;
-        font-weight: 600;
+    .product-description {
+        width: 80%;
+        /* Set width to 80% */
+        margin: 0 auto;
+        /* Center the description */
     }
 
     .single-add-to-cart button {
@@ -84,38 +49,48 @@
     .single-add-to-cart button:focus {
         outline: none;
     }
+
     .product-details-images .lg-image {
-    position: relative;
-}
+        position: relative;
+    }
 
-.product-details-images .sticker {
-    position: absolute;
-    top: 20px; /* Bạn có thể điều chỉnh vị trí này để sticker không bị che khuất */
-    right: 20px; /* Đưa sticker sang bên phải */
-    z-index: 99;
-    height: auto;
-    width: auto;
-    line-height: 20px; /* Điều chỉnh chiều cao của dòng chữ */
-    padding: 5px 10px; /* Thêm khoảng cách xung quanh chữ */
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 12px; /* Điều chỉnh kích thước chữ */
-    font-weight: bold;
-    border-radius: 50px; /* Vẫn giữ dạng tròn */
-}
+    .product-details-images .sticker {
+        position: absolute;
+        top: 20px;
+        /* Bạn có thể điều chỉnh vị trí này để sticker không bị che khuất */
+        right: 20px;
+        /* Đưa sticker sang bên phải */
+        z-index: 99;
+        height: auto;
+        width: auto;
+        line-height: 20px;
+        /* Điều chỉnh chiều cao của dòng chữ */
+        padding: 5px 10px;
+        /* Thêm khoảng cách xung quanh chữ */
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 12px;
+        /* Điều chỉnh kích thước chữ */
+        font-weight: bold;
+        border-radius: 50px;
+        /* Vẫn giữ dạng tròn */
+    }
 
-/* Khi sản phẩm hết hàng */
-.out-of-stock {
-    background-color: #808080; /* Màu nền xám */
-    color: #fff; /* Màu chữ trắng */
-}
+    /* Khi sản phẩm hết hàng */
+    .out-of-stock {
+        background-color: #808080;
+        /* Màu nền xám */
+        color: #fff;
+        /* Màu chữ trắng */
+    }
 
-/* Khi sản phẩm là "New" */
-.new {
-    background-color: #0363cd; /* Màu nền mặc định */
-    color: #fff; /* Màu chữ trắng */
-}
-
+    /* Khi sản phẩm là "New" */
+    .new {
+        background-color: #0363cd;
+        /* Màu nền mặc định */
+        color: #fff;
+        /* Màu chữ trắng */
+    }
 </style>
 
 <body>
@@ -162,10 +137,9 @@
                                     <img src="{{ asset('storage/' . $image->Image_path) }}"
                                         alt="{{ $product->Product_name }} thumbnail">
                                 </div>
-                                
                             @endforeach
                         </div>
-                        
+
                     </div>
                     <!--// Product Details Left -->
                 </div>
@@ -232,7 +206,8 @@
                     <div class="product-description">
                         <!-- Kiểm tra nếu sản phẩm có description -->
                         @if ($product->Product_description)
-                            <span>{{ $product->Product_description }}</span> <!-- Mô tả sản phẩm -->
+                            <!-- Hiển thị mô tả sản phẩm với HTML -->
+                            {!! $product->Product_description !!} <!-- Mô tả sản phẩm với thẻ HTML nguyên vẹn -->
                         @else
                             <!-- Thông báo nếu không có description -->
                             <p class="no-description-message">Description data has not been entered.</p>
@@ -248,13 +223,13 @@
                             <div class="specifications-list">
                                 <ul>
                                     @php
-                                        // Tách chuỗi Spec_name theo dấu phân cách '|' hoặc bất kỳ dấu phân cách nào
+                                        // Tách chuỗi Spec_name theo dấu phân cách '|'
                                         $specifications = explode('|', $product->specifications->first()->Spec_name);
                                     @endphp
                                     @foreach ($specifications as $specification)
                                         <li class="spec-item">
                                             <!-- Hiển thị mỗi thông số trên một dòng riêng biệt -->
-                                            {{ trim($specification) }}
+                                            {!! trim($specification) !!}
                                         </li>
                                     @endforeach
                                 </ul>
@@ -264,6 +239,7 @@
                             <p class="no-specs-message">Product specifications have not been entered yet.</p>
                         @endif
                     </div>
+
                 </div>
 
 
@@ -490,9 +466,9 @@
 
                             if (data.success) {
                                 message.textContent = data
-                                .success; // Thiết lập thông điệp thành công
+                                    .success; // Thiết lập thông điệp thành công
                                 notification.style.backgroundColor =
-                                '#4CAF50'; // Màu xanh cho thành công
+                                    '#4CAF50'; // Màu xanh cho thành công
                                 icon.className = 'fa fa-check-circle'; // Icon thành công
 
                                 // Tải lại trang sau 1.2 giây khi thành công
@@ -502,9 +478,9 @@
                                 }, 1200);
                             } else {
                                 message.textContent = data.error ||
-                                'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
+                                    'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
                                 notification.style.backgroundColor =
-                                '#f44336'; // Màu đỏ cho lỗi
+                                    '#f44336'; // Màu đỏ cho lỗi
                                 icon.className = 'fa fa-times'; // Icon lỗi
 
                                 // Chỉ ẩn thông báo sau 1.2 giây nếu có lỗi

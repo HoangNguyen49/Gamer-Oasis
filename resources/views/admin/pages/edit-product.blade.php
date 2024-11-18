@@ -60,12 +60,12 @@
 
             <div class="form-group">
                 <label for="product_description">Product Description</label>
-                <textarea name="product_description" id="product_description" class="form-control" required>{{ $product->Product_description }}</textarea>
+                <textarea name="product_description" id="ckeditor3" class="form-control" required>{{ $product->Product_description }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="product_specifications">Product Specifications</label>
-                <textarea name="specifications[]" id="product_specifications" class="form-control" rows="5">
+                <textarea name="specifications[]" id="ckeditor4" class="form-control" rows="5">
                     @foreach ($product->specifications as $spec)
                         {{ $spec->Spec_name }}
                     @endforeach
@@ -102,5 +102,9 @@
         } else {}
     }
 </script>
-
+<script src="{{ asset('admin-asset/ckeditor/ckeditor.js') }}"></script>
+    <script>
+      CKEDITOR.replace('ckeditor3');
+      CKEDITOR.replace('ckeditor4');
+  </script>
 </html>
