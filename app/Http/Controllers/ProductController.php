@@ -75,6 +75,17 @@ class ProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Giới hạn kích thước hình ảnh
         ]);
 
+        // Kiểm tra tên sản phẩm đã tồn tại
+        $slug = Str::slug($request->product_name);
+        $existingProduct = Product::where('Slug', $slug)->first();
+
+        if ($existingProduct) {
+            return redirect()
+                ->back()
+                ->withErrors(['product_name' => 'Product name has existed'])
+                ->withInput();
+        }
+
         // Tạo sản phẩm mới
         $product = Product::create([
             'Category_id' => $request->category_id,
@@ -84,7 +95,7 @@ class ProductController extends Controller
             'Price' => $request->price,
             'Stock_Quantity' => $request->stock_quantity,
             // Tự động tạo slug từ product_name
-            'Slug' => Str::slug($request->product_name),
+            'Slug' => $slug,
         ]);
 
         // Thêm đặc điểm
@@ -105,6 +116,7 @@ class ProductController extends Controller
         // Chuyển hướng với thông báo thành công
         return redirect()->route('products.indexAdmin')->with('success', 'Product added successfully.');
     }
+
 
 
     // Edit Product
@@ -128,6 +140,7 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:Category,Category_id',
             'brand_id' => 'required|exists:Brand,Brand_id',
+            'product_name' => 'required|string|max:255',
             'product_description' => 'required|string', // Nội dung HTML từ Quill
             'specifications' => 'required|array', // Chấp nhận mảng dữ liệu
             'price' => 'required|numeric|min:0|max:10000',
@@ -149,16 +162,7 @@ class ProductController extends Controller
             'Slug' => Str::slug($request->product_name),
         ]);
 
-        // Xóa hình ảnh cũ
-        foreach ($product->images as $image) {
-            // Xóa tệp hình ảnh khỏi thư mục
-            Storage::disk('public')->delete($image->Image_path);
-        }
-
-        // Xóa các bản ghi hình ảnh cũ trong cơ sở dữ liệu
-        $product->images()->delete();
-
-        // Thêm hình ảnh mới nếu có
+        // Thêm hình ảnh mới nếu có, giữ lại hình ảnh cũ
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('asset/images/product', 'public');
@@ -166,7 +170,7 @@ class ProductController extends Controller
             }
         }
 
-        // Xóa các bản ghi specifications cũ trong cơ sở dữ liệu
+        // Xóa các bản ghi specifications cũ
         $product->specifications()->delete();
 
         // Thêm thông số kỹ thuật mới
@@ -181,6 +185,7 @@ class ProductController extends Controller
     }
 
 
+
     //show chi tiết sản phẩm trong admin
     public function showProduct($id)
     {
@@ -192,7 +197,7 @@ class ProductController extends Controller
     {
         // Tìm sản phẩm theo ID, bao gồm các mối quan hệ cần thiết
         $product = Product::where('Slug', $slug)->firstOrFail();
-        
+
 
         // Trả về view với dữ liệu sản phẩm
         return view('web.pages.single-product', compact('product'));
@@ -258,20 +263,20 @@ class ProductController extends Controller
     }
 
     public function deleteProduct($productId)
-{
-    // Tìm sản phẩm theo productId
-    $product = Product::find($productId);
+    {
+        // Tìm sản phẩm theo productId
+        $product = Product::find($productId);
 
-    // Kiểm tra xem sản phẩm có tồn tại và Stock_Quantity có bằng 0 không
-    if ($product && $product->Stock_Quantity == 0) {
-        $product->images()->delete();
-        $product->specifications()->delete();
-        // Xóa sản phẩm
-        $product->delete();
-        return redirect()->back()->with('success', 'Product deleted successfully.');
-    } else {
-        // Nếu không thỏa mãn điều kiện, trả về thông báo lỗi
-        return redirect()->back()->with('error', 'Product cannot be deleted. The stock must be cleared or the quantity must be zero before it can be deleted.');
+        // Kiểm tra xem sản phẩm có tồn tại và Stock_Quantity có bằng 0 không
+        if ($product && $product->Stock_Quantity == 0) {
+            $product->images()->delete();
+            $product->specifications()->delete();
+            // Xóa sản phẩm
+            $product->delete();
+            return redirect()->back()->with('success', 'Product deleted successfully.');
+        } else {
+            // Nếu không thỏa mãn điều kiện, trả về thông báo lỗi
+            return redirect()->back()->with('error', 'Product cannot be deleted. The stock must be cleared or the quantity must be zero before it can be deleted.');
+        }
     }
-}
 }

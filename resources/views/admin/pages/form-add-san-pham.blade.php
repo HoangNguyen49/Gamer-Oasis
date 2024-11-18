@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <button class="btn btn-save" type="submit">Save</button>
-                                    <a class="btn btn-cancel" href="">Cancel</a>
+                                    <a class="btn btn-cancel" href="{{ route('products.indexAdmin') }}">Cancel</a>
                                 </div>
                             </form>
                         </div>
