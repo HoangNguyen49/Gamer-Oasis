@@ -67,19 +67,26 @@
                                             <tr class="blog-row" data-index="{{ $index }}">
                                                 <td>{{ $blog->id }}</td>
                                                 <td>{{ $blog->title }}</td>
-                                                <td>{{ $blog->totalRatingScore() }}</td>
+                                                <td> @php
+                                                    $totalRating = $blog->comments->sum('rating'); // Tổng điểm
+                                                    $commentCount = $blog->comments->count(); // Số lượng bình luận
+                                                    $averageRating =
+                                                        $commentCount > 0 ? $totalRating / $commentCount : 0;
+                                                    $averageRating = round($averageRating, 1); // Làm tròn điểm trung bình đến 1 chữ số sau dấu phẩy
+                                                @endphp
+                                                    {{ $averageRating }}</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm edit" type="button"
-                                                        title="Sửa"
+                                                        title="Edit"
                                                         onclick="window.location='{{ route('edit', $blog->id) }}'">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button class="btn btn-danger btn-sm trash" type="button"
-                                                        title="Xóa" onclick="deleteBlog({{ $blog->id }})">
+                                                        title="Delete" onclick="deleteBlog({{ $blog->id }})">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                     <button class="btn btn-info btn-sm view-comments" type="button"
-                                                        title="Xem bình luận" style="padding: 4px 8px;"
+                                                        title="View Cmt" style="padding: 4px 8px;"
                                                         onclick="window.location='{{ route('comments.view', $blog->id) }}'">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
@@ -111,7 +118,7 @@
                             <div class="row element-button">
                                 <div class="col-sm-2">
                                     <!-- Nút Tạo bài viết mới nằm bên trái -->
-                                    <a class="btn btn-add btn-sm" href="{{ route('create') }}" title="Thêm bài viết">
+                                    <a class="btn btn-add btn-sm" href="{{ route('create') }}" title="Create">
                                         <i class="fas fa-plus"></i> Create New Blog
                                     </a>
                                 </div>
@@ -148,15 +155,15 @@
                                             </td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm edit" type="button"
-                                                    title="Sửa"
+                                                    title="Edit"
                                                     onclick="window.location='{{ route('edit', $blog->id) }}'">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button class="btn btn-danger btn-sm trash" type="button"
-                                                    title="Xóa" onclick="deleteBlog({{ $blog->id }})">
+                                                    title="Delete" onclick="deleteBlog({{ $blog->id }})">
                                                     <i class="fas fa-trash-alt"></i></button>
                                                 <button class="btn btn-info btn-sm view-comments" type="button"
-                                                    title="Xem bình luận" style="padding: 4px 8px;"
+                                                    title="View Cmt" style="padding: 4px 8px;"
                                                     onclick="window.location='{{ route('comments.view', $blog->id) }}'">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
@@ -177,10 +184,74 @@
         @include('admin.layout.footer')
     </div>
     <script>
+        function addBlog() {
+            const form = $('#blogForm'); // Form của bạn
+            const formData = new FormData(form[0]); // Lấy dữ liệu từ form
+
+            $.ajax({
+                url: form.attr('action'), // URL từ thuộc tính action của form
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        // Hiển thị thông báo thành công
+                        alert(response.success);
+
+                        // (Tuỳ chọn) Làm mới danh sách blog hoặc điều hướng
+                        location.reload();
+                    } else {
+                        alert('Error: ' + (response.error || 'Undefined'));
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        const errors = xhr.responseJSON.errors;
+                        alert('Error: ' + Object.values(errors).join('\n'));
+                    } else {
+                        alert('An error occurred. Please try again.');
+                    }
+                }
+            });
+        }
+
+        function editBlog(id) {
+            const form = $('#editBlogForm'); // Form của bạn
+            const formData = new FormData(form[0]); // Lấy dữ liệu từ form
+
+            $.ajax({
+                url: '{{ url('/admin/blogmanagement/update') }}/' + id, // URL endpoint
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        // Hiển thị thông báo thành công
+                        alert(response.success);
+
+                        // (Tuỳ chọn) Điều hướng hoặc làm mới danh sách blog
+                        location.reload();
+                    } else {
+                        alert('Error: ' + (response.error || 'Undefined'));
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        const errors = xhr.responseJSON.errors;
+                        alert('Error: ' + Object.values(errors).join('\n'));
+                    } else {
+                        alert('An error occurred. Please try again.');
+                    }
+                }
+            });
+        }
+
         function deleteBlog(id) {
-            if (confirm('Bạn có chắc chắn muốn xóa blog này không?')) {
+            if (confirm('Are you sure you want to delete this blog?')) {
                 $.ajax({
-                    url: '{{ url('/admin/quanliblog/destroy') }}/' + id,
+                    url: '{{ url('/admin/blogmanagement/destroy') }}/' + id,
                     type: 'DELETE',
                     data: {
                         _token: '{{ csrf_token() }}'
@@ -192,15 +263,15 @@
                             $('tr:has(td:contains("' + id + '"))').remove();
                             alert(response.success); // Display success message from server
                         } else {
-                            alert('Có lỗi xảy ra: ' + (response.error || 'Không xác định'));
+                            alert('Error: ' + (response.error || 'Undefined'));
                         }
                     },
                     error: function(xhr) {
                         // Check if error response has JSON and 'error' message
                         if (xhr.responseJSON && xhr.responseJSON.error) {
-                            alert('Có lỗi xảy ra: ' + xhr.responseJSON.error);
+                            alert('Error: ' + xhr.responseJSON.error);
                         } else {
-                            alert('Có lỗi xảy ra trong quá trình xóa. Vui lòng thử lại.');
+                            alert('An error occurred during the deletion process. Please try again.');
                         }
                     }
                 });

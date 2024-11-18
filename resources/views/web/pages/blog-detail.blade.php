@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @include('web.layouts.css-script') <!-- Bao gồm Bootstrap CSS -->
 
+
     <style>
         .btn-light {
             background: #f8f8f8;
@@ -60,7 +61,7 @@
                     <ul>
                         <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('/blogs') }}">Blogs</a></li>
-                        <li class="active">Detail</li>
+                        <li class="active"><a href="?reload">Detail</a></li>
                     </ul>
                 </div>
             </div>
@@ -78,11 +79,24 @@
                                     <div class="li-blog-details text-start">
                                         <h3 class="li-blog-heading pt-25">{{ $blog->title }}</h3>
                                         <div class="li-blog-meta">
-                                            <a class="author" href="#"><i class="fa fa-user"></i>Admin</a>
-                                            <a class="comment" href="#"><i class="fa fa-comment-o"></i>
-                                                {{ $blog->comments_count }} comments</a>
-                                            <a class="post-time" href="#"><i class="fa fa-calendar"></i>
-                                                {{ $blog->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d M Y \a\t H:i') }}</a>
+                                            <a class="author"><i class="fa fa-user"></i>Admin</a>
+                                            <a class="author"><i class="fa fa-star"></i> @php
+                                                $totalRating = $blog->comments->sum('rating'); // Tổng điểm
+                                                $commentCount = $blog->comments->count(); // Số lượng bình luận
+                                                $averageRating =
+                                                    $commentCount > 0 ? $totalRating / $commentCount : 0;
+                                                $averageRating = round($averageRating, 1); // Làm tròn điểm trung bình đến 1 chữ số sau dấu phẩy
+                                            @endphp
+                                                {{ $averageRating }}</td> Rating</a>
+                                            <a class="comment" href="{{ route('show', $blog->slug) }}#comments">
+                                                <i class="fa fa-comment-o"></i>
+                                                {{ $blog->comments->count() }} comments
+                                            </a>
+                                            <a class="post-time"
+                                                href="{{ url('/blogs?date=' . $blog->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d-M-Y')) }}">
+                                                <i class="fa fa-calendar"></i>
+                                                {{ $blog->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d-M-Y H:i') }}
+                                            </a>
                                         </div>
                                         <p>{!! $blog->description !!}</p>
                                         <div class="li-blog-sharing text-center pt-30">
@@ -138,7 +152,7 @@
                     </div>
                 </div>
                 <!-- Blog Comment Section -->
-                <div class="li-comment-section">
+                <div id="comments" class="li-comment-section">
                     <h3>{{ $blog->comments->count() }} Comments</h3>
                     @php
                         $currentCommentPage = request()->get('comment_page', 1); // Lấy số trang hiện tại từ query string cho bình luận
@@ -200,20 +214,21 @@
                                         @if ($currentCommentPage > 1)
                                             <li style="border: none; display: inline; margin-right: -10px;">
                                                 <a
-                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage - 1 }}">Previous</a>
+                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage - 1 }}#comments">Previous</a>
+
                                             </li>
                                         @endif
                                         @for ($i = 1; $i <= $totalCommentPages; $i++)
                                             <li class="{{ $i == $currentCommentPage ? 'active' : '' }}"
                                                 style="border: none; display: inline; margin-right: -10px;">
                                                 <a
-                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $i }}">{{ $i }}</a>
+                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $i }}#comments">{{ $i }}</a>
                                             </li>
                                         @endfor
                                         @if ($currentCommentPage < $totalCommentPages)
                                             <li style="border: none; display: inline; margin-right: -10px;">
                                                 <a
-                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage + 1 }}">Next</a>
+                                                    href="?page={{ request()->get('page', 1) }}&comment_page={{ $currentCommentPage + 1 }}#comments">Next</a>
                                             </li>
                                         @endif
                                     </ul>
@@ -233,17 +248,22 @@
 
                         <div class="form-group">
                             <label style="font-weight: bold;">Name</label>
-                            <input type="text" name="user_name" placeholder="Name" required>
+                            <!-- Điền tự động tên người dùng nếu đã đăng nhập -->
+                            <input type="text" name="user_name" placeholder="Name" required
+                                style="background:#f8f8f8" value="{{ auth()->check() ? auth()->user()->Name : '' }}">
                         </div>
 
                         <div class="form-group">
                             <label style="font-weight: bold;">Email</label>
-                            <input type="email" name="user_email" placeholder="Email" required>
+                            <!-- Điền tự động email người dùng nếu đã đăng nhập -->
+                            <input type="email" name="user_email" placeholder="Email" required
+                                style="background:#f8f8f8"
+                                value="{{ auth()->check() ? auth()->user()->Email : '' }}">
                         </div>
 
                         <div class="form-group">
                             <label style="font-weight: bold;">Comment</label>
-                            <textarea name="comment" placeholder="Write a reply" required></textarea>
+                            <textarea name="comment" placeholder="Write a reply" required style="background:#f8f8f8"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -251,6 +271,7 @@
                         </div>
                     </form>
                 </div>
+
 
 
                 <!-- Blog Comment Box Area -->
@@ -264,18 +285,20 @@
                                     <label>Comment</label>
                                     <textarea name="comment" placeholder="Write a comment" required></textarea>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 position-relative">
                                     <label>Name</label>
+                                    <!-- Điền tự động tên nếu người dùng đã đăng nhập -->
                                     <input type="text" class="coment-field" name="user_name" placeholder="Name"
-                                        required>
+                                        value="{{ auth()->check() ? auth()->user()->Name : '' }}" required>
                                 </div>
                                 <div class="col-lg-4 position-relative">
                                     <label>Email</label>
+                                    <!-- Điền tự động email nếu người dùng đã đăng nhập -->
                                     <input type="email" class="coment-field" name="user_email" placeholder="Email"
-                                        required>
+                                        value="{{ auth()->check() ? auth()->user()->Email : '' }}" required>
                                     <span id="emailError" class="text-danger"
-                                        style="display: none; position: absolute; width: 100%; text-align: center; bottom: -20px; left: 0;">Vui
-                                        lòng nhập địa chỉ email hợp lệ</span>
+                                        style="display: none; position: absolute; width: 100%; text-align: center; bottom: -20px; left: 0;">Please
+                                        enter a valid email address.</span>
                                 </div>
                                 <div class="col-lg-4 position-relative">
                                     <label>Rating</label>
@@ -315,8 +338,8 @@
                                     </div>
                                     <input type="hidden" name="rating" id="rating" required>
                                     <span id="ratingError" class="text-danger"
-                                        style="display: none; position: absolute; width: 100%; text-align: center; bottom: -20px; left: 0;">Vui
-                                        lòng chọn đánh giá</span>
+                                        style="display: none; position: absolute; width: 100%; text-align: center; bottom: -20px; left: 0;">Please
+                                        select a rating.</span>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="coment-btn pt-30 pb-xs-30 pb-sm-30 f-left">
@@ -327,6 +350,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
 
@@ -336,7 +360,30 @@
         <script src="{{ asset('asset/js/jquery.meanmenu.min.js') }}"></script>
         <script src="{{ asset('asset/js/main.js') }}"></script>
     </div>
+
     <script>
+        // Danh sách các từ cấm
+        const badWords = [
+            'fuck', 'shit', 'bitch', 'asshole', 'damn', 'hell',
+            'dick', 'piss', 'cock', 'slut', 'whore', 'fag',
+            'cunt', 'bastard', 'motherfucker', 'prick', 'twat',
+            'rape', 'nigger', 'chink', 'spic', 'kike', 'faggot',
+            'retard', 'tranny', 'pussy', 'douche', 'crackhead',
+            'junkie', 'wanker', 'bitchass', 'dickhead', 'dickbag',
+            'pissed', 'wank', 'pussyass', 'shithead', 'cockhead',
+            'cum', 'cockfucker', 'fistfuck', 'assfucker', 'titfuck',
+            'blowjob', 'handjob', 'fuckface', 'motherfucker', 'buttfucker',
+            'cocksucker', 'cockblock', 'cocktard', 'shitfaced', 'shitstorm',
+            'dumbass', 'bimbo', 'asswipe', 'asshat', 'asslick', 'fuckwit',
+            'shitfuck', 'prickhead', 'jackass', 'shitshow', 'fatass', 'loser'
+        ];
+
+        // Hàm kiểm tra từ cấm
+        function containsBadWords(text) {
+            text = text.toLowerCase(); // Chuyển tất cả thành chữ thường
+            return badWords.some(word => text.includes(word)); // Kiểm tra từ cấm có xuất hiện không
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             // Thêm class 'img-fluid' cho tất cả hình ảnh
             const imgs = document.querySelectorAll('.li-blog-details img');
@@ -347,6 +394,15 @@
             // Xử lý xác thực email và đánh giá
             document.getElementById('commentForm').addEventListener('submit', function(event) {
                 event.preventDefault(); // Ngăn chặn gửi form mặc định
+
+                const comment = this.comment.value;
+
+                // Kiểm tra bình luận có chứa từ cấm không
+                if (containsBadWords(comment)) {
+                    event.preventDefault(); // Ngừng gửi form
+                    alert('Your comment contains inappropriate language.');
+                    return; // Dừng việc gửi form
+                }
 
                 const emailInput = this.user_email;
                 const emailError = document.getElementById('emailError');
@@ -409,7 +465,6 @@
                     });
             });
 
-
             // Xử lý sự kiện cho dropdown Rating
             const ratingInput = document.getElementById('rating');
             const dropdownItems = document.querySelectorAll('.dropdown-item');
@@ -469,6 +524,14 @@
             // Xử lý gửi form reply bằng AJAX
             document.getElementById('replyForm').addEventListener('submit', function(event) {
                 event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+                const reply = this.comment.value;
+
+                // Kiểm tra phản hồi có chứa từ cấm không
+                if (containsBadWords(reply)) {
+                    event.preventDefault(); // Ngừng gửi form
+                    alert('Your reply contains inappropriate language.');
+                    return;
+                }
 
                 const formData = new FormData(this);
 
@@ -501,6 +564,46 @@
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
                     });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Kiểm tra nếu có hash #comments trong URL
+            if (window.location.hash === "#comments") {
+                // Cuộn mượt tới phần bình luận
+                document.getElementById('comments').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            // Hàm kiểm tra tên người dùng có chứa "Admin"
+            function isAdminName(userName) {
+                return userName.toLowerCase().includes('admin');
+            }
+
+            // Kiểm tra form bình luận khi người dùng ấn "Post Comment"
+            document.getElementById('commentForm').addEventListener('submit', function(event) {
+                const userName = this.user_name.value.trim(); // Lấy giá trị tên người dùng
+
+                // Kiểm tra nếu tên chứa "Admin"
+                if (isAdminName(userName)) {
+                    event.preventDefault(); // Ngừng gửi form
+                    alert('You cannot post with the name "Admin"');
+                    return; // Dừng việc gửi form
+                }
+            });
+
+            // Kiểm tra form phản hồi khi người dùng ấn "Post Reply"
+            document.getElementById('replyForm').addEventListener('submit', function(event) {
+                const userName = this.user_name.value.trim(); // Lấy giá trị tên người dùng
+
+                // Kiểm tra nếu tên chứa "Admin"
+                if (isAdminName(userName)) {
+                    event.preventDefault(); // Ngừng gửi form
+                    alert('You cannot post with the name "Admin"');
+                    return; // Dừng việc gửi form
+                }
             });
         });
     </script>

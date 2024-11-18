@@ -35,77 +35,80 @@
                                 </div>
                             </div>
                             <h3 class="tile-title">List of comments for the article: {{ $blog->title }}</h3>
-                            <table class="table table-hover table-bordered" id="sampleTable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Rating</th>
-                                        <th>Content</th>
-                                        <th>Date</th>
-                                        <th>Function</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- @php
-                                        $comments = $comments->sortByDesc('created_at');
-                                    @endphp --}}
-                                    @foreach ($comments as $comment)
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="sampleTable">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $comment->id }}</td>
-                                            <td>{{ $comment->user_name }}</td>
-                                            <td>{{ $comment->user_email }}</td>
-                                            <td>
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    @if ($i <= $comment->rating)
-                                                        <i class="fas fa-star"></i>
-                                                    @else
-                                                        <i class="far fa-star"></i>
-                                                    @endif
-                                                @endfor
-                                            </td>
-                                            <td>{{ $comment->comment }}</td>
-                                            <td>{{ $comment->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d-m-Y H:i') }}
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger btn-sm trash" type="button"
-                                                    title="Xóa bình luận" onclick="deleteComment({{ $comment->id }})">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Rating</th>
+                                            <th>Content</th>
+                                            <th>Date</th>
+                                            <th>Function</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($comments as $comment)
+                                            @if ($comment->parent_id === null)
+                                                <!-- Kiểm tra nếu đây là bình luận gốc -->
+                                                <tr>
+                                                    <td>{{ $comment->id }}</td>
+                                                    <td>{{ $comment->user_name }}</td>
+                                                    <td>{{ $comment->user_email }}</td>
+                                                    <td>
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= $comment->rating)
+                                                                <i class="fas fa-star"></i>
+                                                            @else
+                                                                <i class="far fa-star"></i>
+                                                            @endif
+                                                        @endfor
+                                                    </td>
+                                                    <td>{{ $comment->comment }}</td>
+                                                    <td>{{ $comment->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d-m-Y H:i') }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-danger btn-sm trash" type="button"
+                                                            title="Xóa bình luận"
+                                                            onclick="deleteComment({{ $comment->id }})">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
 
-                                        <!-- Hiển thị phản hồi nếu có -->
-                                        @foreach ($comment->replies as $reply)
-                                            <tr>
-                                                <td></td> <!-- Có thể để trống hoặc hiện ID nếu cần -->
-                                                <td><strong>{{ $reply->user_name }}</strong> (Reply)</td>
-                                                <td>{{ $reply->user_email }}</td>
-                                                <td>
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $reply->rating)
-                                                            <i class="fas fa-star"></i>
-                                                        @else
-                                                            <i class="far fa-star"></i>
-                                                        @endif
-                                                    @endfor
-                                                </td>
-                                                <td>{{ $reply->comment }}</td>
-                                                <td>{{ $reply->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d-m-Y H:i') }}
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-danger btn-sm trash" type="button"
-                                                        title="Xóa phản hồi"
-                                                        onclick="deleteComment({{ $reply->id }})">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                                <!-- Hiển thị phản hồi (replies) nếu có -->
+                                                @foreach ($comment->replies as $reply)
+                                                    <tr>
+                                                        <td></td> <!-- Có thể để trống hoặc hiển thị ID nếu cần -->
+                                                        <td>{{ $reply->user_name }} <strong>(Reply)</strong></td>
+                                                        <td>{{ $reply->user_email }}</td>
+                                                        <td>
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                @if ($i <= $reply->rating)
+                                                                    <i class="fas fa-star"></i>
+                                                                @else
+                                                                    <i class="far fa-star"></i>
+                                                                @endif
+                                                            @endfor
+                                                        </td>
+                                                        <td>{{ $reply->comment }}</td>
+                                                        <td>{{ $reply->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('d-m-Y H:i') }}
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-danger btn-sm trash" type="button"
+                                                                title="Xóa phản hồi"
+                                                                onclick="deleteComment({{ $reply->id }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         @endforeach
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,7 +121,7 @@
     <script>
         function deleteComment(commentId) {
             // Hàm này sẽ sử dụng AJAX để xóa bình luận
-            if (confirm("Bạn có chắc chắn muốn xóa bình luận này không?")) {
+            if (confirm("Are you sure you want to delete this comment?")) {
                 // Thực hiện xóa bình luận qua AJAX
                 fetch(`/admin/comments/${commentId}`, {
                         method: 'DELETE',
@@ -131,11 +134,11 @@
                             // Tải lại trang để cập nhật danh sách bình luận
                             location.reload();
                         } else {
-                            alert("Có lỗi xảy ra khi xóa bình luận.");
+                            alert("An error occurred while deleting the comment.");
                         }
                     })
                     .catch(error => {
-                        console.error('Có lỗi xảy ra:', error);
+                        console.error('Error:', error);
                     });
             }
         }

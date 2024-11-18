@@ -1,24 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\VnpayOrderController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\OrderHistoryController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Middleware\AdminMiddleware;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderHistoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VnpayOrderController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Support\Facades\Route;
 
 // Trang chính
-Route::get('/', [ProductController::class, 'index'])->name('web.pages.index'); 
+Route::get('/', [ProductController::class, 'index'])->name('web.pages.index');
 // Route cho các trang thông tin
 Route::view('/about-us', 'web.pages.about-us');
 Route::view('/contact', 'web.pages.contact');
@@ -91,55 +91,43 @@ Route::get('/login', function () {
 // Route cho đăng ký
 Route::post('/register', [UserController::class, 'store'])->name('users.store');
 
-
 //Route Prefix Admin
 // Route cho trang Admin
 Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () {
     // Route::get('/', function () {
-           //     return view('admin.pages.index-admin');
-           // })->name('admin.pages.index-admin');
-   
+    //     return view('admin.pages.index-admin');
+    // })->name('admin.pages.index-admin');
+
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-        // Route cho trang quản lý đơn hàng
-        Route::get('/quanlidonhang', function () {
-            return view('admin.pages.quanlidonhang');
-        });
+    // Route cho trang quản lý đơn hàng
+    Route::get('/quanlidonhang', function () {
+        return view('admin.pages.quanlidonhang');
+    });
 
-        // Route cho form thêm đơn hàng
-        Route::get('/quanlidonhang/taomoidonhang', function () {
-            return view('admin.pages.form-add-don-hang');
-        })->name('form-add-don-hang');
+    // Route cho form thêm đơn hàng
+    Route::get('/quanlidonhang/taomoidonhang', function () {
+        return view('admin.pages.form-add-don-hang');
+    })->name('form-add-don-hang');
 
     // Route cho trang quản lý sản phẩm
     Route::get('/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin');
     Route::get('/quanlisanpham/taomoisanpham', function () {
         return view('admin.pages.form-add-san-pham');
     })->name('form-add-san-pham');
-        // Route cho trang quản lý sản phẩm
-        Route::get('/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin');
+    // Route cho trang quản lý sản phẩm
+    Route::get('/quanlisanpham', [ProductController::class, 'indexAdmin'])->name('products.indexAdmin');
 
     // Route cho trang quản lý khách hàng
     Route::get('/quanlikhachhang', function () {
         return view('admin.pages.quanlikhachhang');
-     
+
     });
     Route::get('/quanlikhachhang/khachhangmoi', function () {
         return view('admin.pages.form-add-khach-hang');
     })->name('khachhangmoi');
-        // Route cho trang quản lý khách hàng
-        Route::get('/quanlikhachhang', [UserController::class, 'index'])->name('users.index');
-
-    // Route cho trang blog
-    Route::get('/quanliblog', function () {
-        return view('admin.pages.quanliblog');
-        
-    });
-
-    // Route blog
-    Route::get('/quanliblog/taobai', function () {
-        return view('admin.pages.form-add-blog');
-    })->name('taobai');
+    // Route cho trang quản lý khách hàng
+    Route::get('/quanlikhachhang', [UserController::class, 'index'])->name('users.index');
 
     Route::get('/trans.verifi', function () {
         return view('admin.pages.trans.verifi');
@@ -181,19 +169,12 @@ Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () 
     Route::resource('orders', OrderController::class);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Route delete
     Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-        // Route cho trang blog
-        Route::get('/quanliblog', function () {
-            return view('admin.pages.quanliblog');
-        });
-        Route::get('/quanliblog/taobai', function () {
-            return view('admin.pages.form-add-blog');
-        })->name('taobai');
 
-        // Route cho Category
-        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    // Route cho Category
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
-        // Route cho Brand
-        Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
+    // Route cho Brand
+    Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
 
     // Route Product
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
@@ -204,24 +185,21 @@ Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () 
     Route::get('/admin/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
     Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
 
-    
     //Route show chi tiết sản phẩm bên web
     Route::get('/products/{id}', [ProductController::class, 'indexshowProduct'])->name('products.show');
-        // Route Product
-        Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-        Route::get('/products', [ProductController::class, 'index']); // Xem danh sách sản phẩm
-        Route::get('/products/create', [ProductController::class, 'create'])->name('form-add-san-pham');
-        Route::get('/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
-        Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
-        Route::get('/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
-        Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
-        
+    // Route Product
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/products', [ProductController::class, 'index']); // Xem danh sách sản phẩm
+    Route::get('/products/create', [ProductController::class, 'create'])->name('form-add-san-pham');
+    Route::get('/products/edit/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
+    Route::put('/products/update/{id}', [ProductController::class, 'updateProduct'])->name('products.update');
+    Route::get('/products/{id}', [ProductController::class, 'showProduct'])->name('admin.product.show');
+    Route::delete('/products/{id}', [ProductController::class, 'deleteProduct'])->name('products.deleteProduct');
 
     // Route cho trang danh sách sản phẩm
     Route::get('/admin/products', [ProductController::class, 'indexAdmin'])->name('products.index');
 
     Route::get('/contacts', function () {
-        return view('admin.pages.contacts');
         return view('admin.pages.contacts');
     });
 
@@ -241,7 +219,6 @@ Route::get('/categories', [CategoryController::class, 'index2'])->name('category
 Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory'])->name('categories.delete');
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
 
-
 // Brand Management
 Route::get('/brands', [BrandController::class, 'indexBrand'])->name('brand.management');
 Route::delete('/brands/{id}', [BrandController::class, 'deleteBrand'])->name('brands.delete');
@@ -251,7 +228,6 @@ Route::get('/vnpay_payment/{order_id}', [VnpayOrderController::class, 'vnpay_pay
 Route::get('/vnpay_return', [VnpayOrderController::class, 'vnpayReturn'])->name('vnpay.return');
 
 Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('products.search');
-
 
 //google login
 Route::get('/auth/{provider}', [UserController::class, 'redirectToGoogle']);
@@ -286,6 +262,11 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/block', [UserController::class, 'blockUser']);
 Route::post('/unblock', [UserController::class, 'unblockUser']);
 
+// Route cho trang Blog admin
+Route::get('/admin/blogmanagement', function () {
+    return view('admin.pages.quanliblog');
+
+});
 
 // Route cho trang Blog
 Route::get('/blogs', function () {
@@ -297,28 +278,28 @@ Route::get('/blogs', function () {
 Route::get('/web/blogs/{slug}', [BlogController::class, 'show'])->name('show');
 
 // Route cho danh sách blog
-Route::get('/admin/quanliblog', [BlogController::class, 'index'])->name('index');
+Route::get('/admin/blogmanagement', [BlogController::class, 'index'])->name('index');
 
 // Route cho tạo blog
-Route::get('/admin/quanliblog/taobai', [BlogController::class, 'create'])->name('create');
+Route::get('/admin/blogmanagement/create', [BlogController::class, 'create'])->name('create');
 
 // Route cho lưu sau khi tạo blog
-Route::post('/admin/quanliblog/taobai', [BlogController::class, 'store'])->name('post');
+Route::post('/admin/blogmanagement/store', [BlogController::class, 'store'])->name('post');
 
 // Route cho chỉnh sửa blog
-Route::get('/admin/quanliblog/edit/{id}', [BlogController::class, 'edit'])->name('edit');
+Route::get('/admin/blogmanagement/edit/{id}', [BlogController::class, 'edit'])->name('edit');
 
 // Route cho cập nhật sau khi sửa blog
-Route::put('/admin/quanliblog/update/{id}', [BlogController::class, 'update'])->name('update');
+Route::put('/admin/blogmanagement/update/{id}', [BlogController::class, 'update'])->name('update');
 
 // Route cho xóa blog
-Route::delete('/admin/quanliblog/destroy/{id}', [BlogController::class, 'destroy'])->name('destroy');
+Route::delete('/admin/blogmanagement/destroy/{id}', [BlogController::class, 'destroy'])->name('destroy');
 
 // Route cho lưu bình luận
 Route::post('/web/blogs/{slug}/comments', [BlogController::class, 'storeComment'])->name('comments.store');
 
 // Route cho việc xem bình luận của một blog
-Route::get('/admin/quanliblog/comments/{id}', [BlogController::class, 'viewComments'])->name('comments.view');
+Route::get('/admin/blogmanagement/comments/{id}', [BlogController::class, 'viewComments'])->name('comments.view');
 
 // Route cho việc xóa bình luận của một blog
 Route::delete('/admin/comments/{id}', [BlogController::class, 'deleteComment'])->name('comments.delete');
