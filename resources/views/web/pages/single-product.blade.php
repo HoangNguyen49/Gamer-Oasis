@@ -154,8 +154,11 @@
 
                             <!-- Reference hoặc ID sản phẩm -->
                             <div class="price-box pt-20">
-                                <span class="new-price new-price-2">${{ number_format($product->Price, 2) }}</span>
-                                <!-- Giá sản phẩm -->
+                                @if ($product->Price == 0)
+                                    <span class="new-price">Call 0931-313-329</span>
+                                @else
+                                    <span class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                @endif
                             </div>
                             <div class="single-add-to-cart">
                                 <div class="quantity" style="padding-bottom:15px; width:65px">

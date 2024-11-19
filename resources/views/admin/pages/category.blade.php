@@ -112,7 +112,7 @@
                     <div class="modal-body">
                         <!-- Thông báo lỗi (ẩn mặc định) -->
                         <div id="error-message" class="alert alert-danger"
-                            style="display:none; background-color: #f7c3c2; color: red ; font-weight: bold"></div>
+                            style="display:none; background-color: #f7c3c2; color: red ; font-weight: bold">Category name can not be blank</div>
 
                         <form id="categoryForm">
                             @csrf

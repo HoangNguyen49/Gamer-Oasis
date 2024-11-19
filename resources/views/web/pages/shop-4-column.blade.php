@@ -116,8 +116,13 @@
                                                                     </a>
                                                                 </h4>
                                                                 <div class="price-box">
-                                                                    <span class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                                    @if ($product->Price == 0)
+                                                                        <span class="new-price">Call 0931-313-329</span>
+                                                                    @else
+                                                                        <span class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                                    @endif
                                                                 </div>
+                                                                
                                                             </div>
                                                             <div class="add-actions">
                                                                 <ul class="add-actions-link">

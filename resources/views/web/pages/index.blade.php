@@ -116,7 +116,7 @@
         </div>
     </div>
     <!-- Li's Static Banner Area End Here -->
-    
+
 
     <section class="product-area li-laptop-product pt-60 pb-45 pt-sm-50 pt-xs-60">
         <div class="container">
@@ -158,8 +158,12 @@
                                                         href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
-                                                    <span
-                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    @if ($product->Price == 0)
+                                                        <span class="new-price">Call 0931-313-329</span>
+                                                    @else
+                                                        <span
+                                                            class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="add-actions">
@@ -230,8 +234,12 @@
                                                         href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
-                                                    <span
-                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    @if ($product->Price == 0)
+                                                        <span class="new-price">Call 0931-313-329</span>
+                                                    @else
+                                                        <span
+                                                            class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="add-actions">
@@ -299,8 +307,12 @@
                                                         href="{{ route('products.show', $product->Slug) }}">{{ $product->Product_name }}</a>
                                                 </h4>
                                                 <div class="price-box">
-                                                    <span
-                                                        class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    @if ($product->Price == 0)
+                                                        <span class="new-price">Call 0931-313-329</span>
+                                                    @else
+                                                        <span
+                                                            class="new-price">${{ number_format($product->Price, 2) }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="add-actions">
@@ -391,15 +403,15 @@
 
                             if (data.success) {
                                 message.textContent = data
-                                .success; // Thiết lập thông điệp thành công
+                                    .success; // Thiết lập thông điệp thành công
                                 notification.style.backgroundColor =
-                                '#4CAF50'; // Màu xanh cho thành công
+                                    '#4CAF50'; // Màu xanh cho thành công
                                 icon.className = 'fa fa-check-circle'; // Icon thành công
                             } else {
                                 message.textContent = data.error ||
-                                'Cannot add to cart'; // Thiết lập thông điệp lỗi
+                                    'Cannot add to cart'; // Thiết lập thông điệp lỗi
                                 notification.style.backgroundColor =
-                                '#f44336'; // Màu đỏ cho lỗi
+                                    '#f44336'; // Màu đỏ cho lỗi
                                 icon.className = 'fa fa-times'; // Icon lỗi
                             }
 
@@ -445,9 +457,9 @@
 
                             if (data.success) {
                                 message.textContent = data
-                                .success; // Thiết lập thông điệp thành công
+                                    .success; // Thiết lập thông điệp thành công
                                 notification.style.backgroundColor =
-                                '#4CAF50'; // Màu xanh cho thành công
+                                    '#4CAF50'; // Màu xanh cho thành công
                                 icon.className = 'fa fa-check-circle'; // Icon thành công
 
                                 // Tải lại trang sau 1.2 giây khi thành công
@@ -457,9 +469,9 @@
                                 }, 1200);
                             } else {
                                 message.textContent = data.error ||
-                                'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
+                                    'Cannot add to wishlist'; // Thiết lập thông điệp lỗi
                                 notification.style.backgroundColor =
-                                '#f44336'; // Màu đỏ cho lỗi
+                                    '#f44336'; // Màu đỏ cho lỗi
                                 icon.className = 'fa fa-times'; // Icon lỗi
 
                                 // Chỉ ẩn thông báo sau 1.2 giây nếu có lỗi

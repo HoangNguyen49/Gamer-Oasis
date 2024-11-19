@@ -65,11 +65,13 @@
 
             <div class="form-group">
                 <label for="product_specifications">Product Specifications</label>
-                <textarea name="specifications[]" id="ckeditor4" class="form-control" rows="5">
+                <textarea name="specifications[]" id="ckeditor4" class="form-control" rows="5" required
+                    placeholder="Please enter product specifications.">
                     @foreach ($product->specifications as $spec)
                         {{ $spec->Spec_name }}
                     @endforeach
                 </textarea>
+                <small id="specificationsError" class="form-text text-danger" style="display: none; font-size:16px">Product Specifications can not be blank.</small>
             </div>
             
             <div class="form-group">
@@ -107,4 +109,18 @@
       CKEDITOR.replace('ckeditor3');
       CKEDITOR.replace('ckeditor4');
   </script>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        var textarea = document.getElementById('ckeditor4');
+        var errorMessage = document.getElementById('specificationsError');
+        
+        if (textarea.value.trim() === '') {
+            errorMessage.style.display = 'block'; // Hiển thị thông báo lỗi
+            event.preventDefault(); // Ngừng gửi form
+        } else {
+            errorMessage.style.display = 'none'; // Ẩn thông báo lỗi nếu có dữ liệu
+        }
+    });
+</script>
 </html>

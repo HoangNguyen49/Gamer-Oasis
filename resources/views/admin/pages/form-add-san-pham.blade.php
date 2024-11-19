@@ -72,7 +72,7 @@
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Product Images</label>
                                     <div id="myfileupload">
-                                        <input type="file" id="uploadfile" name="images[]" multiple
+                                        <input required type="file" id="uploadfile" name="images[]" multiple
                                             onchange="readURL(this);" />
                                     </div>
                                     <div id="thumbbox">

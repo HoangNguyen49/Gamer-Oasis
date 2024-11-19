@@ -103,7 +103,7 @@ aria-hidden="true">
         </div>
         <div class="modal-body">
             <!-- Thông báo lỗi (ẩn mặc định) -->
-            <div id="error-message" class="alert alert-danger" style="display: none; background-color: #f7c3c2; color: red ; font-weight: bold"></div>
+            <div id="error-message" class="alert alert-danger" style="display: none; background-color: #f7c3c2; color: red ; font-weight: bold">Brand name can not be blank</div>
 
             <form id="brandForm">
                 @csrf
@@ -163,7 +163,7 @@ aria-hidden="true">
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
-                        $('#error-message').text('An error occurred while adding the brand.').show();
+                        $('#error-message').text('Brand name can not be blank.').show();
                     }
                 });
             });
