@@ -97,7 +97,7 @@
                                         required></textarea>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <button class="btn btn-save" type="submit">Save</button>
+                                    <button class="btn btn-save" type="submit" id="submitBtn">Save</button>
                                     <a class="btn btn-cancel" href="{{ route('products.indexAdmin') }}">Cancel</a>
                                 </div>
                             </form>
@@ -135,6 +135,32 @@
       CKEDITOR.replace('ckeditor1');
       CKEDITOR.replace('ckeditor2');
   </script>
+
+<script>
+    document.getElementById('submitBtn').addEventListener('click', function (e) {
+        // Lấy giá trị từ CKEditor
+        const specifications = CKEDITOR.instances.ckeditor1.getData().trim();
+        const description = CKEDITOR.instances.ckeditor2.getData().trim();
+
+        // Kiểm tra nếu trống thì hiển thị thông báo
+        let errorMessage = "";
+
+        if (!specifications) {
+            errorMessage += 'The "Product Specifications" field cannot be empty.\n';
+        }
+
+        if (!description) {
+            errorMessage += 'The "Product Descriptions" field cannot be empty.\n';
+        }
+
+        if (errorMessage) {
+            // Hiển thị thông báo lỗi
+            alert(errorMessage);
+            e.preventDefault(); // Ngăn form gửi đi
+        }
+    });
+</script>
+
 </body>
 
 </html>

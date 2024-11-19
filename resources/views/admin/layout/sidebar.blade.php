@@ -35,7 +35,7 @@
         <li><a class="app-menu__item {{ Request::is('admin/quanlimagiamgia') ? 'active' : '' }}" href="/admin/quanlimagiamgia"><i class='app-menu__icon bx bxs-coupon'></i><span class="app-menu__label">Coupon Management</span></a></li>
         
         <!-- Blog Management -->
-        <li><a class="app-menu__item {{ Request::is('admin/quanliblog') ? 'active' : '' }}" href="/admin/quanliblog"><i class='app-menu__icon bx bx-calendar-check'></i><span class="app-menu__label">Blog Management</span></a></li>
+        <li><a class="app-menu__item {{ Request::is('admin/blogmanagement') ? 'active' : '' }}" href="/admin/blogmanagement"><i class='app-menu__icon bx bx-calendar-check'></i><span class="app-menu__label">Blog Management</span></a></li>
 
         <!-- Contact Management -->
         <li><a class="app-menu__item {{ Request::is('admin/contacts') ? 'active' : '' }}" href="/admin/contacts"><i class='app-menu__icon bx bxs-contact'></i><span class="app-menu__label">Contact Management</span></a></li>

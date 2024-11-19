@@ -30,7 +30,7 @@
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb">
                     <li class="breadcrumb-item">Blog list</li>
-                    <li class="breadcrumb-item"><a href="#">Edit blog</a></li>
+                    <li class="breadcrumb-item"><a href="?reload">Edit blog</a></li>
                 </ul>
             </div>
             <div class="row">
@@ -38,7 +38,8 @@
                     <div class="tile">
                         <div class="row element-button">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="{{ route('index') }}" title="Quay lại danh sách bài viết"><i class="fas fa-arrow-left"></i> Return</a>
+                                <a class="btn btn-add btn-sm" href="{{ route('index') }}"
+                                    title="Quay lại danh sách bài viết"><i class="fas fa-arrow-left"></i> Return</a>
                             </div>
                         </div>
                         <h3 class="tile-title">Edit blog</h3>
@@ -61,7 +62,7 @@
                                 </div>
                             </form>
                             <button class="btn btn-save" type="button" onclick="saveContent()">Save</button>
-                            <a class="btn btn-cancel" href="{{ route('edit', $blog->id) }}">Cancel</a>
+                            <a class="btn btn-cancel" href="?reload">Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -76,7 +77,9 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{'size': ['small', false, 'large', 'huge']}],
+                    [{
+                        'size': ['small', false, 'large', 'huge']
+                    }],
                     ['bold', 'italic', 'underline'],
                     ['link', 'image', 'video'],
                     [{
@@ -87,9 +90,9 @@
                 ]
             }
         });
-          const toolbar = quill.getModule('toolbar');
+        const toolbar = quill.getModule('toolbar');
         toolbar.addHandler('video', function() {
-            const url = prompt('Nhập URL video YouTube');
+            const url = prompt('Enter YouTube video URL:');
             if (url) {
                 const videoId = extractYouTubeID(url);
                 if (videoId) {
@@ -98,20 +101,48 @@
                     const range = quill.getSelection();
                     quill.clipboard.dangerouslyPasteHTML(range.index, videoEmbed);
                 } else {
-                    alert('Vui lòng nhập một URL video YouTube hợp lệ.');
+                    alert('Please enter a valid YouTube video URL.');
                 }
             }
         });
+
         function extractYouTubeID(url) {
             const regex =
                 /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n]{11})/;
             const match = url.match(regex);
             return match ? match[1] : null;
         }
+
         function saveContent() {
+            // Lấy nội dung từ Quill Editor
             var content = quill.root.innerHTML;
-            document.getElementById('content').value = content;
-            document.querySelector('form').submit();
+            document.getElementById('content').value = content; // Đặt giá trị vào input ẩn
+
+            // Gửi dữ liệu bằng AJAX
+            $.ajax({
+                url: $('form').attr('action'), // Lấy URL từ thuộc tính action của form
+                type: $('form').attr('method'), // Lấy method từ form (PUT)
+                data: $('form').serialize(), // Serialize toàn bộ dữ liệu form
+                success: function(response) {
+                    // Hiển thị thông báo thành công
+                    alert('The blog has been updated successfully!');
+                    window.location.href = '{{ route('index') }}'; // Điều hướng về danh sách blog
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        // Lấy lỗi xác thực và hiển thị dưới dạng thông báo
+                        const errors = xhr.responseJSON.errors;
+                        let errorMessage = 'Validation errors occurred:\n';
+                        for (let field in errors) {
+                            errorMessage += `- ${errors[field].join(', ')}\n`;
+                        }
+                        alert(errorMessage);
+                    } else {
+                        // Hiển thị lỗi không xác định
+                        alert('An unexpected error occurred. Please try again.');
+                    }
+                }
+            });
         }
     </script>
 </body>
